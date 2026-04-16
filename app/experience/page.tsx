@@ -16,10 +16,10 @@ export default function ExperiencePage() {
       <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-12 md:grid-cols-[0.72fr_1.28fr] md:pb-16">
         <div>
           <p className="section-eyebrow">Experience</p>
-          <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Experience of Saboor Ali Khan</h1>
+          <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Experience</h1>
         </div>
         <p className="max-w-[64ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">
-          Current work is centered on marketing automation, SEO-related operations, and the systems that support recurring execution inside real teams.
+          My work is centered on marketing automation, SEO-related operations, and the systems that support recurring execution inside real teams.
         </p>
       </div>
 

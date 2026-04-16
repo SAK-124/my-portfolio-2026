@@ -23,27 +23,27 @@ export type ToolGroup = {
 
 export const profile = {
   name: 'Saboor Ali Khan',
-  headline: 'Saboor Ali Khan builds marketing automation and SEO systems for real execution.',
+  headline: 'I build marketing automation and SEO systems for real execution.',
   shortBio:
     'BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan, focused on marketing automation, technical SEO, and execution systems.',
   intro:
     'I am a BBA Marketing student at the Institute of Business Administration (IBA), Karachi, and currently work as a Digital Marketing Intern at 10Pearls Pakistan. My focus is marketing automation, technical SEO, reporting workflows, and practical web-based systems that make execution faster and clearer.',
   location: 'Karachi, Pakistan',
-  availability: 'Available for internships, projects, and collaboration',
+  availability: 'Open to internships, projects, and collaboration',
   currentFocus:
-    'My current work sits at the intersection of marketing operations, SEO execution, and workflow automation. I care most about systems that reduce manual work and make team execution more reliable.',
+    'My current work sits at the intersection of marketing operations, SEO execution, and workflow automation. I focus on systems that reduce manual work and make execution more reliable.',
   focusAreas: [
     {
       title: 'Marketing Automation',
-      copy: 'I help turn recurring marketing work into repeatable systems so teams spend less time on manual handoffs and more time on actual execution.',
+      copy: 'I turn recurring marketing work into repeatable systems so there is less manual handoff and less process friction.',
     },
     {
       title: 'Technical SEO',
-      copy: 'I am interested in the operational side of SEO, especially crawl readiness, reporting workflows, and the practical systems that support search visibility.',
+      copy: 'I focus on the operational side of SEO, especially crawl readiness, reporting workflows, and the systems behind search visibility.',
     },
     {
       title: 'Reporting and Process Systems',
-      copy: 'I build simple process layers for reporting, coordination, and execution tracking so work is easier to follow and maintain.',
+      copy: 'I build simple reporting, coordination, and execution systems so work is easier to track and maintain.',
     },
   ],
   experience: [
@@ -98,7 +98,7 @@ export const profile = {
     },
   ],
   aboutLead:
-    'I study marketing at IBA and work on practical digital systems that improve how teams plan, report, and execute. My strongest interests are marketing automation, SEO operations, and using modern web tools to turn repetitive work into dependable workflows.',
+    'I study marketing at IBA and work on practical digital systems that improve how teams plan, report, and execute. My main interests are marketing automation, SEO operations, and using web tools to turn repetitive work into dependable workflows.',
   aboutSections: [
     {
       title: 'What I focus on',

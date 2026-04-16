@@ -67,7 +67,7 @@ export default function HomePage() {
               <MapPin size={18} className="mt-0.5 text-[var(--accent)]" weight="bold" />
               <div>
                 <p className="text-sm font-medium tracking-tight text-[var(--ink)]">Karachi, Pakistan</p>
-                <p className="text-sm text-[var(--muted)]">Student, intern, and execution-focused builder.</p>
+                <p className="text-sm text-[var(--muted)]">Based in Karachi and currently studying and working in marketing operations.</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -87,7 +87,7 @@ export default function HomePage() {
             <div className="flex items-start gap-3">
               <SealCheck size={18} className="mt-0.5 text-[var(--accent)]" weight="bold" />
               <div>
-                <p className="text-sm font-medium tracking-tight text-[var(--ink)]">Current working themes</p>
+                <p className="text-sm font-medium tracking-tight text-[var(--ink)]">Current focus</p>
                 <TypewriterPill />
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Current Focus</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Work that makes execution easier to run and easier to trust.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">What I focus on</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">{profile.currentFocus}</p>
         </div>
         <RevealList className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_0.9fr]">
@@ -114,9 +114,9 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.78fr_1.22fr] md:py-16">
         <div>
           <p className="section-eyebrow">Current experience</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">The strongest signals are visible early.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Current experience</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
-            Saboor Ali Khan is currently a Digital Marketing Intern at 10Pearls Pakistan while completing a BBA in Marketing at IBA.
+            I am currently a Digital Marketing Intern at 10Pearls Pakistan while completing my BBA in Marketing at IBA.
           </p>
         </div>
         <div className="grid gap-5">
@@ -152,9 +152,9 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Selected work</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">A mix of internal marketing systems and public product work.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Selected work</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
-            A mix of internal marketing systems and public product work. Private work is shown by summary only.
+            This includes internal marketing systems and public product work. Private work is shown by summary only.
           </p>
         </div>
         <RevealList className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -195,7 +195,7 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Education &amp; Credentials</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Academic background and verified credentials.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Education and credentials</h2>
         </div>
         <div className="grid gap-5 md:grid-cols-[1fr_1fr]">
           <article className="border-t border-[var(--line)] pt-4">
@@ -223,7 +223,7 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">What I Work With</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools are secondary. The process is the point.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools I use</h2>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {profile.toolGroups.map((group) => (
@@ -244,9 +244,9 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Contact</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Reach out for internships, collaborations, or execution-focused digital work.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Contact</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
-            If you are hiring for marketing operations, SEO, workflow automation, or execution-focused digital roles, feel free to reach out.
+            If you are hiring for marketing operations, SEO, workflow automation, or related digital work, feel free to reach out.
           </p>
         </div>
         <div className="grid gap-4 border-t border-[var(--line)] pt-4 sm:grid-cols-2">

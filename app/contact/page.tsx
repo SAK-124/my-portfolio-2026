@@ -20,7 +20,7 @@ export default function ContactPage() {
           <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Contact Saboor Ali Khan</h1>
         </div>
         <p className="max-w-[62ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">
-          The easiest way to reach me is by email or LinkedIn. I am open to internships, collaborations, and execution-focused digital marketing work.
+          The easiest way to reach me is by email or LinkedIn. I am open to internships, collaborations, and digital marketing work with a strong execution focus.
         </p>
       </div>
 

@@ -24,7 +24,7 @@ export default function AboutPage() {
       <section className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Profile</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Clear positioning over inflated language.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">About me</h2>
         </div>
         <div className="grid gap-8 md:grid-cols-2">
           {profile.aboutSections.map((section) => (
@@ -46,7 +46,7 @@ export default function AboutPage() {
       <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Tools I use</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tool choice follows the workflow.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools I use</h2>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {profile.toolGroups.map((group) => (
@@ -67,7 +67,7 @@ export default function AboutPage() {
       <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
         <div>
           <p className="section-eyebrow">Profiles</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Public proof points.</h2>
+          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Profiles</h2>
         </div>
         <div className="grid gap-4 border-t border-[var(--line)] pt-4 sm:grid-cols-2">
           <a href="https://www.linkedin.com/in/sabooralikhan/" target="_blank" rel="noreferrer" className="rounded-[1.4rem] border border-[var(--line)] bg-[var(--surface)] p-5 transition-transform duration-300 hover:-translate-y-[1px] active:scale-[0.99]">
