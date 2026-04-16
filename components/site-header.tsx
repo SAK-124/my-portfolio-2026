@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
-import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react/dist/ssr'
+import { usePathname } from 'next/navigation'
+import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react'
 import { navItems, siteConfig } from '@/lib/site'
 
 export function SiteHeader() {
+  const pathname = usePathname()
+
   return (
     <header className="sticky top-0 z-20 px-4 pt-3 md:px-6 md:pt-4">
       <div className="mx-auto max-w-[1400px]">
@@ -38,15 +43,25 @@ export function SiteHeader() {
           </div>
 
           <nav className="mt-2 flex gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="whitespace-nowrap rounded-full border border-transparent px-3 py-1 text-[13px] text-[var(--muted)] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[1px] hover:border-[var(--line)] hover:bg-[var(--surface)] hover:text-[var(--ink)] active:scale-[0.97]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive =
+                item.href === '/'
+                  ? pathname === '/'
+                  : pathname === item.href || pathname.startsWith(item.href + '/')
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`whitespace-nowrap rounded-full border px-3 py-1 text-[13px] font-medium transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.97] ${
+                    isActive
+                      ? 'border-[color-mix(in_srgb,var(--accent)_30%,var(--line)_70%)] bg-[color-mix(in_srgb,var(--accent)_9%,var(--surface)_91%)] text-[var(--accent)]'
+                      : 'border-transparent text-[var(--muted)] hover:-translate-y-[1px] hover:border-[var(--line)] hover:bg-[var(--surface)] hover:text-[var(--ink)]'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
           </nav>
         </div>
       </div>

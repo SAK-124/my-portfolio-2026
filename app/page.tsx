@@ -22,11 +22,13 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[1.2fr_0.8fr] md:gap-14 md:pb-24">
         <div>
           <p className="section-eyebrow">Portfolio</p>
-          <h1 className="mt-4 text-[2.75rem] leading-[0.93] tracking-[-0.045em] text-[var(--ink)] md:text-7xl">
-            <span className="block">{profile.name}</span>
-            <span className="mt-1 block max-w-[13ch] text-[var(--muted)]">{profile.headline}</span>
+          <h1 className="mt-4 text-5xl font-semibold leading-[0.94] tracking-[-0.04em] text-[var(--ink)] md:text-[3.75rem]">
+            {profile.name}
           </h1>
-          <p className="mt-6 max-w-[66ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">{profile.intro}</p>
+          <p className="mt-4 max-w-[36ch] text-lg leading-snug tracking-[-0.01em] text-[var(--muted)] md:text-xl">
+            {profile.headline}
+          </p>
+          <p className="mt-5 max-w-[58ch] text-sm leading-relaxed text-[var(--muted)] md:text-base">{profile.intro}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <MagneticButton href="/experience">View Experience</MagneticButton>
