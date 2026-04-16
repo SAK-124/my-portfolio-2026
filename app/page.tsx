@@ -18,8 +18,8 @@ export default function HomePage() {
   const certification = profile.certifications[0]
 
   return (
-    <div className="container py-10 md:py-16">
-      <section className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-12 md:grid-cols-[1.2fr_0.8fr] md:gap-14 md:pb-16">
+    <div className="container py-16 md:py-24">
+      <section className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[1.2fr_0.8fr] md:gap-14 md:pb-24">
         <div>
           <p className="section-eyebrow">{profile.name}</p>
           <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">
@@ -50,19 +50,20 @@ export default function HomePage() {
           </div>
         </div>
 
-        <aside className="grid gap-5 self-start rounded-[2rem] border border-[var(--line)] bg-[color-mix(in_srgb,var(--surface)_95%,white_5%)] p-5 shadow-[0_24px_44px_-28px_rgba(20,23,22,0.18)] md:p-6">
-          <div className="overflow-hidden rounded-[1.6rem] border border-[var(--line)] bg-[var(--surface)]">
-            <Image
-              src="/profile-saboor.jpg"
-              alt="Portrait of Saboor Ali Khan"
-              width={800}
-              height={822}
-              priority
-              className="h-auto w-full object-cover"
-            />
-          </div>
+        <aside className="card-bezel self-start">
+          <div className="card-bezel-inner grid gap-5">
+            <div className="overflow-hidden rounded-[calc(2.25rem-11px)] border border-[var(--line)]/50">
+              <Image
+                src="/profile-saboor.jpg"
+                alt="Portrait of Saboor Ali Khan"
+                width={800}
+                height={822}
+                priority
+                className="h-auto w-full object-cover"
+              />
+            </div>
 
-          <div className="grid gap-4 border-t border-[var(--line)] pt-4">
+            <div className="grid gap-4 border-t border-[var(--line)] pt-4">
             <div className="flex items-start gap-3">
               <MapPin size={18} className="mt-0.5 text-[var(--accent)]" weight="bold" />
               <div>
@@ -91,11 +92,12 @@ export default function HomePage() {
                 <TypewriterPill />
               </div>
             </div>
+            </div>
           </div>
         </aside>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div>
           <p className="section-eyebrow">Current Focus</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">What I focus on</h2>
@@ -116,11 +118,11 @@ export default function HomePage() {
           <p className="section-eyebrow">Current experience</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Current experience</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
-            I am currently a Digital Marketing Intern at 10Pearls Pakistan while completing my BBA in Marketing at IBA.
+            I work as a Digital Marketing Intern at 10Pearls Pakistan, where I independently design and build the automation and SEO systems used by the marketing team, while completing my BBA in Marketing at IBA.
           </p>
         </div>
         <div className="grid gap-5">
-          <article className="rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface)] p-5 shadow-[0_20px_40px_-30px_rgba(20,23,22,0.18)] md:p-6">
+          <article className="card-elevated p-5 md:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">{currentRole.organization}</p>
@@ -142,31 +144,31 @@ export default function HomePage() {
             <p className="text-sm text-[var(--muted)]">{ambassadorRole.startLabel}</p>
           </div>
 
-          <Link href="/experience" className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[1px]">
+          <Link href="/experience" className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:translate-x-[2px]">
             Read the full experience timeline
             <ArrowRight size={16} weight="bold" />
           </Link>
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div>
           <p className="section-eyebrow">Selected work</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Selected work</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
-            This includes internal marketing systems and public product work. Private work is shown by summary only.
+            Every project here was designed and built by me. Professional systems are shown by summary; personal repositories link directly to source.
           </p>
         </div>
         <RevealList className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {featuredProjects.map((project, index) => (
             <article
               key={project.name}
-              className="stagger-item grid gap-4 rounded-[1.6rem] border border-[var(--line)] bg-[var(--surface)] p-5 shadow-[0_18px_36px_-32px_rgba(20,23,22,0.16)]"
+              className="stagger-item card-elevated grid gap-4 p-5"
               style={{ '--index': index } as CSSProperties}
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-xl tracking-tight text-[var(--ink)]">{project.name}</h3>
-                <span className="inline-chip">{project.visibility === 'private' ? 'Private summary' : 'Public repository'}</span>
+                <span className="inline-chip">{project.visibility === 'private' ? 'Confidential' : 'Sole Author'}</span>
               </div>
               <p className="text-sm leading-relaxed text-[var(--muted)]">{project.description}</p>
               <div className="flex flex-wrap gap-2">
@@ -181,7 +183,7 @@ export default function HomePage() {
                   href={project.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[1px]"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:translate-x-[2px]"
                 >
                   Open repository
                   <ArrowRight size={16} weight="bold" />
@@ -192,7 +194,7 @@ export default function HomePage() {
         </RevealList>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div>
           <p className="section-eyebrow">Education &amp; Credentials</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Education and credentials</h2>
@@ -220,7 +222,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div>
           <p className="section-eyebrow">What I Work With</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools I use</h2>
@@ -241,7 +243,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div>
           <p className="section-eyebrow">Contact</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Contact</h2>
@@ -250,11 +252,11 @@ export default function HomePage() {
           </p>
         </div>
         <div className="grid gap-4 border-t border-[var(--line)] pt-4 sm:grid-cols-2">
-          <a href={`mailto:${siteConfig.email}`} className="rounded-[1.4rem] border border-[var(--line)] bg-[var(--surface)] p-5 transition-transform duration-300 hover:-translate-y-[1px] active:scale-[0.99]">
+          <a href={`mailto:${siteConfig.email}`} className="card-elevated p-5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[2px] active:scale-[0.98]">
             <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">Email</p>
             <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">{siteConfig.email}</p>
           </a>
-          <a href={siteConfig.linkedin} target="_blank" rel="noreferrer" className="rounded-[1.4rem] border border-[var(--line)] bg-[var(--surface)] p-5 transition-transform duration-300 hover:-translate-y-[1px] active:scale-[0.99]">
+          <a href={siteConfig.linkedin} target="_blank" rel="noreferrer" className="card-elevated p-5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[2px] active:scale-[0.98]">
             <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">LinkedIn</p>
             <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">sabooralikhan</p>
             <p className="mt-1 text-sm text-[var(--muted)]">linkedin.com/in/sabooralikhan</p>

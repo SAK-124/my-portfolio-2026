@@ -11,9 +11,9 @@ export const metadata: Metadata = buildMetadata({
 
 export default function ExperiencePage() {
   return (
-    <div className="container py-10 md:py-16">
+    <div className="container py-16 md:py-24">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Experience', href: '/experience' }]} />
-      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-12 md:grid-cols-[0.72fr_1.28fr] md:pb-16">
+      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[0.72fr_1.28fr] md:pb-24">
         <div>
           <p className="section-eyebrow">Experience</p>
           <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Experience</h1>
@@ -23,7 +23,7 @@ export default function ExperiencePage() {
         </p>
       </div>
 
-      <section className="py-12 md:py-16">
+      <section className="py-16 md:py-24">
         <div className="grid gap-8">
           {profile.experience.map((entry) => (
             <article key={`${entry.organization}-${entry.title}`} className="grid grid-cols-1 gap-5 border-t border-[var(--line)] pt-6 md:grid-cols-[180px_1fr] md:gap-8">

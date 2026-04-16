@@ -27,7 +27,7 @@ export const profile = {
   shortBio:
     'BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan, focused on marketing automation, technical SEO, and execution systems.',
   intro:
-    'I am a BBA Marketing student at the Institute of Business Administration (IBA), Karachi, and currently work as a Digital Marketing Intern at 10Pearls Pakistan. My focus is marketing automation, technical SEO, reporting workflows, and practical web-based systems that make execution faster and clearer.',
+    'I am a BBA Marketing student at the Institute of Business Administration (IBA), Karachi, and work as a Digital Marketing Intern at 10Pearls Pakistan, where I independently design and build the automation systems, SEO workflows, and operational infrastructure used by the marketing team. Outside of work, I build my own web tools from scratch.',
   location: 'Karachi, Pakistan',
   availability: 'Open to internships, projects, and collaboration',
   currentFocus:
@@ -54,11 +54,11 @@ export const profile = {
       endLabel: 'Present',
       location: 'Hybrid',
       summary:
-        'Working across marketing automation, SEO operations, and process support for recurring campaign and reporting work.',
+        'Design and build marketing automation systems, SEO monitoring workflows, and operational infrastructure for the digital marketing function at 10Pearls.',
       bullets: [
-        'Support marketing automation and recurring process improvement inside the digital marketing function.',
-        'Contribute to SEO-related operational work and search-focused execution support.',
-        'Help structure workflows, reporting steps, and documentation for cleaner team execution.',
+        'Design and build marketing automation systems and recurring process workflows for the digital marketing function.',
+        'Build and own SEO monitoring workflows and search-focused operational systems.',
+        'Design workflow documentation, reporting structures, and execution infrastructure used by the marketing team.',
       ],
     },
     {
@@ -98,22 +98,22 @@ export const profile = {
     },
   ],
   aboutLead:
-    'I study marketing at IBA and work on practical digital systems that improve how teams plan, report, and execute. My main interests are marketing automation, SEO operations, and using web tools to turn repetitive work into dependable workflows.',
+    'I study marketing at IBA and independently design and build digital systems — from marketing automation and SEO workflows to full-stack operational web tools. At 10Pearls, I own the systems I create. My personal projects are built entirely by me, from architecture through deployment.',
   aboutSections: [
     {
-      title: 'What I focus on',
+      title: 'What I build',
       points: [
-        'Marketing automation for repeatable campaign and operational work.',
-        'Technical SEO support tied to execution, reporting, and process clarity.',
-        'Simple web-based systems that make digital work easier to manage.',
+        'Marketing automation systems for repeatable campaign and operational work — designed and built entirely by me.',
+        'Technical SEO workflows focused on execution, reporting, and measurable search readiness.',
+        'Full-stack web tools I architect and ship independently, from requirements through deployment.',
       ],
     },
     {
-      title: 'How I like to work',
+      title: 'How I work',
       points: [
-        'Start with the process, not the tool.',
-        'Document workflows clearly so work stays reusable after handoff.',
-        'Keep systems practical enough for real teams to maintain.',
+        'Start with the process, then design the system around it.',
+        'Document clearly so what I build is maintainable beyond handoff.',
+        'Own outcomes, not just tasks — from initial scope to working implementation.',
       ],
     },
   ],
@@ -144,7 +144,7 @@ export const faq = [
   },
   {
     q: 'What does Saboor Ali Khan do at 10Pearls?',
-    a: 'He works as a Digital Marketing Intern, supporting marketing automation, SEO operations, workflow structure, and reporting-related execution support.',
+    a: 'At 10Pearls, he independently designs and builds marketing automation systems, SEO monitoring workflows, and operational infrastructure for the digital marketing function. He owns the systems he creates end-to-end.',
   },
   {
     q: 'What kind of work does Saboor Ali Khan focus on?',

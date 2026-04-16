@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .ease-spring {
+    transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .ease-expo {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
 :root {
-  --bg: #f5f3ee;
-  --surface: #fffdf8;
-  --ink: #171917;
-  --muted: #59615d;
-  --line: #d8d6cf;
-  --accent: #0f766e;
-  --accent-ink: #ecfffb;
+  --bg: #f3efe7;
+  --surface: #faf6f0;
+  --ink: #1a1714;
+  --muted: #5e574e;
+  --line: #d6d0c6;
+  --accent: #b06b28;
+  --accent-ink: #fff4e6;
 }
 
 * {
@@ -43,9 +52,9 @@ a {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(circle at 12% 14%, rgba(15, 118, 110, 0.11), transparent 34%),
-    radial-gradient(circle at 88% 10%, rgba(15, 118, 110, 0.08), transparent 28%),
-    radial-gradient(circle at 78% 86%, rgba(15, 118, 110, 0.06), transparent 34%);
+    radial-gradient(circle at 12% 14%, rgba(176, 107, 40, 0.10), transparent 34%),
+    radial-gradient(circle at 88% 10%, rgba(176, 107, 40, 0.07), transparent 28%),
+    radial-gradient(circle at 78% 86%, rgba(176, 107, 40, 0.05), transparent 34%);
 }
 
 .grain {
@@ -91,12 +100,48 @@ a {
 }
 
 .inline-chip {
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--line) 88%, white 12%);
-  background: color-mix(in srgb, var(--surface) 92%, white 8%);
-  padding: 0.4rem 0.8rem;
-  font-size: 0.78rem;
-  color: color-mix(in srgb, var(--muted) 90%, black 10%);
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--line) 90%, var(--accent) 10%);
+  background: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--muted) 85%, var(--ink) 15%);
+}
+
+/* Double-bezel / doppelrand premium card system */
+.card-bezel {
+  padding: 5px;
+  border-radius: 2.25rem;
+  border: 1px solid color-mix(in srgb, var(--line) 65%, var(--accent) 35%);
+  background: color-mix(in srgb, var(--bg) 97%, var(--accent) 3%);
+  box-shadow:
+    0 32px 72px -20px color-mix(in srgb, var(--accent) 14%, rgba(26, 23, 20, 0.14)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.card-bezel-inner {
+  border-radius: calc(2.25rem - 5px);
+  background: var(--surface);
+  padding: 1.25rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 768px) {
+  .card-bezel-inner {
+    padding: 1.5rem;
+  }
+}
+
+/* Premium elevated card */
+.card-elevated {
+  border-radius: 1.6rem;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, var(--accent) 20%);
+  background: var(--surface);
+  box-shadow:
+    0 20px 48px -16px color-mix(in srgb, var(--accent) 10%, rgba(26, 23, 20, 0.12)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .stagger-item {
