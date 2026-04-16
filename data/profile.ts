@@ -120,7 +120,7 @@ export const profile = {
   toolGroups: [
     {
       title: 'Automation and AI',
-      items: ['Codex', 'Claude Code', 'Cursor', 'Lovable'],
+      items: ['LLM-assisted workflow design', 'Automation scripting', 'Rapid prototyping', 'Task orchestration'],
     },
     {
       title: 'SEO and analytics',
