@@ -21,9 +21,10 @@ export default function HomePage() {
     <div className="container py-16 md:py-24">
       <section className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[1.2fr_0.8fr] md:gap-14 md:pb-24">
         <div>
-          <p className="section-eyebrow">{profile.name}</p>
-          <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">
-            {profile.headline}
+          <p className="section-eyebrow">Portfolio</p>
+          <h1 className="mt-4 text-[2.75rem] leading-[0.93] tracking-[-0.045em] text-[var(--ink)] md:text-7xl">
+            <span className="block">{profile.name}</span>
+            <span className="mt-1 block max-w-[13ch] text-[var(--muted)]">{profile.headline}</span>
           </h1>
           <p className="mt-6 max-w-[66ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">{profile.intro}</p>
 
@@ -52,16 +53,20 @@ export default function HomePage() {
 
         <aside className="card-bezel self-start">
           <div className="card-bezel-inner grid gap-5">
-            <div className="overflow-hidden rounded-[calc(2.25rem-11px)] border border-[var(--line)]/50">
+            <figure className="overflow-hidden rounded-[calc(2.25rem-11px)] border border-[var(--line)]/50">
               <Image
                 src="/profile-saboor.jpg"
-                alt="Portrait of Saboor Ali Khan"
+                alt="Saboor Ali Khan — BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan"
+                title="Saboor Ali Khan"
                 width={800}
                 height={822}
                 priority
                 className="h-auto w-full object-cover"
               />
-            </div>
+              <figcaption className="sr-only">
+                Saboor Ali Khan, BBA Marketing student at the Institute of Business Administration, Karachi, and Digital Marketing Intern at 10Pearls Pakistan.
+              </figcaption>
+            </figure>
 
             <div className="grid gap-4 border-t border-[var(--line)] pt-4">
             <div className="flex items-start gap-3">
@@ -98,7 +103,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Current Focus</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">What I focus on</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">{profile.currentFocus}</p>
@@ -113,8 +118,8 @@ export default function HomePage() {
         </RevealList>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-12 md:grid-cols-[0.78fr_1.22fr] md:py-16">
-        <div>
+      <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.78fr_1.22fr] md:py-24">
+        <div className="section-label">
           <p className="section-eyebrow">Current experience</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Current experience</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
@@ -152,7 +157,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Selected work</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Selected work</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
@@ -195,7 +200,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Education &amp; Credentials</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Education and credentials</h2>
         </div>
@@ -223,7 +228,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 border-b border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">What I Work With</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools I use</h2>
         </div>
@@ -244,7 +249,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Contact</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Contact</h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-[var(--muted)]">
@@ -261,7 +266,7 @@ export default function HomePage() {
             <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">sabooralikhan</p>
             <p className="mt-1 text-sm text-[var(--muted)]">linkedin.com/in/sabooralikhan</p>
           </a>
-          <a href={siteConfig.github} target="_blank" rel="noreferrer" className="rounded-[1.4rem] border border-[var(--line)] bg-[var(--surface)] p-5 transition-transform duration-300 hover:-translate-y-[1px] active:scale-[0.99] sm:col-span-2">
+          <a href={siteConfig.github} target="_blank" rel="noreferrer" className="card-elevated p-5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[2px] active:scale-[0.98] sm:col-span-2">
             <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">GitHub</p>
             <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">SAK-124</p>
             <p className="mt-1 text-sm text-[var(--muted)]">github.com/SAK-124</p>

@@ -16,7 +16,7 @@
   --muted: #5e574e;
   --line: #d6d0c6;
   --accent: #b06b28;
-  --accent-ink: #fff4e6;
+  --accent-ink: #ffffff;
 }
 
 * {
@@ -92,11 +92,30 @@ a {
 }
 
 .section-eyebrow {
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface) 92%);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--line) 80%);
+  padding: 0.2rem 0.7rem;
+  font-size: 0.67rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Mobile: first column (section label) gets a visual divider before content */
+.section-label {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+@media (max-width: 767px) {
+  .section-label {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 .inline-chip {

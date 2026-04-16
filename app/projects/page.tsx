@@ -18,7 +18,7 @@ export default function ProjectsPage() {
     <div className="container py-16 md:py-24">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects' }]} />
       <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[0.72fr_1.28fr] md:pb-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Projects</p>
           <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Selected projects by Saboor Ali Khan</h1>
         </div>
@@ -28,7 +28,7 @@ export default function ProjectsPage() {
       </div>
 
       <section className="grid grid-cols-1 gap-8 py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Professional Work</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Systems I designed and built at 10Pearls.</h2>
         </div>
@@ -53,7 +53,7 @@ export default function ProjectsPage() {
       </section>
 
       <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
-        <div>
+        <div className="section-label">
           <p className="section-eyebrow">Public Projects</p>
           <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Personal projects built entirely by me.</h2>
         </div>

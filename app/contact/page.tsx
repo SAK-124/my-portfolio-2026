@@ -12,10 +12,10 @@ export const metadata: Metadata = buildMetadata({
 
 export default function ContactPage() {
   return (
-    <div className="container py-10 md:py-16">
+    <div className="container py-16 md:py-24">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact', href: '/contact' }]} />
-      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-12 md:grid-cols-[0.72fr_1.28fr] md:pb-16">
-        <div>
+      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[0.72fr_1.28fr] md:pb-24">
+        <div className="section-label">
           <p className="section-eyebrow">Contact</p>
           <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Contact Saboor Ali Khan</h1>
         </div>
@@ -24,7 +24,7 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <section className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
+      <section className="grid grid-cols-1 gap-8 py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
         <div className="grid gap-4 border-t border-[var(--line)] pt-4 text-sm text-[var(--muted)]">
           <p>
             Email: <a href={`mailto:${siteConfig.email}`} className="font-medium text-[var(--ink)]">{siteConfig.email}</a>

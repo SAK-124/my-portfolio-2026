@@ -3,9 +3,9 @@
 import { memo, useEffect, useMemo, useState } from 'react'
 
 const prompts = [
-  'Marketing automation systems for recurring execution',
-  'Technical SEO workflows tied to reporting clarity',
-  'Process support for practical digital operations',
+  'Building automation systems at 10Pearls',
+  'Designing SEO workflows end-to-end',
+  'Full-stack web projects, built independently',
 ]
 
 export const TypewriterPill = memo(function TypewriterPill() {

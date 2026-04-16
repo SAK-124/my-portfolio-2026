@@ -7,7 +7,7 @@ export const siteConfig = {
   github: 'https://github.com/SAK-124',
   linkedin: 'https://www.linkedin.com/in/sabooralikhan/',
   instagram: 'https://instagram.com/saboor.a.khan',
-  email: 'saboor.a.khan@outlook.com',
+  email: 'contact@sabooralikhan.com',
   location: 'Karachi, Pakistan',
   ogImage: '/og-default.svg',
 }
