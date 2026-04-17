@@ -8,7 +8,7 @@ import { siteConfig } from '@/lib/site'
 
 export const metadata: Metadata = buildMetadata({
   title: 'Contact Saboor Ali Khan',
-  description: 'Contact Saboor Ali Khan for internships, collaborations, and execution-focused digital marketing work.',
+  description: 'Contact Saboor Ali Khan for full-time roles in marketing operations, SEO, and execution-focused digital marketing work.',
   path: '/contact',
 })
 
@@ -19,7 +19,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Let's work together"
-        lead="The easiest way to reach me is by email or LinkedIn. I am open to internships, collaborations, and digital marketing work with a strong execution focus."
+        lead="The easiest way to reach me is by email or LinkedIn. I am open to full-time roles in marketing operations, SEO, and digital marketing work with a strong execution focus."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

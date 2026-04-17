@@ -1,17 +1,26 @@
 'use client'
 
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 const prompts = [
   'Building automation systems at 10Pearls',
   'Designing SEO workflows end-to-end',
   'Full-stack web projects, built independently',
+  'Shipping small tools to kill manual work',
+  'Turning campaigns into repeatable systems',
+  'Writing internal docs people can actually use',
+  'Scoping, building, documenting — solo',
+  'Instrumenting reporting that makes search readiness measurable',
+  'Learning fast across marketing and product',
 ]
 
 export const TypewriterPill = memo(function TypewriterPill() {
   const [promptIndex, setPromptIndex] = useState(0)
   const [typed, setTyped] = useState('')
   const [deleting, setDeleting] = useState(false)
+  const pillRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [multi, setMulti] = useState(false)
 
   const activePrompt = useMemo(() => prompts[promptIndex % prompts.length], [promptIndex])
 
@@ -34,13 +43,24 @@ export const TypewriterPill = memo(function TypewriterPill() {
     return () => clearTimeout(timeout)
   }, [activePrompt, deleting, typed])
 
+  /* Detect whether the text wraps to more than one line so the pill can
+     soften its corners from elongated-pill (single line) to rounded-rect
+     (multi-line). Purely visual — layout is already absolute. */
+  useLayoutEffect(() => {
+    const text = textRef.current
+    if (!text) return
+    const lineHeight = parseFloat(getComputedStyle(text).lineHeight || '20')
+    const isMulti = text.offsetHeight > lineHeight * 1.4
+    setMulti(isMulti)
+  }, [typed])
+
   return (
-    <div className="mt-2 flex h-[5.5rem] w-full min-w-0 items-start overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--muted)] md:h-[5rem]">
-      <span className="mr-2 mt-[2px] shrink-0 rounded-full border border-[var(--line)] px-2 py-0.5 text-[11px] uppercase tracking-[0.11em] text-[var(--accent)]">
-        live
-      </span>
-      <span className="min-w-0 flex-1 break-words leading-relaxed">{typed}</span>
-      <span className="ml-1 mt-[2px] inline-block h-4 w-[1px] shrink-0 animate-pulse bg-[var(--muted)] align-middle" />
+    <div className="typewriter-slot mt-2">
+      <div ref={pillRef} className="typewriter-pill" data-lines={multi ? 'multi' : 'single'}>
+        <span className="typewriter-pill__tag">live</span>
+        <span ref={textRef} className="typewriter-pill__text">{typed}</span>
+        <span className="typewriter-pill__caret" aria-hidden="true" />
+      </div>
     </div>
   )
 })

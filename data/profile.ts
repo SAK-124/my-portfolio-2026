@@ -29,7 +29,7 @@ export const profile = {
   intro:
     "I'm a BBA Marketing student at IBA in Karachi, currently interning on the digital marketing team at 10Pearls Pakistan. Most of my time goes into marketing automation and SEO workflows. On the side I build small web tools for myself — usually to fix something annoying.",
   location: 'Karachi, Pakistan',
-  availability: 'Open to internships and collaboration',
+  availability: 'Open to full-time marketing roles',
   currentFocus:
     "Right now most of my time goes into marketing automation, SEO workflows, and the small internal tooling that makes recurring work less painful.",
   focusAreas: [
@@ -84,7 +84,7 @@ export const profile = {
     },
     {
       institution: 'The International School',
-      credential: "Associate's degree in Business, Management, Marketing, and related support studies",
+      credential: 'International Baccalaureate Diploma Programme (IBDP)',
       startLabel: '2019',
       endLabel: '2021',
     },
@@ -152,6 +152,6 @@ export const faq = [
   },
   {
     q: "Are you available for work?",
-    a: "Open to internships and collaboration on marketing ops, SEO, or workflow automation. Easiest way to reach me is email or LinkedIn.",
+    a: "Open to full-time roles in marketing operations, SEO, or workflow automation. Easiest way to reach me is email or LinkedIn.",
   },
 ]

@@ -144,6 +144,7 @@ body {
   font-weight: 600;
 }
 
+/* Minimal icon chip — outline only, no fill. Keeps icon expressive without a heavy badge. */
 .profile-icon-chip {
   display: inline-flex;
   align-items: center;
@@ -152,8 +153,8 @@ body {
   height: 32px;
   flex-shrink: 0;
   border-radius: 9999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line) 82%);
-  background: color-mix(in srgb, var(--accent) 6%, var(--surface) 94%);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line) 78%);
+  background: transparent;
   color: var(--accent);
 }
 
@@ -216,6 +217,21 @@ body {
   border-radius: 1.25rem;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 70%, var(--bg) 30%);
+}
+
+/* Muted card for historical / de-emphasized timeline items.
+   Dashed border + transparent background + muted text signal "archived" without
+   making it feel equal to the current role. */
+.card-muted {
+  border-radius: 1.25rem;
+  border: 1px dashed color-mix(in srgb, var(--line-strong) 60%, var(--muted) 40%);
+  background: transparent;
+  opacity: 0.92;
+}
+
+.card-muted h3,
+.card-muted h2 {
+  color: color-mix(in srgb, var(--ink) 70%, var(--muted) 30%);
 }
 
 /* Compact hero avatar used on mobile */
@@ -338,30 +354,66 @@ body {
   }
 }
 
-/* Availability pulse signal */
-@keyframes softPulse {
-  0% { transform: scale(1); opacity: 0.55; }
-  80% { transform: scale(2.6); opacity: 0; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
-
-.pulse-dot {
-  position: relative;
-  width: 8px;
-  height: 8px;
+/* Availability signal — editorial-style status chip.
+   Replaces the old green pulse-dot pill. The label reads like a small
+   nameplate: eyebrow label + live status text, with a quiet accent bar
+   that breathes. Tuned to sit comfortably under CTAs without shouting. */
+.availability-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.75rem;
   border-radius: 9999px;
-  background: #3aa76d;
-  box-shadow: 0 0 0 2px color-mix(in srgb, #3aa76d 30%, transparent);
-  flex-shrink: 0;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.78rem;
+  letter-spacing: -0.005em;
+  color: var(--ink);
 }
 
-.pulse-dot::after {
+.availability-chip__bar {
+  position: relative;
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.availability-chip__bar::after {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 9999px;
-  background: #3aa76d;
-  animation: softPulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: color-mix(in srgb, var(--accent) 40%, white);
+  transform: translateY(100%);
+  animation: availabilityFill 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes availabilityFill {
+  0%, 100% { transform: translateY(100%); }
+  50% { transform: translateY(0); }
+}
+
+.availability-chip__label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.availability-chip__text {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--ink) 85%, var(--muted) 15%);
+}
+
+.availability-chip__divider {
+  width: 1px;
+  height: 12px;
+  background: var(--line);
+  flex-shrink: 0;
 }
 
 /* Tool group cell */
@@ -385,7 +437,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--accent) 8%, var(--surface) 92%);
+  background: transparent;
   border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line) 78%);
   color: var(--accent);
 }
@@ -441,4 +493,81 @@ body {
 .contact-row:hover {
   border-color: color-mix(in srgb, var(--accent) 35%, var(--line) 65%);
   background: color-mix(in srgb, var(--accent) 3%, var(--surface));
+}
+
+/* Typewriter pill — reserved-space pattern.
+   The `.typewriter-slot` reserves the vertical space the pill may need in the
+   document flow, and the pill itself is absolutely positioned inside that slot.
+   The pill's height follows its content, so it visually "grows and shrinks" as
+   text types and deletes — but because the slot has a fixed height, siblings
+   below it never move. Shape shifts from elongated-pill (short/empty text)
+   to rounded-rectangle (wrapped text) purely via content-driven height. */
+.typewriter-slot {
+  position: relative;
+  width: 100%;
+  height: 6rem;
+}
+
+@media (min-width: 768px) {
+  .typewriter-slot { height: 5.5rem; }
+}
+
+.typewriter-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  transition: border-radius 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* When the pill wraps to multiple lines, ease the corners to a rounded rect.
+   Data attribute is toggled from the component based on line count. */
+.typewriter-pill[data-lines="multi"] {
+  border-radius: 1.1rem;
+}
+
+.typewriter-pill__tag {
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 0.05rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  font-size: 0.65rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.typewriter-pill__text {
+  min-width: 0;
+  flex: 1;
+  word-break: break-word;
+  padding-top: 0.05rem;
+}
+
+.typewriter-pill__caret {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 1px;
+  height: 1rem;
+  margin-top: 4px;
+  background: var(--muted);
+  animation: caretBlink 1s steps(2) infinite;
+}
+
+@keyframes caretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
