@@ -15,9 +15,7 @@ export function SiteFooter() {
               {siteConfig.name}
             </p>
             <p className="mt-2 max-w-[50ch] text-sm leading-relaxed" style={{ color: '#7a746c' }}>
-              BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan. I
-              independently design and build the automation and SEO systems used by the marketing
-              team.
+              BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan.
             </p>
             <p className="mt-3 text-xs" style={{ color: '#5a554e' }}>
               Based in {siteConfig.location}

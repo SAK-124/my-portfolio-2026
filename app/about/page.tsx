@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { ArrowRight, Compass, LinkedinLogo, GithubLogo, Lightning, MagnifyingGlass, Code, Sparkle } from '@phosphor-icons/react/dist/ssr'
 import { Breadcrumbs } from '@/components/breadcrumbs'
+import { PageHeader, SectionHead } from '@/components/page-header'
 import { profile } from '@/data/profile'
 import { buildMetadata } from '@/lib/seo'
 
@@ -9,31 +11,25 @@ export const metadata: Metadata = buildMetadata({
   path: '/about',
 })
 
+const TOOL_ICONS = [Lightning, MagnifyingGlass, Code] as const
+
 export default function AboutPage() {
   return (
-    <div className="container py-16 md:py-24">
+    <div className="container py-10 md:py-20">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }]} />
-      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-16 md:grid-cols-[0.72fr_1.28fr] md:pb-24">
-        <div className="section-label">
-          <p className="section-eyebrow">About</p>
-          <h1 className="mt-4 max-w-[14ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">About Saboor Ali Khan</h1>
-        </div>
-        <p className="max-w-[68ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">{profile.aboutLead}</p>
-      </div>
+      <PageHeader eyebrow="About" title="About Saboor Ali Khan" lead={profile.aboutLead} />
 
-      <section className="grid grid-cols-1 gap-8 py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div className="section-label">
-          <p className="section-eyebrow">Profile</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">About me</h2>
-        </div>
-        <div className="grid gap-8 md:grid-cols-2">
-          {profile.aboutSections.map((section) => (
-            <article key={section.title} className="border-t border-[var(--line)] pt-4">
-              <h3 className="text-xl tracking-tight text-[var(--ink)]">{section.title}</h3>
-              <ul className="mt-4 grid gap-3 text-sm leading-relaxed text-[var(--muted)]">
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHead eyebrow="Profile" title="How I approach the work" />
+        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
+          {profile.aboutSections.map((section, index) => (
+            <article key={section.title} className="card-soft p-5 md:p-6">
+              <p className="project-index">0{index + 1}</p>
+              <h3 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{section.title}</h3>
+              <ul className="mt-4 grid gap-2.5 text-sm leading-relaxed text-[var(--muted)]">
                 {section.points.map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
+                  <li key={point} className="flex items-start gap-2.5">
+                    <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--accent)]" />
                     <span>{point}</span>
                   </li>
                 ))}
@@ -43,42 +39,72 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
-          <p className="section-eyebrow">Tools I use</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Tools I use</h2>
-        </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          {profile.toolGroups.map((group) => (
-            <article key={group.title} className="border-t border-[var(--line)] pt-4">
-              <h3 className="text-lg tracking-tight text-[var(--ink)]">{group.title}</h3>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span key={`${group.title}-${item}`} className="inline-chip">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))}
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHead eyebrow="Toolkit" title="What I reach for" />
+        <div className="card-bezel mt-8 md:mt-10">
+          <div className="card-bezel-inner">
+            <div className="grid gap-3 md:grid-cols-3 md:gap-4">
+              {profile.toolGroups.map((group, i) => {
+                const Icon = TOOL_ICONS[i] ?? Sparkle
+                return (
+                  <div key={group.title} className="toolkit-cell flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <span className="toolkit-cell-icon"><Icon size={18} weight="bold" /></span>
+                      <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+                        {group.title}
+                      </h3>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {group.items.map((item) => (
+                        <span key={`${group.title}-${item}`} className="inline-chip">{item}</span>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-16 md:grid-cols-[0.72fr_1.28fr] md:py-24">
-        <div>
-          <p className="section-eyebrow">Profiles</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Profiles</h2>
-        </div>
-        <div className="grid gap-4 border-t border-[var(--line)] pt-4 sm:grid-cols-2">
-          <a href="https://www.linkedin.com/in/sabooralikhan/" target="_blank" rel="noreferrer" className="card-elevated p-5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[2px] active:scale-[0.98]">
-            <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">LinkedIn</p>
-            <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">sabooralikhan</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">linkedin.com/in/sabooralikhan</p>
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHead eyebrow="Profiles" title="Where to find me" />
+        <div className="mt-8 grid gap-3 md:mt-10 md:max-w-[40rem]">
+          <a href="https://www.linkedin.com/in/sabooralikhan/" target="_blank" rel="noreferrer" className="contact-row">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="profile-icon-chip"><LinkedinLogo size={16} weight="bold" /></span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">LinkedIn</p>
+                <p className="truncate text-sm font-medium tracking-tight text-[var(--ink)]">linkedin.com/in/sabooralikhan</p>
+              </div>
+            </div>
+            <ArrowRight size={16} weight="bold" className="shrink-0 text-[var(--muted)]" />
           </a>
-          <a href="https://github.com/SAK-124" target="_blank" rel="noreferrer" className="card-elevated p-5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[2px] active:scale-[0.98]">
-            <p className="text-sm uppercase tracking-[0.12em] text-[var(--accent)]">GitHub</p>
-            <p className="mt-2 text-base font-medium tracking-tight text-[var(--ink)]">SAK-124</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">github.com/SAK-124</p>
+          <a href="https://github.com/SAK-124" target="_blank" rel="noreferrer" className="contact-row">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="profile-icon-chip"><GithubLogo size={16} weight="bold" /></span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">GitHub</p>
+                <p className="truncate text-sm font-medium tracking-tight text-[var(--ink)]">github.com/SAK-124</p>
+              </div>
+            </div>
+            <ArrowRight size={16} weight="bold" className="shrink-0 text-[var(--muted)]" />
+          </a>
+        </div>
+      </section>
+
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <div className="card-elevated flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div className="flex items-start gap-4">
+            <span className="profile-icon-chip"><Compass size={18} weight="bold" /></span>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Next</p>
+              <h3 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">Explore the work</h3>
+              <p className="mt-1 text-sm text-[var(--muted)]">See the systems I&rsquo;ve designed and built.</p>
+            </div>
+          </div>
+          <a href="/projects" className="inline-flex items-center gap-2 self-start rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--ink)] transition-all duration-300 hover:-translate-y-[1px] hover:border-[color-mix(in_srgb,var(--accent)_40%,var(--line)_60%)]">
+            View projects <ArrowRight size={16} weight="bold" />
           </a>
         </div>
       </section>

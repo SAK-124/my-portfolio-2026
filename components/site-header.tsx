@@ -11,7 +11,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 px-4 pt-3 md:px-6 md:pt-4">
       <div className="mx-auto max-w-[1400px]">
-        <div className="rounded-[1.4rem] border border-[var(--line)]/55 bg-[color-mix(in_srgb,var(--bg)_90%,white_10%)]/94 px-4 py-3 shadow-[0_2px_24px_-4px_color-mix(in_srgb,var(--accent)_8%,rgba(26,23,20,0.09)),inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-xl md:px-5">
+        <div className="rounded-[1.25rem] border border-[var(--line)]/70 bg-[color-mix(in_srgb,var(--bg)_88%,white_12%)]/90 px-4 py-3 backdrop-blur-xl md:px-5">
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/"

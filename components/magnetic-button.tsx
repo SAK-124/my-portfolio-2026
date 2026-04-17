@@ -46,8 +46,8 @@ export function MagneticButton({ href, children, variant = 'solid' }: MagneticBu
   const isSolid = variant === 'solid'
 
   const baseClass = isSolid
-    ? 'border-transparent bg-[var(--accent)] text-white shadow-[0_4px_16px_-4px_color-mix(in_srgb,var(--accent)_40%,transparent)]'
-    : 'border-[var(--line)] bg-[var(--surface)] text-[var(--ink)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]'
+    ? 'border-transparent bg-[var(--accent)] text-white hover:bg-[color-mix(in_srgb,var(--accent)_90%,black)]'
+    : 'border-[var(--line)] bg-[var(--surface)] text-[var(--ink)] hover:border-[color-mix(in_srgb,var(--accent)_40%,var(--line))]'
 
   return (
     <motion.a

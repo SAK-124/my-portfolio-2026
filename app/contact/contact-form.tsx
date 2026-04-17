@@ -47,7 +47,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface)] p-6 shadow-[0_20px_40px_-30px_rgba(20,23,22,0.18)] md:p-8">
+    <form onSubmit={onSubmit} className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8">
       <div className="grid gap-2">
         <label htmlFor="name" className="text-sm font-medium tracking-tight text-[var(--ink)]">
           Name

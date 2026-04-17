@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { GraduationCap, SealCheck } from '@phosphor-icons/react/dist/ssr'
 import { Breadcrumbs } from '@/components/breadcrumbs'
+import { PageHeader, SectionHead } from '@/components/page-header'
 import { profile } from '@/data/profile'
 import { buildMetadata } from '@/lib/seo'
 
@@ -11,35 +13,30 @@ export const metadata: Metadata = buildMetadata({
 
 export default function EducationPage() {
   return (
-    <div className="container py-10 md:py-16">
+    <div className="container py-10 md:py-20">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Education', href: '/education' }]} />
-      <div className="grid grid-cols-1 gap-10 border-b border-[var(--line)] pb-12 md:grid-cols-[0.72fr_1.28fr] md:pb-16">
-        <div>
-          <p className="section-eyebrow">Education</p>
-          <h1 className="mt-4 max-w-[12ch] text-4xl leading-[0.95] tracking-[-0.045em] text-[var(--ink)] md:text-6xl">Education and credentials</h1>
-        </div>
-        <p className="max-w-[64ch] text-base leading-relaxed text-[var(--muted)] md:text-[1.03rem]">
-          My formal background is in marketing, and most of my practical work has centered on digital operations, SEO, and execution systems.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Education"
+        title="Education and credentials"
+        lead="My formal background is in marketing, and most of my practical work has centered on digital operations, SEO, and execution systems."
+      />
 
-      <section className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
-        <div>
-          <p className="section-eyebrow">Academic background</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Education that supports the current work.</h2>
-        </div>
-        <div className="grid gap-6">
-          {profile.education.map((entry) => (
-            <article key={`${entry.institution}-${entry.credential}`} className="grid gap-3 border-t border-[var(--line)] pt-5">
-              <h2 className="text-2xl tracking-tight text-[var(--ink)]">{entry.institution}</h2>
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHead eyebrow="Academic" title="Academic background" />
+        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
+          {profile.education.map((entry, index) => (
+            <article key={`${entry.institution}-${entry.credential}`} className="card-elevated flex flex-col gap-3 p-5 md:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <span className="profile-icon-chip"><GraduationCap size={16} weight="bold" /></span>
+                <p className="project-index">0{index + 1}</p>
+              </div>
+              <h2 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">{entry.institution}</h2>
               <p className="text-sm leading-relaxed text-[var(--muted)]">{entry.credential}</p>
-              <p className="text-sm text-[var(--muted)]">{entry.startLabel} – {entry.endLabel}</p>
+              <p className="text-xs font-medium tracking-wide text-[var(--muted)]">{entry.startLabel} – {entry.endLabel}</p>
               {entry.notes?.length ? (
-                <div className="flex flex-wrap gap-2">
+                <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
                   {entry.notes.map((note) => (
-                    <span key={`${entry.institution}-${note}`} className="inline-chip">
-                      {note}
-                    </span>
+                    <span key={`${entry.institution}-${note}`} className="inline-chip">{note}</span>
                   ))}
                 </div>
               ) : null}
@@ -48,18 +45,23 @@ export default function EducationPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-8 border-t border-[var(--line)] py-12 md:grid-cols-[0.72fr_1.28fr] md:py-16">
-        <div>
-          <p className="section-eyebrow">Credentials</p>
-          <h2 className="mt-3 text-3xl tracking-[-0.04em] text-[var(--ink)] md:text-4xl">Relevant certification.</h2>
-        </div>
-        <div className="grid gap-5">
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHead eyebrow="Credentials" title="Certifications" />
+        <div className="mt-8 grid gap-4 md:mt-10">
           {profile.certifications.map((certification) => (
-            <article key={certification.name} className="grid gap-2 border-t border-[var(--line)] pt-5">
-              <h3 className="text-2xl tracking-tight text-[var(--ink)]">{certification.name}</h3>
-              <p className="text-sm text-[var(--muted)]">{certification.issuer}</p>
-              <p className="text-sm text-[var(--muted)]">Issued {certification.year}</p>
-              <p className="text-sm text-[var(--muted)]">Source reference: {certification.fileHint}</p>
+            <article key={certification.name} className="card-elevated flex flex-col gap-3 p-5 md:flex-row md:items-start md:justify-between md:p-6">
+              <div className="flex items-start gap-3">
+                <span className="profile-icon-chip"><SealCheck size={18} weight="bold" /></span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Certification</p>
+                  <h3 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">{certification.name}</h3>
+                  <p className="mt-1 text-sm text-[var(--muted)]">{certification.issuer}</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 md:items-end md:text-right">
+                <p className="text-xs font-medium tracking-wide text-[var(--muted)]">Issued {certification.year}</p>
+                <p className="text-xs text-[var(--muted)]">Source: {certification.fileHint}</p>
+              </div>
             </article>
           ))}
         </div>

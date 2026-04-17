@@ -35,12 +35,12 @@ export const TypewriterPill = memo(function TypewriterPill() {
   }, [activePrompt, deleting, typed])
 
   return (
-    <div className="mt-2 flex min-h-11 items-center rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 text-sm text-[var(--muted)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-      <span className="mr-2 rounded-full border border-[var(--line)] px-2 py-0.5 text-[11px] uppercase tracking-[0.11em] text-[var(--accent)]">
+    <div className="mt-2 flex h-[5.5rem] w-full min-w-0 items-start overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--muted)] md:h-[5rem]">
+      <span className="mr-2 mt-[2px] shrink-0 rounded-full border border-[var(--line)] px-2 py-0.5 text-[11px] uppercase tracking-[0.11em] text-[var(--accent)]">
         live
       </span>
-      <span>{typed}</span>
-      <span className="ml-1 inline-block h-4 w-[1px] animate-pulse bg-[var(--muted)] align-middle" />
+      <span className="min-w-0 flex-1 break-words leading-relaxed">{typed}</span>
+      <span className="ml-1 mt-[2px] inline-block h-4 w-[1px] shrink-0 animate-pulse bg-[var(--muted)] align-middle" />
     </div>
   )
 })
