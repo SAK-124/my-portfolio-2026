@@ -102,14 +102,14 @@ export default function HomePage() {
                 <ProfileFact icon={<BriefcaseMetal size={16} weight="bold" />} title="10Pearls Pakistan">
                   Digital Marketing Intern
                 </ProfileFact>
-                <div className="flex items-start gap-3">
-                  <span className="profile-icon-chip">
-                    <SealCheck size={16} weight="bold" />
-                  </span>
-                  <div className="min-w-0 pt-0.5">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className="profile-icon-chip">
+                      <SealCheck size={16} weight="bold" />
+                    </span>
                     <p className="text-sm font-medium tracking-tight text-[var(--ink)]">Current focus</p>
-                    <TypewriterPill />
                   </div>
+                  <TypewriterPill />
                 </div>
               </div>
             </div>
@@ -316,6 +316,7 @@ export default function HomePage() {
             institution={secondaryEducation.institution}
             credential={secondaryEducation.credential}
             range={`${secondaryEducation.startLabel} – ${secondaryEducation.endLabel}`}
+            muted
           />
           <article className="card-elevated p-5 md:col-span-2 md:p-6">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -412,12 +413,14 @@ function ProfileFact({ icon, title, children }: { icon: React.ReactNode; title: 
   )
 }
 
-function EduCard({ institution, credential, range }: { institution: string; credential: string; range: string }) {
+function EduCard({ institution, credential, range, muted = false }: { institution: string; credential: string; range: string; muted?: boolean }) {
   return (
-    <article className="card-elevated p-5 md:p-6">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Education</p>
-      <h3 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{institution}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{credential}</p>
+    <article className={muted ? 'card-muted p-4 md:p-5' : 'card-elevated p-5 md:p-6'}>
+      <p className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${muted ? 'text-[var(--muted)]' : 'text-[var(--accent)]'}`}>
+        Education
+      </p>
+      <h3 className={`mt-2 ${muted ? 'text-lg' : 'text-xl'} tracking-tight`}>{institution}</h3>
+      <p className={`mt-2 ${muted ? 'text-[13px]' : 'text-sm'} leading-relaxed text-[var(--muted)]`}>{credential}</p>
       <p className="mt-3 text-xs font-medium tracking-wide text-[var(--muted)]">{range}</p>
     </article>
   )

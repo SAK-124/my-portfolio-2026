@@ -21,6 +21,7 @@ export const TypewriterPill = memo(function TypewriterPill() {
   const pillRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
   const [multi, setMulti] = useState(false)
+  const [pillHeight, setPillHeight] = useState<number | null>(null)
 
   const activePrompt = useMemo(() => prompts[promptIndex % prompts.length], [promptIndex])
 
@@ -43,23 +44,36 @@ export const TypewriterPill = memo(function TypewriterPill() {
     return () => clearTimeout(timeout)
   }, [activePrompt, deleting, typed])
 
-  /* Detect whether the text wraps to more than one line so the pill can
-     soften its corners from elongated-pill (single line) to rounded-rect
-     (multi-line). Purely visual — layout is already absolute. */
+  /* Measure the text block after each keystroke and drive the pill height
+     explicitly so it transitions smoothly between layouts instead of snapping
+     per character. Also toggle the rounded-pill ↔ rounded-rect shape flag. */
   useLayoutEffect(() => {
     const text = textRef.current
     if (!text) return
-    const lineHeight = parseFloat(getComputedStyle(text).lineHeight || '20')
-    const isMulti = text.offsetHeight > lineHeight * 1.4
+    const styles = getComputedStyle(text)
+    const lineHeight = parseFloat(styles.lineHeight || '20')
+    const textHeight = text.offsetHeight
+    const isMulti = textHeight > lineHeight * 1.4
     setMulti(isMulti)
+    /* Add vertical padding (matches CSS: 0.5rem top + 0.5rem bottom = 16px)
+       and 2px border. Using a ref-measured target instead of "auto" is what
+       makes the transition possible. */
+    setPillHeight(textHeight + 18)
   }, [typed])
 
   return (
     <div className="typewriter-slot mt-2">
-      <div ref={pillRef} className="typewriter-pill" data-lines={multi ? 'multi' : 'single'}>
+      <div
+        ref={pillRef}
+        className="typewriter-pill"
+        data-lines={multi ? 'multi' : 'single'}
+        style={pillHeight != null ? { height: pillHeight } : undefined}
+      >
         <span className="typewriter-pill__tag">live</span>
-        <span ref={textRef} className="typewriter-pill__text">{typed}</span>
-        <span className="typewriter-pill__caret" aria-hidden="true" />
+        <span ref={textRef} className="typewriter-pill__text">
+          {typed}
+          <span className="typewriter-pill__caret" aria-hidden="true" />
+        </span>
       </div>
     </div>
   )

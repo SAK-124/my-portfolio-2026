@@ -22,33 +22,40 @@ export default function ExperiencePage() {
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <div className="timeline">
-          {profile.experience.map((entry, index) => (
-            <div key={`${entry.organization}-${entry.title}`} className="timeline-item">
-              <span className="timeline-dot" />
-              <article className={index === 0 ? 'card-elevated p-5 md:p-6' : 'card-soft p-5 md:p-6'}>
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                    {entry.organization}
+          {profile.experience.map((entry, index) => {
+            const isCurrent = index === 0
+            return (
+              <div key={`${entry.organization}-${entry.title}`} className="timeline-item">
+                <span className={`timeline-dot ${isCurrent ? '' : 'timeline-dot--muted'}`} />
+                <article className={isCurrent ? 'card-elevated p-5 md:p-6' : 'card-muted p-4 md:p-5'}>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className={`${isCurrent ? 'text-[11px] text-[var(--accent)]' : 'text-[10px] text-[var(--muted)]'} font-semibold uppercase tracking-[0.14em]`}>
+                      {entry.organization}
+                    </p>
+                    <p className={`${isCurrent ? 'text-xs' : 'text-[11px]'} font-medium tracking-wide text-[var(--muted)]`}>
+                      {entry.startLabel} — {entry.endLabel} · {entry.location}
+                    </p>
+                  </div>
+                  <h2 className={`${isCurrent ? 'mt-2 text-2xl md:text-[1.6rem]' : 'mt-1.5 text-lg'} tracking-tight`}>
+                    {entry.title}
+                  </h2>
+                  <p className={`${isCurrent ? 'mt-3 text-sm md:text-base' : 'mt-1.5 text-[13px]'} leading-relaxed text-[var(--muted)]`}>
+                    {entry.summary}
                   </p>
-                  <p className="text-xs font-medium tracking-wide text-[var(--muted)]">
-                    {entry.startLabel} — {entry.endLabel} · {entry.location}
-                  </p>
-                </div>
-                <h2 className="mt-2 text-2xl tracking-tight text-[var(--ink)] md:text-[1.6rem]">{entry.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] md:text-base">{entry.summary}</p>
-                {entry.bullets.length > 0 ? (
-                  <ul className="mt-4 grid gap-2.5">
-                    {entry.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-2.5 text-sm leading-relaxed text-[var(--muted)]">
-                        <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--accent)]" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </article>
-            </div>
-          ))}
+                  {isCurrent && entry.bullets.length > 0 ? (
+                    <ul className="mt-4 grid gap-2.5">
+                      {entry.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-2.5 text-sm leading-relaxed text-[var(--muted)]">
+                          <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--accent)]" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </article>
+              </div>
+            )
+          })}
         </div>
       </section>
     </div>

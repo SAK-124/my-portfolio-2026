@@ -24,24 +24,34 @@ export default function EducationPage() {
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHead eyebrow="Academic" title="Academic background" />
         <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
-          {profile.education.map((entry, index) => (
-            <article key={`${entry.institution}-${entry.credential}`} className="card-elevated flex flex-col gap-3 p-5 md:p-6">
-              <div className="flex items-center justify-between gap-3">
-                <span className="profile-icon-chip"><GraduationCap size={16} weight="bold" /></span>
-                <p className="project-index">0{index + 1}</p>
-              </div>
-              <h2 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">{entry.institution}</h2>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">{entry.credential}</p>
-              <p className="text-xs font-medium tracking-wide text-[var(--muted)]">{entry.startLabel} – {entry.endLabel}</p>
-              {entry.notes?.length ? (
-                <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-                  {entry.notes.map((note) => (
-                    <span key={`${entry.institution}-${note}`} className="inline-chip">{note}</span>
-                  ))}
+          {profile.education.map((entry, index) => {
+            const isCurrent = index === 0
+            return (
+              <article
+                key={`${entry.institution}-${entry.credential}`}
+                className={`${isCurrent ? 'card-elevated p-5 md:p-6' : 'card-muted p-4 md:p-5'} flex flex-col gap-3`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="profile-icon-chip"><GraduationCap size={16} weight="bold" /></span>
+                  <p className="project-index">0{index + 1}</p>
                 </div>
-              ) : null}
-            </article>
-          ))}
+                <h2 className={`${isCurrent ? 'mt-1 text-xl md:text-2xl' : 'mt-1 text-lg'} tracking-tight`}>
+                  {entry.institution}
+                </h2>
+                <p className={`${isCurrent ? 'text-sm' : 'text-[13px]'} leading-relaxed text-[var(--muted)]`}>
+                  {entry.credential}
+                </p>
+                <p className="text-xs font-medium tracking-wide text-[var(--muted)]">{entry.startLabel} – {entry.endLabel}</p>
+                {entry.notes?.length ? (
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                    {entry.notes.map((note) => (
+                      <span key={`${entry.institution}-${note}`} className="inline-chip">{note}</span>
+                    ))}
+                  </div>
+                ) : null}
+              </article>
+            )
+          })}
         </div>
       </section>
 
