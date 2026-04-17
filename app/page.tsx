@@ -65,9 +65,11 @@ export default function HomePage() {
             </div>
 
             <div className="mt-6">
-              <span className="signal-row">
-                <span className="pulse-dot" />
-                <span>{profile.availability}</span>
+              <span className="availability-chip">
+                <span className="availability-chip__bar" />
+                <span className="availability-chip__label">Available</span>
+                <span className="availability-chip__divider" />
+                <span className="availability-chip__text">{profile.availability}</span>
               </span>
             </div>
           </div>
@@ -195,20 +197,20 @@ export default function HomePage() {
               </article>
             </div>
 
-            {/* Ambassador role */}
+            {/* Ambassador role — older, de-emphasized treatment */}
             <div className="timeline-item">
-              <span className="timeline-dot" />
-              <article className="card-soft p-5 md:p-6">
+              <span className="timeline-dot timeline-dot--muted" />
+              <article className="card-muted p-4 md:p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
                     {ambassadorRole.organization}
                   </p>
-                  <p className="text-xs font-medium tracking-wide text-[var(--muted)]">
+                  <p className="text-[11px] font-medium tracking-wide text-[var(--muted)]">
                     {ambassadorRole.startLabel} · {ambassadorRole.location}
                   </p>
                 </div>
-                <h3 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{ambassadorRole.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{ambassadorRole.summary}</p>
+                <h3 className="mt-1.5 text-base tracking-tight">{ambassadorRole.title}</h3>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--muted)]">{ambassadorRole.summary}</p>
               </article>
             </div>
           </div>
