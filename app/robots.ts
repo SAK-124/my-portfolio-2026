@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { siteConfig } from '@/lib/site'
 
 export default function robots(): MetadataRoute.Robots {
+  const host = new URL(siteConfig.url).host
+
   return {
     rules: [
       {
@@ -9,8 +11,12 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/api/private/', '/_next/webpack-hmr'],
       },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+      },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
-    host: siteConfig.url,
+    host,
   }
 }
