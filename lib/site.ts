@@ -1,9 +1,12 @@
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://sabooralikhan.com'
+const normalizedSiteUrl = rawSiteUrl.replace(/\/+$/, '')
+
 export const siteConfig = {
   name: 'Saboor Ali Khan',
   title: 'Saboor Ali Khan | IBA Marketing Student and Digital Marketing Intern at 10Pearls',
   description:
     'Official portfolio of Saboor Ali Khan, BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan. Focused on marketing automation, technical SEO, and execution systems.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://sabooralikhan.com',
+  url: normalizedSiteUrl,
   github: 'https://github.com/SAK-124',
   linkedin: 'https://www.linkedin.com/in/sabooralikhan/',
   instagram: 'https://instagram.com/saboor.a.khan',
