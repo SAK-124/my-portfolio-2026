@@ -179,7 +179,7 @@ export function BuilderShell() {
       </div>
 
       <p className="text-xs text-[var(--muted)]">
-        Stored locally in this browser.
+        Stored in your account on Supabase.
       </p>
     </div>
   )

@@ -1,36 +1,14 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { COOKIE_NAME, computeAuthToken, getConfiguredPassword, timingSafeEqual } from '@/lib/tools/auth/middleware-helpers'
-
-export async function login(formData: FormData) {
-  const password = getConfiguredPassword()
-  if (!password) {
-    redirect('/tools/login?error=unconfigured')
-  }
-
-  const submitted = String(formData.get('password') ?? '').trim()
-  if (!timingSafeEqual(submitted, password)) {
-    redirect('/tools/login?error=invalid')
-  }
-
-  const token = await computeAuthToken(password)
-  const jar = await cookies()
-  jar.set(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30,
-  })
-
-  const from = String(formData.get('from') ?? '/tools')
-  redirect(from && from.startsWith('/tools') ? from : '/tools')
-}
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export async function logout() {
-  const jar = await cookies()
-  jar.delete(COOKIE_NAME)
+  try {
+    const supabase = await createSupabaseServerClient()
+    await supabase.auth.signOut()
+  } catch {
+    // If Supabase env is unavailable, still clear access via login redirect.
+  }
   redirect('/tools/login')
 }

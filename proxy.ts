@@ -1,28 +1,39 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { COOKIE_NAME, getConfiguredPassword, verifyCookieToken } from '@/lib/tools/auth/middleware-helpers'
+import { refreshAuthSession } from '@/lib/supabase/middleware'
 
 export const config = {
   matcher: ['/tools/:path*'],
 }
 
+function isToolsLoginPath(pathname: string): boolean {
+  return pathname === '/tools/login' || pathname.startsWith('/tools/login/')
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
+  const { response, user, configured } = await refreshAuthSession(request)
 
-  if (pathname === '/tools/login' || pathname.startsWith('/tools/login/')) {
-    return NextResponse.next()
-  }
-
-  const password = getConfiguredPassword()
-  if (!password) {
+  if (!configured) {
     const url = request.nextUrl.clone()
     url.pathname = '/tools/login'
     url.searchParams.set('error', 'unconfigured')
     return NextResponse.redirect(url)
   }
 
-  const token = request.cookies.get(COOKIE_NAME)?.value
-  const ok = await verifyCookieToken(token, password)
-  if (ok) return NextResponse.next()
+  if (isToolsLoginPath(pathname)) {
+    if (user) {
+      const from = request.nextUrl.searchParams.get('from')
+      const url = request.nextUrl.clone()
+      url.pathname = from && from.startsWith('/tools') ? from : '/tools'
+      url.search = ''
+      return NextResponse.redirect(url)
+    }
+    return response
+  }
+
+  if (user) {
+    return response
+  }
 
   const url = request.nextUrl.clone()
   url.pathname = '/tools/login'

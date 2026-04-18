@@ -32,6 +32,28 @@ function parseDate(label: string): string | undefined {
 
 const bullets = (arr: string[]): BulletItem[] => arr.map((text) => ({ id: newId(), text }))
 
+export function createEmptyPortfolio(): Portfolio {
+  return {
+    personalInfo: {
+      id: newId(),
+      name: '',
+      headline: '',
+      email: '',
+      phone: '',
+      location: '',
+      links: [],
+    },
+    experience: [],
+    education: [],
+    projects: [],
+    skillGroups: [],
+    certifications: [],
+    awards: [],
+    languages: [],
+    customSections: [],
+  }
+}
+
 export function seedPortfolioFromProfile(
   profile: typeof ProfileShape,
   projects: Project[],

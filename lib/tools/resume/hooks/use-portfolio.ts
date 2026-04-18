@@ -1,17 +1,33 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { hasSupabaseClientEnv } from '@/lib/supabase/config'
 import { getProvider } from '@/lib/tools/storage'
 import { loadCollection, saveCollection } from '@/lib/tools/storage/migrations'
 import { profile } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { siteConfig } from '@/lib/site'
-import { seedPortfolioFromProfile, defaultResumeConfig } from '@/lib/tools/resume/seed'
+import { createEmptyPortfolio, seedPortfolioFromProfile, defaultResumeConfig } from '@/lib/tools/resume/seed'
 import type { Portfolio, ResumeConfig, ResumeConfigsState } from '@/lib/tools/resume/types'
 
 export interface PortfolioState {
   portfolio: Portfolio
   configs: ResumeConfigsState
+}
+
+const ADMIN_EMAIL = 'saboor12124@gmail.com'
+
+async function getAuthenticatedEmail(): Promise<string | null> {
+  if (!hasSupabaseClientEnv()) return null
+  try {
+    const {
+      data: { user },
+    } = await getSupabaseBrowserClient().auth.getUser()
+    return user?.email?.toLowerCase() ?? null
+  } catch {
+    return null
+  }
 }
 
 export function usePortfolioState() {
@@ -30,11 +46,17 @@ export function usePortfolioState() {
       let configs = cEnv?.data
 
       if (!portfolio) {
-        portfolio = seedPortfolioFromProfile(profile, projects, {
-          email: siteConfig.email,
-          linkedin: siteConfig.linkedin,
-          github: siteConfig.github,
-        })
+        const email = await getAuthenticatedEmail()
+        const isAdmin = email === ADMIN_EMAIL
+
+        portfolio = isAdmin
+          ? seedPortfolioFromProfile(profile, projects, {
+              email: siteConfig.email,
+              linkedin: siteConfig.linkedin,
+              github: siteConfig.github,
+            })
+          : createEmptyPortfolio()
+
         await saveCollection(provider, 'portfolio', portfolio)
       }
 
