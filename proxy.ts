@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { refreshAuthSession } from '@/lib/supabase/middleware'
 
 export const config = {
-  matcher: ['/tools/:path*'],
+  matcher: ['/', '/tools/:path*'],
 }
 
 function isToolsLoginPath(pathname: string): boolean {
@@ -11,6 +11,22 @@ function isToolsLoginPath(pathname: string): boolean {
 
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
+
+  if (pathname === '/') {
+    const hasAuthError =
+      request.nextUrl.searchParams.has('error') &&
+      request.nextUrl.searchParams.has('error_code')
+
+    if (hasAuthError) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/tools/login'
+      url.search = '?error=oauth'
+      return NextResponse.redirect(url)
+    }
+
+    return NextResponse.next()
+  }
+
   const { response, user, configured } = await refreshAuthSession(request)
 
   if (!configured) {
