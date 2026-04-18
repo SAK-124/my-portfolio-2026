@@ -518,6 +518,79 @@ body {
   color: color-mix(in srgb, var(--accent) 78%, var(--ink) 22%);
 }
 
+.auth-alert--success {
+  border-color: color-mix(in srgb, #3a7c4a 30%, var(--line) 70%);
+  background: color-mix(in srgb, #3a7c4a 8%, var(--surface));
+  color: color-mix(in srgb, #3a7c4a 82%, var(--ink) 18%);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-form__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 80%, var(--ink) 20%);
+}
+
+.auth-form__input {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 94%, white 6%);
+  padding: 0.88rem 1rem;
+  font: inherit;
+  color: var(--ink);
+  transition:
+    border-color 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    background 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.auth-form__input::placeholder {
+  color: color-mix(in srgb, var(--muted) 76%, transparent);
+}
+
+.auth-form__input:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line) 58%);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--surface) 78%, white 22%),
+    0 0 0 4px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: color-mix(in srgb, var(--muted) 74%, var(--ink) 26%);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-divider p {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.auth-divider span {
+  height: 1px;
+  flex: 1;
+  background: color-mix(in srgb, var(--line) 82%, transparent);
+}
+
 .google-auth-button {
   display: inline-flex;
   width: 100%;
