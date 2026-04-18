@@ -8,6 +8,17 @@ function sanitizeNextPath(next: string | null): string {
   return next.startsWith('/tools') ? next : '/tools'
 }
 
+function getCallbackBaseUrl(request: NextRequest): string {
+  const host = request.nextUrl.hostname.toLowerCase()
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  if (isLocal) return 'http://localhost:3000'
+
+  const isCanonical = host === 'www.sabooralikhan.com' || host === 'sabooralikhan.com'
+  if (isCanonical) return 'https://www.sabooralikhan.com'
+
+  return request.nextUrl.origin
+}
+
 export async function GET(request: NextRequest) {
   const env = tryGetSupabaseClientEnv()
   const next = sanitizeNextPath(request.nextUrl.searchParams.get('next'))
@@ -33,7 +44,7 @@ export async function GET(request: NextRequest) {
     },
   })
 
-  const callbackUrl = new URL('/auth/callback', request.url)
+  const callbackUrl = new URL('/auth/callback', getCallbackBaseUrl(request))
   callbackUrl.searchParams.set('next', next)
 
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -42,7 +53,6 @@ export async function GET(request: NextRequest) {
       redirectTo: callbackUrl.toString(),
       queryParams: {
         access_type: 'offline',
-        prompt: 'consent',
       },
     },
   })
