@@ -5,7 +5,7 @@ export const config = {
   matcher: ['/tools/:path*'],
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
   if (pathname === '/tools/login' || pathname.startsWith('/tools/login/')) {
