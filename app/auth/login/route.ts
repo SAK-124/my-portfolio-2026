@@ -13,8 +13,16 @@ function getCallbackBaseUrl(request: NextRequest): string {
   const isLocal = host === 'localhost' || host === '127.0.0.1'
   if (isLocal) return 'http://localhost:3000'
 
-  const isCanonical = host === 'www.sabooralikhan.com' || host === 'sabooralikhan.com'
-  if (isCanonical) return 'https://www.sabooralikhan.com'
+  const isSiteHost = host === 'www.sabooralikhan.com' || host === 'sabooralikhan.com'
+  if (isSiteHost) {
+    // Keep callback host aligned with the current host to preserve PKCE verifier cookies.
+    return `${request.nextUrl.protocol}//${request.nextUrl.host}`
+  }
+
+  const appUrl = process.env.APP_URL?.trim()
+  if (appUrl) {
+    return appUrl.endsWith('/') ? appUrl.slice(0, -1) : appUrl
+  }
 
   return request.nextUrl.origin
 }
@@ -51,9 +59,6 @@ export async function GET(request: NextRequest) {
     provider: 'google',
     options: {
       redirectTo: callbackUrl.toString(),
-      queryParams: {
-        access_type: 'offline',
-      },
     },
   })
 
