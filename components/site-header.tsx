@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react'
+import { GithubLogo, LinkedinLogo, Toolbox } from '@phosphor-icons/react'
 import { navItems, siteConfig } from '@/lib/site'
 
 export function SiteHeader() {
@@ -39,10 +39,21 @@ export function SiteHeader() {
               >
                 <LinkedinLogo size={17} weight="bold" />
               </a>
+              <Link
+                href="/tools"
+                aria-label="Tools workspace"
+                className={`rounded-full p-2 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-[1px] hover:bg-[var(--surface)] hover:text-[var(--ink)] active:scale-[0.97] ${
+                  pathname === '/tools' || pathname.startsWith('/tools/')
+                    ? 'text-[var(--ink)] bg-[var(--surface)]'
+                    : 'text-[var(--muted)]'
+                }`}
+              >
+                <Toolbox size={17} weight="bold" />
+              </Link>
             </div>
           </div>
 
-          <nav className="mt-2 flex gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <nav className="mt-2 flex justify-center gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {navItems.map((item) => {
               const isActive =
                 item.href === '/'

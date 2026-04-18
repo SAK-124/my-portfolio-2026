@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { Trash, Plus } from '@phosphor-icons/react/dist/ssr'
 import type { Portfolio, ProjectItem } from '@/lib/tools/resume/types'
 import { newId } from '@/lib/tools/resume/ids'
@@ -91,12 +92,11 @@ export function ProjectsEditor({
               />
             </Field>
 
-            <Field label="Stack (comma separated)">
-              <TextInput
-                value={item.stack.join(', ')}
-                onChange={(e) => patch(item.id, { stack: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })}
-              />
-            </Field>
+            <StackInput
+              itemId={item.id}
+              stack={item.stack}
+              onChange={(stack) => patch(item.id, { stack })}
+            />
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -126,5 +126,59 @@ export function ProjectsEditor({
         )}
       />
     </SectionWrap>
+  )
+}
+
+function StackInput({
+  itemId,
+  stack,
+  onChange,
+}: {
+  itemId: string
+  stack: string[]
+  onChange: (stack: string[]) => void
+}) {
+  const [text, setText] = useState(() => stack.join(', '))
+  const focusedRef = useRef(false)
+
+  useEffect(() => {
+    if (focusedRef.current) return
+    setText(stack.join(', '))
+  }, [stack])
+
+  useEffect(() => {
+    focusedRef.current = false
+    setText(stack.join(', '))
+    // Only re-sync when the project identity changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemId])
+
+  return (
+    <Field label="Stack (comma separated)">
+      <TextInput
+        value={text}
+        onFocus={() => {
+          focusedRef.current = true
+        }}
+        onBlur={(e) => {
+          focusedRef.current = false
+          const parsed = e.target.value
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+          setText(parsed.join(', '))
+        }}
+        onChange={(e) => {
+          const raw = e.target.value
+          setText(raw)
+          onChange(
+            raw
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean),
+          )
+        }}
+      />
+    </Field>
   )
 }

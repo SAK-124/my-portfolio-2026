@@ -38,8 +38,8 @@ export function PreviewPane({
   patch: (partial: Partial<ResumeConfig>) => void
 }) {
   const resolved = useMemo(() => (config ? resolveResume(portfolio, config) : null), [portfolio, config])
-  const debouncedResolved = useDebouncedValue(resolved, 300)
-  const debouncedDensity = useDebouncedValue(config?.density ?? 'standard', 300)
+  const debouncedResolved = useDebouncedValue(resolved, 1000)
+  const debouncedDensity = useDebouncedValue(config?.density ?? 'standard', 1000)
   const debouncedTemplate = useDebouncedValue(config?.templateId ?? 'editorial', 300)
 
   const docElement = useMemo(() => {

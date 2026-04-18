@@ -32,14 +32,17 @@ export function AtsClassicDocument({
       fontSize: s.display * 0.7,
       fontFamily: 'Helvetica-Bold',
       letterSpacing: 0.3,
+      textAlign: 'center',
     },
     headline: {
       fontSize: s.small,
       marginTop: 2,
+      textAlign: 'center',
     },
     contactLine: {
       fontSize: s.small,
       marginTop: 4,
+      textAlign: 'center',
     },
     separator: {
       borderBottomWidth: 0.75,

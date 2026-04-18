@@ -36,27 +36,32 @@ export function EditorialDocument({
     },
     header: {
       flexDirection: 'column',
+      alignItems: 'center',
     },
     eyebrow: {
       fontSize: s.micro,
       color: ACCENT,
       letterSpacing: 2,
       textTransform: 'uppercase',
+      textAlign: 'center',
     },
     name: {
       fontFamily: 'Helvetica-Bold',
       fontSize: s.display * 0.78,
       marginTop: 2,
       letterSpacing: -0.4,
+      textAlign: 'center',
     },
     headline: {
       color: MUTED,
       fontSize: s.body,
       marginTop: 2,
+      textAlign: 'center',
     },
     contactRow: {
       flexDirection: 'row',
       flexWrap: 'wrap',
+      justifyContent: 'center',
       marginTop: 8,
       gap: 8,
     },

@@ -45,7 +45,7 @@ export function MuzainaDocument({
     contactLine: {
       fontSize: s.small,
       marginTop: 10,
-      textAlign: 'left',
+      textAlign: 'center',
     },
     contactLabel: {
       fontFamily: 'Times-Bold',
