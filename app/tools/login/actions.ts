@@ -2,15 +2,15 @@
 
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { COOKIE_NAME, computeAuthToken, timingSafeEqual } from '@/lib/tools/auth/middleware-helpers'
+import { COOKIE_NAME, computeAuthToken, getConfiguredPassword, timingSafeEqual } from '@/lib/tools/auth/middleware-helpers'
 
 export async function login(formData: FormData) {
-  const password = process.env.TOOLS_PASSWORD
+  const password = getConfiguredPassword()
   if (!password) {
     redirect('/tools/login?error=unconfigured')
   }
 
-  const submitted = String(formData.get('password') ?? '')
+  const submitted = String(formData.get('password') ?? '').trim()
   if (!timingSafeEqual(submitted, password)) {
     redirect('/tools/login?error=invalid')
   }

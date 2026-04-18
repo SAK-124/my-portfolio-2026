@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { COOKIE_NAME, verifyCookieToken } from '@/lib/tools/auth/middleware-helpers'
+import { COOKIE_NAME, getConfiguredPassword, verifyCookieToken } from '@/lib/tools/auth/middleware-helpers'
 
 export const config = {
   matcher: ['/tools/:path*'],
@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const password = process.env.TOOLS_PASSWORD
+  const password = getConfiguredPassword()
   if (!password) {
     const url = request.nextUrl.clone()
     url.pathname = '/tools/login'

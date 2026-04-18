@@ -1,6 +1,13 @@
 export const COOKIE_NAME = 'tools-auth'
 const SALT = 'tools'
 
+export function getConfiguredPassword(): string | undefined {
+  const raw = process.env.TOOLS_PASSWORD
+  if (!raw) return undefined
+  const normalized = raw.trim()
+  return normalized.length > 0 ? normalized : undefined
+}
+
 async function hmacSha256Hex(key: string, data: string): Promise<string> {
   const enc = new TextEncoder()
   const cryptoKey = await crypto.subtle.importKey(
