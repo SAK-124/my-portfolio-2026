@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Tools · Sign in',
+  title: 'Saboor Ali Khan · Tools Sign in',
   robots: { index: false, follow: false },
 }
 
@@ -20,20 +20,20 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
     <div className="container py-20 md:py-28">
       <div className="mx-auto max-w-md">
         <p className="section-eyebrow mb-3">Tools</p>
-        <h1 className="section-title mb-2">Private workspace</h1>
+        <h1 className="section-title mb-2">Saboor Ali Khan Tools</h1>
         <p className="text-[var(--muted)] mb-8">
-          Sign in with Google to access your personal tools profile.
+          Sign in with Google to access your private workspace and resume profile.
         </p>
 
         <div className="card-elevated p-6 flex flex-col gap-4">
           {error === 'oauth' && (
             <p className="text-sm text-[color:var(--accent)]">
-              Google sign-in failed. Please try again.
+              We could not complete Google sign-in. Please try again.
             </p>
           )}
           {error === 'unconfigured' && (
             <p className="text-sm text-[color:var(--accent)]">
-              Missing Supabase config. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.
+              Sign-in is temporarily unavailable. Please try again in a minute.
             </p>
           )}
           <Link
