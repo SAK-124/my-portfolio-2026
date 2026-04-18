@@ -128,7 +128,7 @@ export interface ResumeSection {
   include: IncludedItem[]
 }
 
-export type TemplateId = 'ats-classic' | 'editorial'
+export type TemplateId = 'ats-classic' | 'editorial' | 'muzaina'
 export type Density = 'compact' | 'standard' | 'spacious'
 
 export interface ResumeConfig {

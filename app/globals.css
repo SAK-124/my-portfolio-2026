@@ -657,6 +657,85 @@ body {
   transform: translateY(-0.5px);
 }
 
+.auth-switch {
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.auth-switch__link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--ink);
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+  transition: border-color 180ms ease;
+}
+
+.auth-switch__link:hover {
+  border-bottom-color: var(--ink);
+}
+
+.auth-switch__link:focus-visible {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.login-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.85rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.login-brand__mark {
+  font-weight: 800;
+}
+
+.login-brand__slash {
+  color: color-mix(in srgb, var(--muted) 70%, var(--ink) 30%);
+  font-weight: 600;
+}
+
+.login-brand__divider {
+  color: color-mix(in srgb, var(--line-strong, var(--line)) 90%, transparent);
+  font-weight: 300;
+  margin: 0 0.15rem;
+}
+
+.login-brand__verb {
+  color: var(--accent);
+  font-weight: 700;
+  min-width: 0.35em;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.inline-typewriter__caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  margin-left: 2px;
+  background: currentColor;
+  transform: translateY(2px);
+  animation: inline-typewriter-blink 1.05s steps(1) infinite;
+}
+
+@keyframes inline-typewriter-blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
 /* Typewriter pill — reserved-space pattern.
    The `.typewriter-slot` reserves the vertical space the pill may need in the
    document flow, and the pill itself is absolutely positioned inside that slot.

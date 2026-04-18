@@ -13,6 +13,7 @@ const DENSITIES: { id: Density; label: string }[] = [
 const TEMPLATES: { id: TemplateId; label: string; hint: string }[] = [
   { id: 'editorial', label: 'Editorial', hint: 'Warm accent, portfolio match.' },
   { id: 'ats-classic', label: 'ATS-Classic', hint: 'Pure B&W, parser-friendly.' },
+  { id: 'muzaina', label: 'Muzaina', hint: 'Serif, dense, single-page classic.' },
 ]
 
 export function TemplateAndDensityControls({ config, patch }: { config: ResumeConfig; patch: Patch }) {
@@ -20,7 +21,7 @@ export function TemplateAndDensityControls({ config, patch }: { config: ResumeCo
     <div className="card-soft p-4 flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <p className="section-eyebrow">Template</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2">
           {TEMPLATES.map((t) => (
             <button
               key={t.id}
