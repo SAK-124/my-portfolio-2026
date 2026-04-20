@@ -32,7 +32,7 @@ export function OverflowBanner({
 
   if (!overflowing) {
     return (
-      <div className="tools-alert tools-alert--success">
+      <div className="tools-alert tools-alert--info">
         <CheckCircle size={14} weight="bold" />
         Fits in {shown} page{shown !== 1 ? 's' : ''}
         {status === 'estimating' ? (
