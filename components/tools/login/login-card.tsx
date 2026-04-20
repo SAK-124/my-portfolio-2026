@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import { InlineTypewriter } from './inline-typewriter'
 
 interface Props {
@@ -23,81 +24,83 @@ export function LoginCard({
   const [showSignup, setShowSignup] = useState(false)
 
   return (
-    <div className="mx-auto max-w-md">
-      <p className="section-eyebrow mb-3">Tools</p>
-      <h1 className="login-brand mb-2">
-        <span className="login-brand__mark">SAK</span>
-        <span className="login-brand__slash">/Tools</span>
-        <span className="login-brand__divider" aria-hidden="true">|</span>
+    <div className="tools-auth-panel">
+      <p className="tools-auth-panel__eyebrow">Workspace access</p>
+      <h1 className="tools-auth-panel__title">
+        <span>SAK</span>{' '}
+        <span className="login-brand__slash">/ Tools</span>{' '}
+        <span className="login-brand__divider" aria-hidden="true">|</span>{' '}
         <InlineTypewriter words={VERBS} className="login-brand__verb" />
       </h1>
-      <p className="text-[var(--muted)] mb-8">
-        Sign in with email and password to access your private workspace.
+      <p className="tools-auth-panel__copy">
+        Sign in to open the private workspace and continue into the tools shell.
       </p>
 
-      <div className="card-elevated p-6 flex flex-col gap-5">
-        {errorMessage && <p className="auth-alert">{errorMessage}</p>}
-        {successMessage && <p className="auth-alert auth-alert--success">{successMessage}</p>}
+      <div className="mt-6 flex flex-col gap-5">
+        {errorMessage ? <p className="tools-message tools-message--error">{errorMessage}</p> : null}
+        {successMessage ? <p className="tools-message tools-message--success">{successMessage}</p> : null}
 
         {!showSignup ? (
           <>
-            <form action={loginAction} className="auth-form">
+            <form action={loginAction} className="tools-auth-form">
               <input type="hidden" name="next" value={nextPath} />
-              <div className="auth-form__group">
-                <label className="auth-form__label" htmlFor="login-email">Email</label>
+              <div className="tools-auth-form__group">
+                <label className="tools-auth-form__label" htmlFor="login-email">Email</label>
                 <input
                   id="login-email"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="auth-form__input"
+                  className="tools-auth-form__input"
                   placeholder="you@email.com"
                 />
               </div>
-              <div className="auth-form__group">
-                <label className="auth-form__label" htmlFor="login-password">Password</label>
+              <div className="tools-auth-form__group">
+                <label className="tools-auth-form__label" htmlFor="login-password">Password</label>
                 <input
                   id="login-password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="auth-form__input"
+                  className="tools-auth-form__input"
                   placeholder="Your password"
                 />
               </div>
-              <button type="submit" className="google-auth-button">
+              <button type="submit" className="tools-cta tools-cta--primary tools-cta--full">
                 <span>Sign in</span>
-                <span className="google-auth-button__chevron" aria-hidden="true">→</span>
+                <span className="tools-cta__glyph" aria-hidden="true">
+                  <ArrowUpRight size={14} weight="bold" />
+                </span>
               </button>
             </form>
 
-            <p className="auth-switch">
+            <p className="tools-auth-switch">
               Don&apos;t have an account?{' '}
-              <button type="button" className="auth-switch__link" onClick={() => setShowSignup(true)}>
+              <button type="button" className="tools-text-button" onClick={() => setShowSignup(true)}>
                 Create one
               </button>
             </p>
           </>
         ) : (
           <>
-            <form action={signupAction} className="auth-form">
+            <form action={signupAction} className="tools-auth-form">
               <input type="hidden" name="next" value={nextPath} />
-              <div className="auth-form__group">
-                <label className="auth-form__label" htmlFor="signup-email">Email</label>
+              <div className="tools-auth-form__group">
+                <label className="tools-auth-form__label" htmlFor="signup-email">Email</label>
                 <input
                   id="signup-email"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="auth-form__input"
+                  className="tools-auth-form__input"
                   placeholder="you@email.com"
                 />
               </div>
-              <div className="auth-form__group">
-                <label className="auth-form__label" htmlFor="signup-password">Password</label>
+              <div className="tools-auth-form__group">
+                <label className="tools-auth-form__label" htmlFor="signup-password">Password</label>
                 <input
                   id="signup-password"
                   name="password"
@@ -105,19 +108,21 @@ export function LoginCard({
                   autoComplete="new-password"
                   minLength={8}
                   required
-                  className="auth-form__input"
+                  className="tools-auth-form__input"
                   placeholder="At least 8 characters"
                 />
               </div>
-              <button type="submit" className="google-auth-button">
+              <button type="submit" className="tools-cta tools-cta--primary tools-cta--full">
                 <span>Create account</span>
-                <span className="google-auth-button__chevron" aria-hidden="true">→</span>
+                <span className="tools-cta__glyph" aria-hidden="true">
+                  <ArrowUpRight size={14} weight="bold" />
+                </span>
               </button>
             </form>
 
-            <p className="auth-switch">
+            <p className="tools-auth-switch">
               Already have an account?{' '}
-              <button type="button" className="auth-switch__link" onClick={() => setShowSignup(false)}>
+              <button type="button" className="tools-text-button" onClick={() => setShowSignup(false)}>
                 Sign in
               </button>
             </p>

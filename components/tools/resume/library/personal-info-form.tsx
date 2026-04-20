@@ -31,7 +31,7 @@ export function PersonalInfoForm({
       ...p,
       personalInfo: {
         ...p.personalInfo,
-        links: p.personalInfo.links.map((l) => (l.id === id ? { ...l, ...partial } : l)),
+        links: p.personalInfo.links.map((link) => (link.id === id ? { ...link, ...partial } : link)),
       },
     }))
 
@@ -40,13 +40,13 @@ export function PersonalInfoForm({
       ...p,
       personalInfo: {
         ...p.personalInfo,
-        links: p.personalInfo.links.filter((l) => l.id !== id),
+        links: p.personalInfo.links.filter((link) => link.id !== id),
       },
     }))
 
   return (
     <SectionWrap title="Personal info" description="Appears at the top of every resume.">
-      <div className="card-elevated p-5 md:p-6 flex flex-col gap-4">
+      <div className="tools-record-card">
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Name">
             <TextInput value={pi.name} onChange={(e) => patch({ name: e.target.value })} />
@@ -67,30 +67,29 @@ export function PersonalInfoForm({
 
         <div className="flex flex-col gap-3 pt-2">
           <div className="flex items-center justify-between">
-            <p className="section-eyebrow">Links</p>
+            <p className="tools-group-label">Links</p>
             <AddButton onClick={addLink}>Add link</AddButton>
           </div>
-          {pi.links.length === 0 && <p className="text-xs text-[var(--muted)]">No links yet.</p>}
-          {pi.links.map((l) => (
-            <div key={l.id} className="grid grid-cols-[1fr_2fr_auto] gap-2">
+          {pi.links.length === 0 ? <p className="tools-empty">No links yet.</p> : null}
+          {pi.links.map((link) => (
+            <div key={link.id} className="grid grid-cols-[1fr_2fr_auto] gap-2">
               <TextInput
                 placeholder="Label"
-                value={l.label}
-                onChange={(e) => patchLink(l.id, { label: e.target.value })}
+                value={link.label}
+                onChange={(e) => patchLink(link.id, { label: e.target.value })}
               />
               <TextInput
                 placeholder="URL"
-                value={l.url}
-                onChange={(e) => patchLink(l.id, { url: e.target.value })}
+                value={link.url}
+                onChange={(e) => patchLink(link.id, { url: e.target.value })}
               />
-              <IconButton label="Remove link" onClick={() => removeLink(l.id)} variant="danger">
+              <IconButton label="Remove link" onClick={() => removeLink(link.id)} variant="danger">
                 <Trash size={14} weight="bold" />
               </IconButton>
             </div>
           ))}
         </div>
       </div>
-
     </SectionWrap>
   )
 }

@@ -37,16 +37,16 @@ export function SortableList<T extends HasId>({ items, onReorder, renderItem, cl
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   )
 
-  const handleDragEnd = (e: DragEndEvent) => {
-    const { active, over } = e
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
     if (!over || active.id === over.id) return
-    const oldIndex = items.findIndex((x) => x.id === active.id)
-    const newIndex = items.findIndex((x) => x.id === over.id)
+    const oldIndex = items.findIndex((item) => item.id === active.id)
+    const newIndex = items.findIndex((item) => item.id === over.id)
     if (oldIndex < 0 || newIndex < 0) return
     const next = [...items]
     const [moved] = next.splice(oldIndex, 1)
     next.splice(newIndex, 0, moved)
-    onReorder(next.map((x) => x.id))
+    onReorder(next.map((item) => item.id))
   }
 
   return (
@@ -56,11 +56,11 @@ export function SortableList<T extends HasId>({ items, onReorder, renderItem, cl
       modifiers={[restrictToVerticalAxis, restrictToParentElement]}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items.map((x) => x.id)} strategy={verticalListSortingStrategy}>
+      <SortableContext items={items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
         <div className={className}>
           {items.map((item) => (
             <SortableRow key={item.id} id={item.id}>
-              {(h) => renderItem(item, h)}
+              {(handle) => renderItem(item, handle)}
             </SortableRow>
           ))}
         </div>
@@ -74,7 +74,7 @@ function SortableRow({
   children,
 }: {
   id: string
-  children: (h: { ref: (el: HTMLElement | null) => void; attrs: Record<string, unknown> }) => ReactNode
+  children: (handle: { ref: (el: HTMLElement | null) => void; attrs: Record<string, unknown> }) => ReactNode
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
   const style: React.CSSProperties = {
@@ -82,12 +82,10 @@ function SortableRow({
     transition,
     opacity: isDragging ? 0.6 : 1,
   }
+
   return (
     <div ref={setNodeRef} style={style}>
-      {children({
-        ref: () => {},
-        attrs: { ...attributes, ...listeners },
-      })}
+      {children({ ref: () => {}, attrs: { ...attributes, ...listeners } })}
     </div>
   )
 }
@@ -104,7 +102,7 @@ export function DragHandle({
       type="button"
       {...attrs}
       aria-label="Drag to reorder"
-      className={`profile-icon-chip cursor-grab active:cursor-grabbing ${className}`}
+      className={`tools-drag-handle ${className}`}
     >
       <DotsSixVertical size={16} weight="bold" />
     </button>

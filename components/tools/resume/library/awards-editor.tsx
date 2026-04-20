@@ -18,13 +18,19 @@ export function AwardsEditor({
       ...p,
       awards: [...p.awards, { id: newId(), name: '', year: '' }],
     }))
+
   const patch = (id: string, partial: Partial<AwardItem>) =>
-    updatePortfolio((p) => ({ ...p, awards: p.awards.map((e) => (e.id === id ? { ...e, ...partial } : e)) }))
+    updatePortfolio((p) => ({
+      ...p,
+      awards: p.awards.map((item) => (item.id === id ? { ...item, ...partial } : item)),
+    }))
+
   const remove = (id: string) =>
-    updatePortfolio((p) => ({ ...p, awards: p.awards.filter((e) => e.id !== id) }))
+    updatePortfolio((p) => ({ ...p, awards: p.awards.filter((item) => item.id !== id) }))
+
   const reorder = (ids: string[]) =>
     updatePortfolio((p) => {
-      const byId = new Map(p.awards.map((e) => [e.id, e]))
+      const byId = new Map(p.awards.map((item) => [item.id, item]))
       return { ...p, awards: ids.map((id) => byId.get(id)!).filter(Boolean) }
     })
 
@@ -34,17 +40,15 @@ export function AwardsEditor({
       description="Honors and recognition."
       action={<AddButton onClick={add}>Add award</AddButton>}
     >
-      {portfolio.awards.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No awards yet.</p>
-      )}
+      {portfolio.awards.length === 0 ? <p className="tools-empty">No awards yet.</p> : null}
       <SortableList
         items={portfolio.awards}
         onReorder={reorder}
         className="flex flex-col gap-3"
-        renderItem={(item, h) => (
-          <div className="card-elevated p-5 flex flex-col gap-3">
+        renderItem={(item, handle) => (
+          <div className="tools-record-card">
             <div className="flex items-start gap-3">
-              <DragHandle attrs={h.attrs} />
+              <DragHandle attrs={handle.attrs} />
               <div className="flex-1 grid gap-3 md:grid-cols-3">
                 <Field label="Name">
                   <TextInput value={item.name} onChange={(e) => patch(item.id, { name: e.target.value })} />
@@ -56,7 +60,7 @@ export function AwardsEditor({
                   <TextInput value={item.year} onChange={(e) => patch(item.id, { year: e.target.value })} />
                 </Field>
               </div>
-              <IconButton label="Remove" onClick={() => remove(item.id)} variant="danger">
+              <IconButton label="Remove award" onClick={() => remove(item.id)} variant="danger">
                 <Trash size={14} weight="bold" />
               </IconButton>
             </div>

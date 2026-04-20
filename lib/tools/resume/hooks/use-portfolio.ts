@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import { hasSupabaseClientEnv } from '@/lib/supabase/config'
+import { getLocalToolsAuthenticatedEmail } from '@/lib/tools/local-auth/client'
 import { getProvider } from '@/lib/tools/storage'
 import { loadCollection, saveCollection } from '@/lib/tools/storage/migrations'
 import { profile } from '@/data/profile'
@@ -19,6 +20,8 @@ export interface PortfolioState {
 const ADMIN_EMAIL = 'saboor12124@gmail.com'
 
 async function getAuthenticatedEmail(): Promise<string | null> {
+  const localEmail = getLocalToolsAuthenticatedEmail()
+  if (localEmail) return localEmail
   if (!hasSupabaseClientEnv()) return null
   try {
     const {

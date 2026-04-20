@@ -4,8 +4,8 @@ import { ReactNode } from 'react'
 
 export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <label className="flex flex-col gap-1.5 text-sm">
-      <span className="section-eyebrow">{label}</span>
+    <label className="tools-field">
+      <span className="tools-field__label">{label}</span>
       {children}
     </label>
   )
@@ -13,22 +13,12 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 
 export function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const { className = '', ...rest } = props
-  return (
-    <input
-      {...rest}
-      className={`border border-[var(--line)] rounded-2xl px-3 py-2 bg-[var(--surface)] outline-none focus:border-[var(--line-strong)] text-[var(--ink)] ${className}`}
-    />
-  )
+  return <input {...rest} className={`tools-field__control ${className}`} />
 }
 
 export function TextArea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const { className = '', ...rest } = props
-  return (
-    <textarea
-      {...rest}
-      className={`border border-[var(--line)] rounded-2xl px-3 py-2 bg-[var(--surface)] outline-none focus:border-[var(--line-strong)] text-[var(--ink)] min-h-[80px] resize-y ${className}`}
-    />
-  )
+  return <textarea {...rest} className={`tools-field__control min-h-[96px] resize-y ${className}`} />
 }
 
 export function IconButton({
@@ -42,13 +32,12 @@ export function IconButton({
   children: ReactNode
   variant?: 'default' | 'danger'
 }) {
-  const color = variant === 'danger' ? 'hover:text-[color:var(--accent)]' : ''
   return (
     <button
       type="button"
       aria-label={label}
       onClick={onClick}
-      className={`profile-icon-chip ${color}`}
+      className={`tools-glyph-button ${variant === 'danger' ? 'tools-glyph-button--danger' : ''}`}
     >
       {children}
     </button>
@@ -60,7 +49,7 @@ export function AddButton({ onClick, children }: { onClick: () => void; children
     <button
       type="button"
       onClick={onClick}
-      className="inline-chip hover:border-[var(--line-strong)] self-start"
+      className="tools-cta tools-cta--ghost tools-cta--compact"
     >
       + {children}
     </button>
@@ -72,18 +61,21 @@ export function SectionWrap({
   description,
   children,
   action,
+  eyebrow = 'Library',
 }: {
   title: string
   description?: string
   children: ReactNode
   action?: ReactNode
+  eyebrow?: string
 }) {
   return (
-    <section className="flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-4">
+    <section className="tools-module">
+      <div className="tools-module__header">
         <div>
-          <h3 className="text-base font-medium text-[var(--ink)]">{title}</h3>
-          {description && <p className="text-xs text-[var(--muted)] mt-0.5">{description}</p>}
+          <p className="tools-group-label">{eyebrow}</p>
+          <h3 className="tools-module__title mt-1">{title}</h3>
+          {description ? <p className="tools-module__description">{description}</p> : null}
         </div>
         {action}
       </div>

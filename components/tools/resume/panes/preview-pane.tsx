@@ -11,21 +11,17 @@ import { ResumeDocument } from '../pdf/document'
 import { OverflowBanner } from '../config/overflow-banner'
 
 const PDFViewer = dynamic(
-  () => import('@react-pdf/renderer').then((m) => m.PDFViewer),
-  { ssr: false, loading: () => <ViewerSkeleton label="Loading preview…" /> },
+  () => import('@react-pdf/renderer').then((module) => module.PDFViewer),
+  { ssr: false, loading: () => <ViewerSkeleton label="Loading preview..." /> },
 )
 
 const PDFDownloadLink = dynamic(
-  () => import('@react-pdf/renderer').then((m) => m.PDFDownloadLink),
-  { ssr: false, loading: () => <span className="inline-chip">Preparing…</span> },
+  () => import('@react-pdf/renderer').then((module) => module.PDFDownloadLink),
+  { ssr: false, loading: () => <span className="tools-cta tools-cta--ghost tools-cta--compact">Preparing...</span> },
 )
 
 function ViewerSkeleton({ label }: { label: string }) {
-  return (
-    <div className="w-full flex-1 min-h-[480px] rounded-[1.25rem] border border-[var(--line)] bg-[var(--surface)] flex items-center justify-center text-sm text-[var(--muted)]">
-      {label}
-    </div>
-  )
+  return <div className="tools-preview__empty">{label}</div>
 }
 
 export function PreviewPane({
@@ -42,7 +38,7 @@ export function PreviewPane({
   const debouncedDensity = useDebouncedValue(config?.density ?? 'standard', 1000)
   const debouncedTemplate = useDebouncedValue(config?.templateId ?? 'editorial', 300)
 
-  const docElement = useMemo(() => {
+  const documentElement = useMemo(() => {
     if (!debouncedResolved) return null
     return (
       <ResumeDocument
@@ -58,20 +54,20 @@ export function PreviewPane({
     [debouncedResolved, debouncedDensity],
   )
 
-  const { pageCount: authoritativePages, status } = usePageCount(docElement)
+  const { pageCount: authoritativePages, status } = usePageCount(documentElement)
 
   const downloadFilename = useMemo(() => {
     const name = (config?.name ?? 'Resume').replace(/[^a-z0-9-_ ]/gi, '').trim() || 'Resume'
     return `${name}.pdf`
   }, [config?.name])
 
-  if (!config || !docElement) {
+  if (!config || !documentElement) {
     return <ViewerSkeleton label="No config selected." />
   }
 
   return (
-    <div className="flex flex-col gap-3 h-full">
-      <div className="flex flex-wrap items-start gap-3">
+    <div className="tools-preview">
+      <div className="tools-preview__toolbar">
         <OverflowBanner
           config={config}
           estimatedPages={estimatedPages}
@@ -80,16 +76,16 @@ export function PreviewPane({
           patch={patch}
         />
         <PDFDownloadLink
-          document={docElement}
+          document={documentElement}
           fileName={downloadFilename}
-          className="inline-chip hover:border-[var(--line-strong)] ml-auto"
+          className="tools-cta tools-cta--ghost tools-cta--compact ml-auto"
         >
           Download PDF
         </PDFDownloadLink>
       </div>
-      <div className="flex-1 min-h-[540px] rounded-[1.25rem] overflow-hidden border border-[var(--line)]">
+      <div className="tools-preview__dock">
         <PDFViewer width="100%" height="100%" showToolbar={false}>
-          {docElement}
+          {documentElement}
         </PDFViewer>
       </div>
     </div>

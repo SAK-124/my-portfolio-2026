@@ -30,6 +30,9 @@ export async function proxy(request: NextRequest) {
   const { response, user, configured } = await refreshAuthSession(request)
 
   if (!configured) {
+    if (isToolsLoginPath(pathname)) {
+      return response
+    }
     const url = request.nextUrl.clone()
     url.pathname = '/tools/login'
     url.searchParams.set('error', 'unconfigured')

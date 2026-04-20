@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { ToolsNav } from '@/components/tools/shell/tools-nav'
+import './tools.css'
+import { ToolsRouteShell } from '@/components/tools/shell/tools-route-shell'
 
 export const metadata: Metadata = {
   title: 'Tools',
@@ -7,10 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="container py-10 md:py-16">
-      <ToolsNav />
-      <div className="pt-8 md:pt-10">{children}</div>
-    </div>
-  )
+  return <ToolsRouteShell>{children}</ToolsRouteShell>
 }

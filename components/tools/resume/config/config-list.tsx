@@ -1,10 +1,10 @@
 'use client'
 
 import { Trash, Copy, Pencil, Plus } from '@phosphor-icons/react/dist/ssr'
+import { useState } from 'react'
 import type { Portfolio, ResumeConfig, ResumeConfigsState } from '@/lib/tools/resume/types'
 import { newId } from '@/lib/tools/resume/ids'
 import { defaultResumeConfig } from '@/lib/tools/resume/seed'
-import { useState } from 'react'
 
 export function ConfigList({
   portfolio,
@@ -13,10 +13,10 @@ export function ConfigList({
 }: {
   portfolio: Portfolio
   configs: ResumeConfigsState
-  updateConfigs: (u: (prev: ResumeConfigsState) => ResumeConfigsState) => void
+  updateConfigs: (updater: (prev: ResumeConfigsState) => ResumeConfigsState) => void
 }) {
   const [renameId, setRenameId] = useState<string | null>(null)
-  const active = configs.configs.find((c) => c.id === configs.activeId) ?? configs.configs[0]
+  const active = configs.configs.find((config) => config.id === configs.activeId) ?? configs.configs[0]
 
   const addConfig = () => {
     const base = defaultResumeConfig(portfolio)
@@ -25,11 +25,11 @@ export function ConfigList({
     updateConfigs((prev) => ({ activeId: base.id, configs: [...prev.configs, base] }))
   }
 
-  const duplicate = (c: ResumeConfig) => {
+  const duplicate = (config: ResumeConfig) => {
     const copy: ResumeConfig = {
-      ...c,
+      ...config,
       id: newId(),
-      name: `${c.name} copy`,
+      name: `${config.name} copy`,
       updatedAt: new Date().toISOString(),
     }
     updateConfigs((prev) => ({ activeId: copy.id, configs: [...prev.configs, copy] }))
@@ -38,7 +38,7 @@ export function ConfigList({
   const remove = (id: string) => {
     if (configs.configs.length <= 1) return
     updateConfigs((prev) => {
-      const next = prev.configs.filter((c) => c.id !== id)
+      const next = prev.configs.filter((config) => config.id !== id)
       return { activeId: next[0]?.id ?? null, configs: next }
     })
   }
@@ -46,73 +46,78 @@ export function ConfigList({
   const rename = (id: string, name: string) =>
     updateConfigs((prev) => ({
       ...prev,
-      configs: prev.configs.map((c) => (c.id === id ? { ...c, name, updatedAt: new Date().toISOString() } : c)),
+      configs: prev.configs.map((config) =>
+        config.id === id ? { ...config, name, updatedAt: new Date().toISOString() } : config,
+      ),
     }))
 
   const setActive = (id: string) => updateConfigs((prev) => ({ ...prev, activeId: id }))
 
   return (
-    <div className="card-elevated p-4 flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <p className="section-eyebrow">Resume configs</p>
-        <button type="button" onClick={addConfig} className="inline-chip hover:border-[var(--line-strong)]">
-          <Plus size={12} weight="bold" /> New
+    <div className="tools-rail-card">
+      <div className="tools-module__header">
+        <div>
+          <p className="tools-group-label">Resume configs</p>
+          <h3 className="tools-module__title mt-2">Config rail</h3>
+        </div>
+        <button type="button" onClick={addConfig} className="tools-cta tools-cta--ghost tools-cta--compact">
+          <Plus size={12} weight="bold" />
+          New
         </button>
       </div>
-      <div className="flex flex-col gap-1.5">
-        {configs.configs.map((c) => (
+
+      <div className="tools-config-stack">
+        {configs.configs.map((config) => (
           <div
-            key={c.id}
-            className={`flex items-center gap-2 rounded-2xl border px-3 py-2 ${
-              active?.id === c.id ? 'border-[var(--line-strong)] bg-[var(--surface)]' : 'border-[var(--line)]'
-            }`}
+            key={config.id}
+            className={`tools-config-entry ${active?.id === config.id ? 'tools-config-entry--active' : ''}`}
           >
-            {renameId === c.id ? (
+            {renameId === config.id ? (
               <input
                 autoFocus
-                value={c.name}
-                onChange={(e) => rename(c.id, e.target.value)}
+                value={config.name}
+                onChange={(event) => rename(config.id, event.target.value)}
                 onBlur={() => setRenameId(null)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') setRenameId(null)
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') setRenameId(null)
                 }}
-                className="flex-1 bg-transparent outline-none text-sm"
+                className="tools-config-entry__input"
               />
             ) : (
               <button
                 type="button"
-                onClick={() => setActive(c.id)}
-                className="flex-1 text-left text-sm text-[var(--ink)]"
+                onClick={() => setActive(config.id)}
+                className="tools-config-entry__label"
               >
-                {c.name}
+                {config.name}
               </button>
             )}
             <button
               type="button"
               aria-label="Rename"
-              onClick={() => setRenameId(c.id)}
-              className="text-[var(--muted)] hover:text-[var(--ink)]"
+              onClick={() => setRenameId(config.id)}
+              className="tools-icon-action"
             >
               <Pencil size={12} weight="bold" />
             </button>
             <button
               type="button"
               aria-label="Duplicate"
-              onClick={() => duplicate(c)}
-              className="text-[var(--muted)] hover:text-[var(--ink)]"
+              onClick={() => duplicate(config)}
+              className="tools-icon-action"
             >
               <Copy size={12} weight="bold" />
             </button>
-            {configs.configs.length > 1 && (
+            {configs.configs.length > 1 ? (
               <button
                 type="button"
                 aria-label="Delete"
-                onClick={() => remove(c.id)}
-                className="text-[var(--muted)] hover:text-[color:var(--accent)]"
+                onClick={() => remove(config.id)}
+                className="tools-icon-action tools-icon-action--danger"
               >
                 <Trash size={12} weight="bold" />
               </button>
-            )}
+            ) : null}
           </div>
         ))}
       </div>

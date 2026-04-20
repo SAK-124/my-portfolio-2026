@@ -24,34 +24,31 @@ export function BuilderShell() {
       if (!activeConfig) return
       updateConfigs((prev) => ({
         ...prev,
-        configs: prev.configs.map((c) =>
-          c.id === activeConfig.id
-            ? { ...c, ...partial, updatedAt: new Date().toISOString() }
-            : c,
+        configs: prev.configs.map((config) =>
+          config.id === activeConfig.id
+            ? { ...config, ...partial, updatedAt: new Date().toISOString() }
+            : config,
         ),
       }))
     },
     [activeConfig, updateConfigs],
   )
 
-  const issues = useMemo(
-    () => (state ? validatePortfolio(state.portfolio) : []),
-    [state],
-  )
-  const errorCount = issues.filter((i) => i.level === 'error').length
-  const warnCount = issues.filter((i) => i.level === 'warn').length
+  const issues = useMemo(() => (state ? validatePortfolio(state.portfolio) : []), [state])
+  const errorCount = issues.filter((issue) => issue.level === 'error').length
+  const warnCount = issues.filter((issue) => issue.level === 'warn').length
 
   const onExport = useCallback(async () => {
     const dump = await getProvider().exportAll()
     const blob = new Blob([JSON.stringify(dump, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    const ts = new Date().toISOString().replace(/[:.]/g, '-')
-    a.download = `tools-backup-${ts}.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+    anchor.download = `tools-backup-${timestamp}.json`
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
     URL.revokeObjectURL(url)
   }, [])
 
@@ -64,20 +61,31 @@ export function BuilderShell() {
       alert('Invalid JSON file.')
       return
     }
+
     if (!parsed || typeof parsed !== 'object') {
       alert('Invalid backup format.')
       return
     }
+
     const dump = parsed as Partial<CollectionDump>
     if (!confirm('Importing will overwrite existing Library and Resume configs. Continue?')) {
       return
     }
+
     await getProvider().importAll(dump)
     window.location.reload()
   }, [])
 
   if (!state || !activeConfig) {
-    return <BuilderSkeleton />
+    return (
+      <div className="grid gap-4">
+        <div className="tools-loading-card h-32" />
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.03fr)_minmax(0,0.97fr)]">
+          <div className="tools-loading-card h-[60dvh]" />
+          <div className="tools-loading-card h-[60dvh]" />
+        </div>
+      </div>
+    )
   }
 
   const leftPane =
@@ -92,95 +100,155 @@ export function BuilderShell() {
       />
     )
 
-  const rightPane = (
+  const previewPane = (
     <PreviewPane portfolio={state.portfolio} config={activeConfig} patch={patchActive} />
   )
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="inline-flex rounded-full border border-[var(--line)] bg-[var(--surface)] p-1">
-          <TabButton active={leftTab === 'library'} onClick={() => setLeftTab('library')}>
-            Library
-          </TabButton>
-          <TabButton active={leftTab === 'resume'} onClick={() => setLeftTab('resume')}>
-            Resume
-          </TabButton>
-        </div>
-        {(errorCount > 0 || warnCount > 0) && (
-          <span className="inline-chip">
-            {errorCount > 0 && `${errorCount} error${errorCount === 1 ? '' : 's'}`}
-            {errorCount > 0 && warnCount > 0 && ' · '}
-            {warnCount > 0 && `${warnCount} warning${warnCount === 1 ? '' : 's'}`}
-          </span>
-        )}
-        <div className="ml-auto flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={onExport}
-            className="inline-chip hover:border-[var(--line-strong)] inline-flex items-center gap-2"
-          >
-            <DownloadSimple size={14} weight="bold" />
-            Export JSON
-          </button>
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-chip hover:border-[var(--line-strong)] inline-flex items-center gap-2"
-          >
-            <UploadSimple size={14} weight="bold" />
-            Import JSON
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="application/json,.json"
-            className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (file) void onImport(file)
-              e.target.value = ''
-            }}
-          />
-        </div>
+    <div className="grid gap-4">
+      <div className="grid gap-4 lg:hidden">
+        <section id="resume-editor" className="tools-surface">
+          <div className="tools-pane-header">
+            <div>
+              <p className="tools-pane-header__eyebrow">Editor</p>
+              <h2 className="tools-pane-header__title">Resume builder</h2>
+            </div>
+            <div className="tools-pane-header__actions">
+              <button type="button" onClick={onExport} className="tools-cta tools-cta--ghost tools-cta--compact">
+                <DownloadSimple size={14} weight="bold" />
+                Export
+              </button>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="tools-cta tools-cta--ghost tools-cta--compact"
+              >
+                <UploadSimple size={14} weight="bold" />
+                Import
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) void onImport(file)
+                  event.target.value = ''
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <div className="tools-switch">
+              <TabButton active={mobileTab === 'library'} onClick={() => setMobileTab('library')}>
+                Library
+              </TabButton>
+              <TabButton active={mobileTab === 'resume'} onClick={() => setMobileTab('resume')}>
+                Resume
+              </TabButton>
+              <TabButton active={mobileTab === 'preview'} onClick={() => setMobileTab('preview')}>
+                Preview
+              </TabButton>
+            </div>
+            {(errorCount > 0 || warnCount > 0) ? (
+              <span className="tools-statusbar">
+                {errorCount > 0 ? `${errorCount} error${errorCount === 1 ? '' : 's'}` : null}
+                {errorCount > 0 && warnCount > 0 ? ' / ' : null}
+                {warnCount > 0 ? `${warnCount} warning${warnCount === 1 ? '' : 's'}` : null}
+              </span>
+            ) : null}
+          </div>
+
+          {mobileTab === 'library' ? (
+            <LibraryPane portfolio={state.portfolio} updatePortfolio={updatePortfolio} />
+          ) : null}
+          {mobileTab === 'resume' ? (
+            <ConfigPane
+              portfolio={state.portfolio}
+              configs={state.configs}
+              activeConfig={activeConfig}
+              updateConfigs={updateConfigs}
+            />
+          ) : null}
+          {mobileTab === 'preview' ? <div id="resume-preview">{previewPane}</div> : null}
+
+          <p className="tools-callout mt-4">
+            <span className="tools-callout__label">Synced</span>
+            <span>Saved to your account on Supabase as you edit.</span>
+          </p>
+        </section>
       </div>
 
-      <div className="md:hidden">
-        <div className="inline-flex rounded-full border border-[var(--line)] bg-[var(--surface)] p-1 mb-4">
-          <TabButton active={mobileTab === 'library'} onClick={() => setMobileTab('library')}>
-            Library
-          </TabButton>
-          <TabButton active={mobileTab === 'resume'} onClick={() => setMobileTab('resume')}>
-            Resume
-          </TabButton>
-          <TabButton active={mobileTab === 'preview'} onClick={() => setMobileTab('preview')}>
-            Preview
-          </TabButton>
-        </div>
-        {mobileTab === 'library' && (
-          <LibraryPane portfolio={state.portfolio} updatePortfolio={updatePortfolio} />
-        )}
-        {mobileTab === 'resume' && (
-          <ConfigPane
-            portfolio={state.portfolio}
-            configs={state.configs}
-            activeConfig={activeConfig}
-            updateConfigs={updateConfigs}
-          />
-        )}
-        {mobileTab === 'preview' && (
-          <div className="min-h-[70dvh]">{rightPane}</div>
-        )}
-      </div>
+      <div className="tools-workspace hidden lg:grid">
+        <section id="resume-editor" className="tools-surface">
+          <div className="tools-pane-header">
+            <div>
+              <p className="tools-pane-header__eyebrow">Editor</p>
+              <h2 className="tools-pane-header__title">Library &amp; configuration</h2>
+            </div>
+            <div className="tools-pane-header__actions">
+              {(errorCount > 0 || warnCount > 0) ? (
+                <span className="tools-statusbar">
+                  {errorCount > 0 ? `${errorCount} error${errorCount === 1 ? '' : 's'}` : null}
+                  {errorCount > 0 && warnCount > 0 ? ' / ' : null}
+                  {warnCount > 0 ? `${warnCount} warning${warnCount === 1 ? '' : 's'}` : null}
+                </span>
+              ) : null}
+              <button type="button" onClick={onExport} className="tools-cta tools-cta--ghost tools-cta--compact">
+                <DownloadSimple size={14} weight="bold" />
+                Export
+              </button>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="tools-cta tools-cta--ghost tools-cta--compact"
+              >
+                <UploadSimple size={14} weight="bold" />
+                Import
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) void onImport(file)
+                  event.target.value = ''
+                }}
+              />
+            </div>
+          </div>
 
-      <div className="hidden md:grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6">
-        <div className="min-w-0">{leftPane}</div>
-        <div className="min-w-0 sticky top-24 h-[calc(100dvh-8rem)]">{rightPane}</div>
-      </div>
+          <div className="mb-4 tools-switch">
+            <TabButton active={leftTab === 'library'} onClick={() => setLeftTab('library')}>
+              Library
+            </TabButton>
+            <TabButton active={leftTab === 'resume'} onClick={() => setLeftTab('resume')}>
+              Resume
+            </TabButton>
+          </div>
 
-      <p className="text-xs text-[var(--muted)]">
-        Stored in your account on Supabase.
-      </p>
+          {leftPane}
+          <p className="tools-callout mt-4">
+            <span className="tools-callout__label">Synced</span>
+            <span>Saved to your account on Supabase as you edit.</span>
+          </p>
+        </section>
+
+        <section id="resume-preview" className="tools-surface">
+          <div className="tools-pane-header">
+            <div>
+              <p className="tools-pane-header__eyebrow">Preview</p>
+              <h2 className="tools-pane-header__title">Live output</h2>
+            </div>
+          </div>
+
+          {previewPane}
+        </section>
+      </div>
     </div>
   )
 }
@@ -198,25 +266,9 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
-        active
-          ? 'bg-[var(--ink)] text-[var(--bg)]'
-          : 'text-[var(--muted)] hover:text-[var(--ink)]'
-      }`}
+      className={`tools-switch__tab ${active ? 'tools-switch__tab--active' : ''}`}
     >
       {children}
     </button>
-  )
-}
-
-function BuilderSkeleton() {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="h-10 w-64 rounded-full bg-[var(--surface)] border border-[var(--line)]" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="h-[60dvh] rounded-[1.25rem] bg-[var(--surface)] border border-[var(--line)]" />
-        <div className="h-[60dvh] rounded-[1.25rem] bg-[var(--surface)] border border-[var(--line)]" />
-      </div>
-    </div>
   )
 }

@@ -18,61 +18,58 @@ const TEMPLATES: { id: TemplateId; label: string; hint: string }[] = [
 
 export function TemplateAndDensityControls({ config, patch }: { config: ResumeConfig; patch: Patch }) {
   return (
-    <div className="card-soft p-4 flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <p className="section-eyebrow">Template</p>
-        <div className="grid grid-cols-1 gap-2">
-          {TEMPLATES.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => patch({ templateId: t.id })}
-              className={`text-left rounded-2xl border px-3 py-2.5 transition-colors ${
-                config.templateId === t.id
-                  ? 'border-[var(--line-strong)] bg-[var(--surface)]'
-                  : 'border-[var(--line)] hover:border-[var(--line-strong)]'
-              }`}
-            >
-              <div className="text-sm font-medium text-[var(--ink)]">{t.label}</div>
-              <div className="text-xs text-[var(--muted)]">{t.hint}</div>
-            </button>
-          ))}
+    <div className="tools-rail-card">
+      <div className="tools-stack">
+        <div className="tools-module">
+          <div>
+            <p className="tools-group-label">Template</p>
+            <h3 className="tools-module__title mt-2">Output styling</h3>
+          </div>
+          <div className="grid gap-2">
+            {TEMPLATES.map((template) => (
+              <button
+                key={template.id}
+                type="button"
+                onClick={() => patch({ templateId: template.id })}
+                className={`tools-option-card ${config.templateId === template.id ? 'tools-option-card--active' : ''}`}
+              >
+                <p className="tools-option-card__title">{template.label}</p>
+                <p className="tools-option-card__hint">{template.hint}</p>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-2">
-        <p className="section-eyebrow">Density</p>
-        <div className="flex gap-2">
-          {DENSITIES.map((d) => (
-            <button
-              key={d.id}
-              type="button"
-              onClick={() => patch({ density: d.id })}
-              className={`inline-chip flex-1 justify-center ${
-                config.density === d.id ? 'border-[var(--line-strong)] text-[var(--ink)]' : ''
-              }`}
-            >
-              {d.label}
-            </button>
-          ))}
+        <div className="tools-module">
+          <p className="tools-group-label">Density</p>
+          <div className="tools-switch">
+            {DENSITIES.map((density) => (
+              <button
+                key={density.id}
+                type="button"
+                onClick={() => patch({ density: density.id })}
+                className={`tools-switch__tab ${config.density === density.id ? 'tools-switch__tab--active' : ''}`}
+              >
+                {density.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-2">
-        <p className="section-eyebrow">Target pages</p>
-        <div className="flex gap-2">
-          {[1, 2].map((n) => (
-            <button
-              key={n}
-              type="button"
-              onClick={() => patch({ targetPages: n as 1 | 2 })}
-              className={`inline-chip flex-1 justify-center ${
-                config.targetPages === n ? 'border-[var(--line-strong)] text-[var(--ink)]' : ''
-              }`}
-            >
-              {n} page{n > 1 ? 's' : ''}
-            </button>
-          ))}
+        <div className="tools-module">
+          <p className="tools-group-label">Target pages</p>
+          <div className="tools-switch">
+            {[1, 2].map((count) => (
+              <button
+                key={count}
+                type="button"
+                onClick={() => patch({ targetPages: count as 1 | 2 })}
+                className={`tools-switch__tab ${config.targetPages === count ? 'tools-switch__tab--active' : ''}`}
+              >
+                {count} page{count > 1 ? 's' : ''}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

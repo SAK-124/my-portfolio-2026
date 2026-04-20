@@ -18,49 +18,49 @@ export function LanguagesEditor({
       ...p,
       languages: [...p.languages, { id: newId(), name: '' }],
     }))
+
   const patch = (id: string, partial: Partial<LanguageItem>) =>
     updatePortfolio((p) => ({
       ...p,
-      languages: p.languages.map((e) => (e.id === id ? { ...e, ...partial } : e)),
+      languages: p.languages.map((item) => (item.id === id ? { ...item, ...partial } : item)),
     }))
+
   const remove = (id: string) =>
-    updatePortfolio((p) => ({ ...p, languages: p.languages.filter((e) => e.id !== id) }))
+    updatePortfolio((p) => ({ ...p, languages: p.languages.filter((item) => item.id !== id) }))
+
   const reorder = (ids: string[]) =>
     updatePortfolio((p) => {
-      const byId = new Map(p.languages.map((e) => [e.id, e]))
+      const byId = new Map(p.languages.map((item) => [item.id, item]))
       return { ...p, languages: ids.map((id) => byId.get(id)!).filter(Boolean) }
     })
 
   return (
-    <SectionWrap
-      title="Languages"
-      action={<AddButton onClick={add}>Add language</AddButton>}
-    >
-      {portfolio.languages.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No languages yet.</p>
-      )}
+    <SectionWrap title="Languages" action={<AddButton onClick={add}>Add language</AddButton>}>
+      {portfolio.languages.length === 0 ? <p className="tools-empty">No languages yet.</p> : null}
       <SortableList
         items={portfolio.languages}
         onReorder={reorder}
         className="flex flex-col gap-3"
-        renderItem={(item, h) => (
-          <div className="card-elevated p-5 flex items-start gap-3">
-            <DragHandle attrs={h.attrs} />
-            <div className="flex-1 grid gap-3 md:grid-cols-2">
-              <Field label="Language">
-                <TextInput value={item.name} onChange={(e) => patch(item.id, { name: e.target.value })} />
-              </Field>
-              <Field label="Proficiency">
-                <TextInput
-                  value={item.proficiency ?? ''}
-                  placeholder="Fluent / Professional / Conversational"
-                  onChange={(e) => patch(item.id, { proficiency: e.target.value })}
-                />
-              </Field>
+        renderItem={(item, handle) => (
+          <div className="tools-record-card">
+            <div className="flex items-start gap-3">
+              <DragHandle attrs={handle.attrs} />
+              <div className="flex-1 grid gap-3 md:grid-cols-2">
+                <Field label="Language">
+                  <TextInput value={item.name} onChange={(e) => patch(item.id, { name: e.target.value })} />
+                </Field>
+                <Field label="Proficiency">
+                  <TextInput
+                    value={item.proficiency ?? ''}
+                    placeholder="Fluent / Professional / Conversational"
+                    onChange={(e) => patch(item.id, { proficiency: e.target.value })}
+                  />
+                </Field>
+              </div>
+              <IconButton label="Remove language" onClick={() => remove(item.id)} variant="danger">
+                <Trash size={14} weight="bold" />
+              </IconButton>
             </div>
-            <IconButton label="Remove" onClick={() => remove(item.id)} variant="danger">
-              <Trash size={14} weight="bold" />
-            </IconButton>
           </div>
         )}
       />

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import { Outfit, Space_Grotesk } from 'next/font/google'
 import './globals.css'
-import { SiteHeader } from '@/components/site-header'
-import { SiteFooter } from '@/components/site-footer'
 import { JsonLd } from '@/components/json-ld'
+import { RouteShell } from '@/components/route-shell'
 import { faq, profile } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { siteConfig } from '@/lib/site'
@@ -188,19 +187,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} font-[var(--font-body)] antialiased`}>
-        <div className="mesh-bg" />
-        <div className="grain" />
-
         <JsonLd data={personSchema} />
         <JsonLd data={websiteSchema} />
         <JsonLd data={projectSchema} />
         <JsonLd data={faqSchema} />
 
-        <div className="site-shell flex min-h-[100dvh] flex-col">
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+        <RouteShell>{children}</RouteShell>
       </body>
     </html>
   )

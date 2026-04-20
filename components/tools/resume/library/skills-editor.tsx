@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Trash } from '@phosphor-icons/react/dist/ssr'
 import type { Portfolio, SkillGroup } from '@/lib/tools/resume/types'
 import { newId } from '@/lib/tools/resume/ids'
@@ -23,36 +23,34 @@ export function SkillsEditor({
   const patchGroup = (id: string, partial: Partial<SkillGroup>) =>
     updatePortfolio((p) => ({
       ...p,
-      skillGroups: p.skillGroups.map((g) => (g.id === id ? { ...g, ...partial } : g)),
+      skillGroups: p.skillGroups.map((group) => (group.id === id ? { ...group, ...partial } : group)),
     }))
 
   const removeGroup = (id: string) =>
-    updatePortfolio((p) => ({ ...p, skillGroups: p.skillGroups.filter((g) => g.id !== id) }))
+    updatePortfolio((p) => ({ ...p, skillGroups: p.skillGroups.filter((group) => group.id !== id) }))
 
   const reorder = (ids: string[]) =>
     updatePortfolio((p) => {
-      const byId = new Map(p.skillGroups.map((g) => [g.id, g]))
+      const byId = new Map(p.skillGroups.map((group) => [group.id, group]))
       return { ...p, skillGroups: ids.map((id) => byId.get(id)!).filter(Boolean) }
     })
 
   return (
     <SectionWrap
       title="Skills"
-      description="Grouped by category — each group renders on one line."
+      description="Grouped by category, each group renders on one line."
       action={<AddButton onClick={addGroup}>Add group</AddButton>}
     >
-      {portfolio.skillGroups.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No skill groups yet.</p>
-      )}
+      {portfolio.skillGroups.length === 0 ? <p className="tools-empty">No skill groups yet.</p> : null}
 
       <SortableList
         items={portfolio.skillGroups}
         onReorder={reorder}
         className="flex flex-col gap-4"
-        renderItem={(group, h) => (
-          <div className="card-elevated p-5 md:p-6 flex flex-col gap-3">
+        renderItem={(group, handle) => (
+          <div className="tools-record-card">
             <div className="flex items-start gap-3">
-              <DragHandle attrs={h.attrs} />
+              <DragHandle attrs={handle.attrs} />
               <div className="flex-1">
                 <Field label="Group title">
                   <TextInput
@@ -66,7 +64,6 @@ export function SkillsEditor({
               </IconButton>
             </div>
             <SkillItemsInput
-              groupId={group.id}
               items={group.items}
               onChange={(items) => patchGroup(group.id, { items })}
             />
@@ -78,28 +75,14 @@ export function SkillsEditor({
 }
 
 function SkillItemsInput({
-  groupId,
   items,
   onChange,
 }: {
-  groupId: string
   items: SkillGroup['items']
   onChange: (items: SkillGroup['items']) => void
 }) {
-  const [text, setText] = useState(() => items.map((x) => x.label).join(', '))
+  const [text, setText] = useState(() => items.map((item) => item.label).join(', '))
   const focusedRef = useRef(false)
-
-  useEffect(() => {
-    if (focusedRef.current) return
-    setText(items.map((x) => x.label).join(', '))
-  }, [items])
-
-  useEffect(() => {
-    focusedRef.current = false
-    setText(items.map((x) => x.label).join(', '))
-    // Only re-sync when the group identity changes (e.g., reordering swaps items).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupId])
 
   return (
     <Field label="Items (comma separated)">
@@ -112,7 +95,7 @@ function SkillItemsInput({
           focusedRef.current = false
           const parsed = e.target.value
             .split(',')
-            .map((s) => s.trim())
+            .map((part) => part.trim())
             .filter(Boolean)
           setText(parsed.join(', '))
         }}
@@ -121,16 +104,13 @@ function SkillItemsInput({
           setText(raw)
           const labels = raw
             .split(',')
-            .map((s) => s.trim())
+            .map((part) => part.trim())
             .filter(Boolean)
-          const existingById = new Map(items.map((it) => [it.label, it]))
-          const next = labels.map(
-            (label) => existingById.get(label) ?? { id: newId(), label },
-          )
+          const existingByLabel = new Map(items.map((item) => [item.label, item]))
+          const next = labels.map((label) => existingByLabel.get(label) ?? { id: newId(), label })
           onChange(next)
         }}
       />
     </Field>
   )
 }
-

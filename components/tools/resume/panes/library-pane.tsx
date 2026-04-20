@@ -18,7 +18,7 @@ const TABS = [
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
-  { id: 'certifications', label: 'Certs' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'awards', label: 'Awards' },
   { id: 'languages', label: 'Languages' },
   { id: 'custom', label: 'Custom' },
@@ -31,34 +31,34 @@ export function LibraryPane({
   updatePortfolio,
 }: {
   portfolio: Portfolio
-  updatePortfolio: (u: (p: Portfolio) => Portfolio) => void
+  updatePortfolio: (updater: (portfolio: Portfolio) => Portfolio) => void
 }) {
   const [tab, setTab] = useState<TabId>('personal')
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap gap-2 border-b border-[var(--line)] pb-4">
-        {TABS.map((t) => (
+    <div className="tools-stack">
+      <div className="tools-subnav">
+        {TABS.map((entry) => (
           <button
-            key={t.id}
+            key={entry.id}
             type="button"
-            onClick={() => setTab(t.id)}
-            className={`inline-chip ${tab === t.id ? 'border-[var(--line-strong)] text-[var(--ink)]' : ''}`}
+            onClick={() => setTab(entry.id)}
+            className={`tools-subnav__tab ${tab === entry.id ? 'tools-subnav__tab--active' : ''}`}
           >
-            {t.label}
+            {entry.label}
           </button>
         ))}
       </div>
 
-      {tab === 'personal' && <PersonalInfoForm portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'experience' && <ExperienceEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'education' && <EducationEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'projects' && <ProjectsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'skills' && <SkillsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'certifications' && <CertificationsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'awards' && <AwardsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'languages' && <LanguagesEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
-      {tab === 'custom' && <CustomSectionEditor portfolio={portfolio} updatePortfolio={updatePortfolio} />}
+      {tab === 'personal' ? <PersonalInfoForm portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'experience' ? <ExperienceEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'education' ? <EducationEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'projects' ? <ProjectsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'skills' ? <SkillsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'certifications' ? <CertificationsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'awards' ? <AwardsEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'languages' ? <LanguagesEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
+      {tab === 'custom' ? <CustomSectionEditor portfolio={portfolio} updatePortfolio={updatePortfolio} /> : null}
     </div>
   )
 }

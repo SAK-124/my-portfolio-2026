@@ -1,6 +1,11 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import {
+  clearLocalToolsSession,
+  matchesLocalAdminCredentials,
+  setLocalToolsSession,
+} from '@/lib/tools/local-auth/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 function sanitizeNextPath(next: FormDataEntryValue | null): string {
@@ -17,6 +22,7 @@ function sanitizePassword(password: FormDataEntryValue | null): string {
 }
 
 export async function logout() {
+  await clearLocalToolsSession()
   try {
     const supabase = await createSupabaseServerClient()
     await supabase.auth.signOut()
@@ -35,12 +41,18 @@ export async function loginWithPassword(formData: FormData) {
     redirect(`/tools/login?error=missing_fields&from=${encodeURIComponent(next)}`)
   }
 
+  if (matchesLocalAdminCredentials(email, password)) {
+    await setLocalToolsSession()
+    redirect(next)
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
       redirect(`/tools/login?error=invalid_credentials&from=${encodeURIComponent(next)}`)
     }
+    await clearLocalToolsSession()
   } catch {
     redirect(`/tools/login?error=invalid_credentials&from=${encodeURIComponent(next)}`)
   }

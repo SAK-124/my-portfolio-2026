@@ -22,64 +22,58 @@ export function ItemPicker({
   config: ResumeConfig
   patch: Patch
 }) {
-  const updateSection = (kind: SectionKind, updater: (s: ResumeSection) => ResumeSection) => {
+  const updateSection = (kind: SectionKind, updater: (section: ResumeSection) => ResumeSection) => {
     patch({
-      sections: config.sections.map((s) => (s.kind === kind ? updater(s) : s)),
+      sections: config.sections.map((section) => (section.kind === kind ? updater(section) : section)),
     })
   }
 
   const addSection = (kind: SectionKind) => {
-    if (config.sections.some((s) => s.kind === kind)) return
+    if (config.sections.some((section) => section.kind === kind)) return
     const defaultIds = getAllIds(portfolio, kind)
     patch({
-      sections: [
-        ...config.sections,
-        { kind, include: defaultIds.map((id) => ({ id })) },
-      ],
+      sections: [...config.sections, { kind, include: defaultIds.map((id) => ({ id })) }],
     })
   }
 
   const removeSection = (kind: SectionKind) => {
-    patch({ sections: config.sections.filter((s) => s.kind !== kind) })
+    patch({ sections: config.sections.filter((section) => section.kind !== kind) })
   }
 
   const reorderSections = (kinds: string[]) => {
-    const byKind = new Map(config.sections.map((s) => [s.kind, s]))
-    patch({ sections: kinds.map((k) => byKind.get(k as SectionKind)!).filter(Boolean) })
+    const byKind = new Map(config.sections.map((section) => [section.kind, section]))
+    patch({ sections: kinds.map((kind) => byKind.get(kind as SectionKind)!).filter(Boolean) })
   }
 
   const availableKinds = getAvailableKinds(portfolio, config)
 
   return (
-    <div className="card-elevated p-5 flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-3">
+    <div className="tools-rail-card">
+      <div className="tools-module__header">
         <div>
-          <h3 className="text-base font-medium text-[var(--ink)]">Sections</h3>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Drag to reorder. Toggle items to include.</p>
+          <p className="tools-group-label">Sections</p>
+          <h3 className="tools-module__title mt-2">Include and order</h3>
+          <p className="tools-module__description">Drag sections into order and choose which items render in each section.</p>
         </div>
       </div>
 
-      {config.sections.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No sections yet. Add one below.</p>
-      )}
+      {config.sections.length === 0 ? <p className="tools-empty">No sections yet. Add one below.</p> : null}
 
       <SortableList
-        items={config.sections.map((s) => ({ id: s.kind }))}
+        items={config.sections.map((section) => ({ id: section.kind }))}
         onReorder={reorderSections}
         className="flex flex-col gap-3"
-        renderItem={({ id: kind }, h) => {
-          const section = config.sections.find((s) => s.kind === kind)!
+        renderItem={({ id: kind }, handle) => {
+          const section = config.sections.find((entry) => entry.kind === kind)!
           return (
-            <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 flex flex-col gap-3">
+            <div className="tools-list-card">
               <div className="flex items-center gap-2">
-                <DragHandle attrs={h.attrs} />
-                <p className="text-sm font-medium text-[var(--ink)] flex-1">
-                  {renderSectionLabel(portfolio, section.kind)}
-                </p>
+                <DragHandle attrs={handle.attrs} />
+                <p className="tools-section-title flex-1">{renderSectionLabel(portfolio, section.kind)}</p>
                 <button
                   type="button"
                   onClick={() => removeSection(section.kind)}
-                  className="text-[var(--muted)] hover:text-[color:var(--accent)]"
+                  className="tools-icon-action tools-icon-action--danger"
                   aria-label="Remove section"
                 >
                   <X size={14} weight="bold" />
@@ -89,7 +83,7 @@ export function ItemPicker({
                 portfolio={portfolio}
                 section={section}
                 onChange={(nextInclude) =>
-                  updateSection(section.kind, (s) => ({ ...s, include: nextInclude }))
+                  updateSection(section.kind, (entry) => ({ ...entry, include: nextInclude }))
                 }
               />
             </div>
@@ -97,20 +91,21 @@ export function ItemPicker({
         }}
       />
 
-      {availableKinds.length > 0 && (
-        <div className="flex flex-wrap gap-2 pt-2 border-t border-[var(--line)]">
+      {availableKinds.length > 0 ? (
+        <div className="flex flex-wrap gap-2 pt-2">
           {availableKinds.map((kind) => (
             <button
               key={kind}
               type="button"
               onClick={() => addSection(kind)}
-              className="inline-chip hover:border-[var(--line-strong)]"
+              className="tools-cta tools-cta--accent tools-cta--compact"
             >
-              <Plus size={10} weight="bold" /> {renderSectionLabel(portfolio, kind)}
+              <Plus size={10} weight="bold" />
+              {renderSectionLabel(portfolio, kind)}
             </button>
           ))}
         </div>
-      )}
+      ) : null}
     </div>
   )
 }
@@ -125,63 +120,60 @@ function IncludeList({
   onChange: (next: IncludedItem[]) => void
 }) {
   const allItems = getSectionItems(portfolio, section.kind)
-  const includedIds = new Set(section.include.map((i) => i.id))
+  const includedIds = new Set(section.include.map((item) => item.id))
 
   const toggle = (id: string) => {
     if (includedIds.has(id)) {
-      onChange(section.include.filter((i) => i.id !== id))
-    } else {
-      onChange([...section.include, { id }])
+      onChange(section.include.filter((item) => item.id !== id))
+      return
     }
+    onChange([...section.include, { id }])
   }
 
   const toggleCompact = (id: string) => {
-    onChange(section.include.map((i) => (i.id === id ? { ...i, compact: !i.compact } : i)))
+    onChange(section.include.map((item) => (item.id === id ? { ...item, compact: !item.compact } : item)))
   }
 
   const reorder = (ids: string[]) => {
-    const byId = new Map(section.include.map((i) => [i.id, i]))
+    const byId = new Map(section.include.map((item) => [item.id, item]))
     onChange(ids.map((id) => byId.get(id)!).filter(Boolean))
   }
 
   const includedOrdered = section.include
-    .map((inc) => ({ inc, item: allItems.find((it) => it.id === inc.id) }))
-    .filter((x) => x.item)
+    .map((include) => ({ include, item: allItems.find((entry) => entry.id === include.id) }))
+    .filter((entry) => entry.item)
 
-  const notIncluded = allItems.filter((it) => !includedIds.has(it.id))
+  const notIncluded = allItems.filter((item) => !includedIds.has(item.id))
 
   return (
-    <div className="flex flex-col gap-3">
-      {includedOrdered.length > 0 && (
+    <div className="tools-stack">
+      {includedOrdered.length > 0 ? (
         <SortableList
-          items={includedOrdered.map(({ inc }) => ({ id: inc.id }))}
+          items={includedOrdered.map(({ include }) => ({ id: include.id }))}
           onReorder={reorder}
-          className="flex flex-col gap-1.5"
-          renderItem={({ id }, h) => {
-            const inc = section.include.find((i) => i.id === id)!
-            const item = allItems.find((it) => it.id === id)
+          className="flex flex-col gap-2"
+          renderItem={({ id }, handle) => {
+            const include = section.include.find((item) => item.id === id)!
+            const item = allItems.find((entry) => entry.id === id)
             if (!item) return null
+
             return (
-              <div className="flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--bg)] px-2 py-1.5">
-                <DragHandle attrs={h.attrs} />
-                <span className="flex-1 text-sm text-[var(--ink)] truncate">{item.label}</span>
+              <div className="tools-list-row">
+                <DragHandle attrs={handle.attrs} />
+                <span className="tools-list-row__label">{item.label}</span>
                 <button
                   type="button"
-                  onClick={() => toggleCompact(inc.id)}
-                  className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                    inc.compact
-                      ? 'border-[var(--line-strong)] text-[var(--ink)]'
-                      : 'border-[var(--line)] text-[var(--muted)]'
-                  }`}
+                  onClick={() => toggleCompact(include.id)}
+                  className={`tools-list-row__toggle ${include.compact ? 'tools-list-row__toggle--active' : ''}`}
                   title="Compact shows only the headline row"
                 >
-                  compact
+                  Compact
                 </button>
                 <button
                   type="button"
                   onClick={() => toggle(id)}
                   aria-label="Remove"
-                  className="text-[var(--muted)] hover:text-[color:var(--accent)]"
+                  className="tools-icon-action tools-icon-action--danger"
                 >
                   <X size={12} weight="bold" />
                 </button>
@@ -189,24 +181,25 @@ function IncludeList({
             )
           }}
         />
-      )}
-      {notIncluded.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+      ) : null}
+
+      {notIncluded.length > 0 ? (
+        <div className="flex flex-wrap gap-2">
           {notIncluded.map((item) => (
             <button
               key={item.id}
               type="button"
               onClick={() => toggle(item.id)}
-              className="inline-chip hover:border-[var(--line-strong)]"
+              className="tools-cta tools-cta--accent tools-cta--compact"
             >
-              <Plus size={10} weight="bold" /> {item.label}
+              <Plus size={10} weight="bold" />
+              {item.label}
             </button>
           ))}
         </div>
-      )}
-      {allItems.length === 0 && (
-        <p className="text-xs text-[var(--muted)]">No items in library for this section.</p>
-      )}
+      ) : null}
+
+      {allItems.length === 0 ? <p className="tools-empty">No items in the library for this section.</p> : null}
     </div>
   )
 }
@@ -216,53 +209,62 @@ type LabeledItem = { id: string; label: string }
 function getSectionItems(portfolio: Portfolio, kind: SectionKind): LabeledItem[] {
   switch (kind) {
     case 'experience':
-      return portfolio.experience.map((e) => ({ id: e.id, label: `${e.title} — ${e.organization}` }))
+      return portfolio.experience.map((item) => ({ id: item.id, label: `${item.title} - ${item.organization}` }))
     case 'education':
-      return portfolio.education.map((e) => ({ id: e.id, label: `${e.credential} — ${e.institution}` }))
+      return portfolio.education.map((item) => ({ id: item.id, label: `${item.credential} - ${item.institution}` }))
     case 'projects':
-      return portfolio.projects.map((e) => ({ id: e.id, label: e.name }))
+      return portfolio.projects.map((item) => ({ id: item.id, label: item.name }))
     case 'skills':
-      return portfolio.skillGroups.map((e) => ({ id: e.id, label: e.title }))
+      return portfolio.skillGroups.map((item) => ({ id: item.id, label: item.title }))
     case 'certifications':
-      return portfolio.certifications.map((e) => ({ id: e.id, label: `${e.name} — ${e.issuer}` }))
+      return portfolio.certifications.map((item) => ({ id: item.id, label: `${item.name} - ${item.issuer}` }))
     case 'awards':
-      return portfolio.awards.map((e) => ({ id: e.id, label: `${e.name} (${e.year})` }))
+      return portfolio.awards.map((item) => ({ id: item.id, label: `${item.name} (${item.year})` }))
     case 'languages':
-      return portfolio.languages.map((e) => ({ id: e.id, label: e.name }))
+      return portfolio.languages.map((item) => ({ id: item.id, label: item.name }))
     default: {
-      const cid = customSectionId(kind)
-      if (!cid) return []
-      const custom = portfolio.customSections.find((c) => c.id === cid)
+      const customId = customSectionId(kind)
+      if (!customId) return []
+      const custom = portfolio.customSections.find((item) => item.id === customId)
       return custom ? [{ id: custom.id, label: custom.title }] : []
     }
   }
 }
 
 function getAllIds(portfolio: Portfolio, kind: SectionKind): string[] {
-  return getSectionItems(portfolio, kind).map((x) => x.id)
+  return getSectionItems(portfolio, kind).map((item) => item.id)
 }
 
 function renderSectionLabel(portfolio: Portfolio, kind: SectionKind): string {
   if (isCustomSectionKind(kind)) {
-    const cid = customSectionId(kind)
-    const custom = portfolio.customSections.find((c) => c.id === cid)
+    const customId = customSectionId(kind)
+    const custom = portfolio.customSections.find((item) => item.id === customId)
     return custom?.title ?? 'Custom section'
   }
+
   switch (kind) {
-    case 'experience': return 'Experience'
-    case 'education': return 'Education'
-    case 'projects': return 'Projects'
-    case 'skills': return 'Skills'
-    case 'certifications': return 'Certifications'
-    case 'awards': return 'Awards'
-    case 'languages': return 'Languages'
-    default: return 'Section'
+    case 'experience':
+      return 'Experience'
+    case 'education':
+      return 'Education'
+    case 'projects':
+      return 'Projects'
+    case 'skills':
+      return 'Skills'
+    case 'certifications':
+      return 'Certifications'
+    case 'awards':
+      return 'Awards'
+    case 'languages':
+      return 'Languages'
+    default:
+      return 'Section'
   }
 }
 
 function getAvailableKinds(portfolio: Portfolio, config: ResumeConfig): SectionKind[] {
-  const used = new Set(config.sections.map((s) => s.kind))
+  const used = new Set(config.sections.map((section) => section.kind))
   const base: SectionKind[] = ['experience', 'education', 'projects', 'skills', 'certifications', 'awards', 'languages']
-  const customs: SectionKind[] = portfolio.customSections.map((c) => `custom:${c.id}` as const)
-  return [...base, ...customs].filter((k) => !used.has(k))
+  const customKinds: SectionKind[] = portfolio.customSections.map((item) => `custom:${item.id}` as const)
+  return [...base, ...customKinds].filter((kind) => !used.has(kind))
 }

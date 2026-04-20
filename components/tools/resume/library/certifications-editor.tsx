@@ -22,15 +22,15 @@ export function CertificationsEditor({
   const patch = (id: string, partial: Partial<CertificationItem>) =>
     updatePortfolio((p) => ({
       ...p,
-      certifications: p.certifications.map((e) => (e.id === id ? { ...e, ...partial } : e)),
+      certifications: p.certifications.map((item) => (item.id === id ? { ...item, ...partial } : item)),
     }))
 
   const remove = (id: string) =>
-    updatePortfolio((p) => ({ ...p, certifications: p.certifications.filter((e) => e.id !== id) }))
+    updatePortfolio((p) => ({ ...p, certifications: p.certifications.filter((item) => item.id !== id) }))
 
   const reorder = (ids: string[]) =>
     updatePortfolio((p) => {
-      const byId = new Map(p.certifications.map((e) => [e.id, e]))
+      const byId = new Map(p.certifications.map((item) => [item.id, item]))
       return { ...p, certifications: ids.map((id) => byId.get(id)!).filter(Boolean) }
     })
 
@@ -40,17 +40,15 @@ export function CertificationsEditor({
       description="Professional certificates and trainings."
       action={<AddButton onClick={add}>Add certification</AddButton>}
     >
-      {portfolio.certifications.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No certifications yet.</p>
-      )}
+      {portfolio.certifications.length === 0 ? <p className="tools-empty">No certifications yet.</p> : null}
       <SortableList
         items={portfolio.certifications}
         onReorder={reorder}
         className="flex flex-col gap-3"
-        renderItem={(item, h) => (
-          <div className="card-elevated p-5 flex flex-col gap-3">
+        renderItem={(item, handle) => (
+          <div className="tools-record-card">
             <div className="flex items-start gap-3">
-              <DragHandle attrs={h.attrs} />
+              <DragHandle attrs={handle.attrs} />
               <div className="flex-1 grid gap-3 md:grid-cols-3">
                 <Field label="Name">
                   <TextInput value={item.name} onChange={(e) => patch(item.id, { name: e.target.value })} />
@@ -62,7 +60,7 @@ export function CertificationsEditor({
                   <TextInput value={item.year} onChange={(e) => patch(item.id, { year: e.target.value })} />
                 </Field>
               </div>
-              <IconButton label="Remove" onClick={() => remove(item.id)} variant="danger">
+              <IconButton label="Remove certification" onClick={() => remove(item.id)} variant="danger">
                 <Trash size={14} weight="bold" />
               </IconButton>
             </div>

@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { Trash, Plus } from '@phosphor-icons/react/dist/ssr'
+import { useRef, useState } from 'react'
+import { Plus, Trash } from '@phosphor-icons/react/dist/ssr'
 import type { Portfolio, ProjectItem } from '@/lib/tools/resume/types'
 import { newId } from '@/lib/tools/resume/ids'
 import { Field, TextInput, TextArea, AddButton, IconButton, SectionWrap } from './fields'
@@ -26,52 +26,54 @@ export function ProjectsEditor({
   const patch = (id: string, partial: Partial<ProjectItem>) =>
     updatePortfolio((p) => ({
       ...p,
-      projects: p.projects.map((e) => (e.id === id ? { ...e, ...partial } : e)),
+      projects: p.projects.map((item) => (item.id === id ? { ...item, ...partial } : item)),
     }))
 
   const remove = (id: string) =>
-    updatePortfolio((p) => ({ ...p, projects: p.projects.filter((e) => e.id !== id) }))
+    updatePortfolio((p) => ({ ...p, projects: p.projects.filter((item) => item.id !== id) }))
 
   const reorder = (ids: string[]) =>
     updatePortfolio((p) => {
-      const byId = new Map(p.projects.map((e) => [e.id, e]))
+      const byId = new Map(p.projects.map((item) => [item.id, item]))
       return { ...p, projects: ids.map((id) => byId.get(id)!).filter(Boolean) }
     })
 
   const addBullet = (itemId: string) => {
-    const item = portfolio.projects.find((e) => e.id === itemId)
+    const item = portfolio.projects.find((entry) => entry.id === itemId)
     if (!item) return
     patch(itemId, { bullets: [...item.bullets, { id: newId(), text: '' }] })
   }
-  const patchBullet = (itemId: string, bid: string, text: string) => {
-    const item = portfolio.projects.find((e) => e.id === itemId)
+
+  const patchBullet = (itemId: string, bulletId: string, text: string) => {
+    const item = portfolio.projects.find((entry) => entry.id === itemId)
     if (!item) return
-    patch(itemId, { bullets: item.bullets.map((b) => (b.id === bid ? { ...b, text } : b)) })
+    patch(itemId, {
+      bullets: item.bullets.map((bullet) => (bullet.id === bulletId ? { ...bullet, text } : bullet)),
+    })
   }
-  const removeBullet = (itemId: string, bid: string) => {
-    const item = portfolio.projects.find((e) => e.id === itemId)
+
+  const removeBullet = (itemId: string, bulletId: string) => {
+    const item = portfolio.projects.find((entry) => entry.id === itemId)
     if (!item) return
-    patch(itemId, { bullets: item.bullets.filter((b) => b.id !== bid) })
+    patch(itemId, { bullets: item.bullets.filter((bullet) => bullet.id !== bulletId) })
   }
 
   return (
     <SectionWrap
       title="Projects"
-      description="Professional or personal — anything you might show off."
+      description="Professional or personal, anything you might show off."
       action={<AddButton onClick={add}>Add project</AddButton>}
     >
-      {portfolio.projects.length === 0 && (
-        <p className="text-sm text-[var(--muted)]">No projects yet.</p>
-      )}
+      {portfolio.projects.length === 0 ? <p className="tools-empty">No projects yet.</p> : null}
 
       <SortableList
         items={portfolio.projects}
         onReorder={reorder}
         className="flex flex-col gap-4"
-        renderItem={(item, h) => (
-          <div className="card-elevated p-5 md:p-6 flex flex-col gap-4">
+        renderItem={(item, handle) => (
+          <div className="tools-record-card">
             <div className="flex items-start gap-3">
-              <DragHandle attrs={h.attrs} />
+              <DragHandle attrs={handle.attrs} />
               <div className="flex-1 grid gap-3 md:grid-cols-2">
                 <Field label="Name">
                   <TextInput value={item.name} onChange={(e) => patch(item.id, { name: e.target.value })} />
@@ -86,37 +88,36 @@ export function ProjectsEditor({
             </div>
 
             <Field label="Description">
-              <TextArea
-                value={item.description}
-                onChange={(e) => patch(item.id, { description: e.target.value })}
-              />
+              <TextArea value={item.description} onChange={(e) => patch(item.id, { description: e.target.value })} />
             </Field>
 
-            <StackInput
-              itemId={item.id}
-              stack={item.stack}
-              onChange={(stack) => patch(item.id, { stack })}
-            />
+            <StackInput stack={item.stack} onChange={(stack) => patch(item.id, { stack })} />
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <p className="section-eyebrow">Bullets</p>
+                <p className="tools-group-label">Bullets</p>
                 <button
                   type="button"
                   onClick={() => addBullet(item.id)}
-                  className="inline-chip hover:border-[var(--line-strong)]"
+                  className="tools-cta tools-cta--ghost tools-cta--compact"
                 >
-                  <Plus size={12} weight="bold" /> Add bullet
+                  <Plus size={12} weight="bold" />
+                  Add bullet
                 </button>
               </div>
-              {item.bullets.map((b) => (
-                <div key={b.id} className="flex items-start gap-2">
+              {item.bullets.length === 0 ? <p className="tools-empty">No bullets yet.</p> : null}
+              {item.bullets.map((bullet) => (
+                <div key={bullet.id} className="flex items-start gap-2">
                   <TextArea
-                    className="flex-1 min-h-[40px]"
-                    value={b.text}
-                    onChange={(e) => patchBullet(item.id, b.id, e.target.value)}
+                    className="min-h-[40px] flex-1"
+                    value={bullet.text}
+                    onChange={(e) => patchBullet(item.id, bullet.id, e.target.value)}
                   />
-                  <IconButton label="Remove bullet" onClick={() => removeBullet(item.id, b.id)} variant="danger">
+                  <IconButton
+                    label="Remove bullet"
+                    onClick={() => removeBullet(item.id, bullet.id)}
+                    variant="danger"
+                  >
                     <Trash size={14} weight="bold" />
                   </IconButton>
                 </div>
@@ -130,28 +131,14 @@ export function ProjectsEditor({
 }
 
 function StackInput({
-  itemId,
   stack,
   onChange,
 }: {
-  itemId: string
   stack: string[]
   onChange: (stack: string[]) => void
 }) {
   const [text, setText] = useState(() => stack.join(', '))
   const focusedRef = useRef(false)
-
-  useEffect(() => {
-    if (focusedRef.current) return
-    setText(stack.join(', '))
-  }, [stack])
-
-  useEffect(() => {
-    focusedRef.current = false
-    setText(stack.join(', '))
-    // Only re-sync when the project identity changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemId])
 
   return (
     <Field label="Stack (comma separated)">
@@ -164,7 +151,7 @@ function StackInput({
           focusedRef.current = false
           const parsed = e.target.value
             .split(',')
-            .map((s) => s.trim())
+            .map((part) => part.trim())
             .filter(Boolean)
           setText(parsed.join(', '))
         }}
@@ -174,7 +161,7 @@ function StackInput({
           onChange(
             raw
               .split(',')
-              .map((s) => s.trim())
+              .map((part) => part.trim())
               .filter(Boolean),
           )
         }}

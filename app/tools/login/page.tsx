@@ -2,7 +2,7 @@ import { LoginCard } from '@/components/tools/login/login-card'
 import { loginWithPassword, signupWithPassword } from './actions'
 
 export const metadata = {
-  title: 'Saboor Ali Khan · Tools Sign in',
+  title: 'Saboor Ali Khan - Tools Sign in',
   robots: { index: false, follow: false },
 }
 
@@ -35,15 +35,11 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
       ? 'Account created. Sign in with your email and password.'
       : null
 
-  return (
-    <div className="container py-20 md:py-28">
-      <LoginCard
-        nextPath={nextPath}
-        errorMessage={errorMessage}
-        successMessage={successMessage}
-        loginAction={loginWithPassword}
-        signupAction={signupWithPassword}
-      />
-    </div>
-  )
+  return <LoginCard
+    nextPath={nextPath}
+    errorMessage={errorMessage}
+    successMessage={successMessage}
+    loginAction={loginWithPassword}
+    signupAction={signupWithPassword}
+  />
 }
