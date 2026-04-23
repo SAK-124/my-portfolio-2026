@@ -18,7 +18,7 @@ export default function EducationPage() {
       <PageHeader
         eyebrow="Education"
         title="Education and credentials"
-        lead="This is the background layer rather than the main proof layer. It explains the formal foundation behind the more systems-heavy work shown across the rest of the portfolio."
+        lead="BBA Marketing at the Institute of Business Administration (IBA) Karachi, preceded by the International Baccalaureate Diploma at The International School. Google Analytics certified via Google Skillshop."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

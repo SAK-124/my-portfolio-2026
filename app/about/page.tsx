@@ -55,24 +55,6 @@ const JOURNEY_CARDS = [
   },
 ] as const
 
-const NEXT_PAGES = [
-  {
-    title: 'Experience',
-    copy: 'Read the 10Pearls and P&G context in more detail.',
-    href: '/experience',
-  },
-  {
-    title: 'Projects',
-    copy: 'See the case studies and the public work that best show the output.',
-    href: '/projects',
-  },
-  {
-    title: 'Tools',
-    copy: 'Open the public tools surface, including the resume builder.',
-    href: '/tools',
-  },
-] as const
-
 export default function AboutPage() {
   return (
     <div className="container py-10 md:py-20">
@@ -126,9 +108,9 @@ export default function AboutPage() {
             </div>
 
             <article className="card-soft p-5 md:p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">What This Page Is For</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Long Version</p>
               <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] md:text-base">
-                The homepage is the quick pitch. This page is the fuller background: how I got pulled toward systems work, what shaped the way I operate, and where each part of the portfolio fits.
+                {profile.aboutLead}
               </p>
             </article>
           </div>
@@ -168,22 +150,6 @@ export default function AboutPage() {
                 ))}
               </ul>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-[var(--line)] py-14 md:py-20">
-        <SectionHead eyebrow="Next Pages" title="Where to go after this" />
-        <div className="mt-8 grid gap-3 md:mt-10 md:grid-cols-3">
-          {NEXT_PAGES.map((item) => (
-            <Link key={item.href} href={item.href} className="card-soft p-5 transition-all duration-300 hover:-translate-y-[1px]">
-              <h2 className="text-xl tracking-tight text-[var(--ink)]">{item.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{item.copy}</p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">
-                Open page
-                <ArrowRight size={16} weight="bold" />
-              </span>
-            </Link>
           ))}
         </div>
       </section>
@@ -237,9 +203,9 @@ export default function AboutPage() {
               <Compass size={18} weight="bold" />
             </span>
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Next</p>
-              <h2 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">Explore the work</h2>
-              <p className="mt-1 text-sm text-[var(--muted)]">See the systems, tools, and public case studies connected to Saboor Ali Khan.</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Projects</p>
+              <h2 className="mt-1 text-xl tracking-tight text-[var(--ink)] md:text-2xl">See the case studies</h2>
+              <p className="mt-1 text-sm text-[var(--muted)]">10Pearls Pakistan systems, public GitHub projects, and the tools on this site.</p>
             </div>
           </div>
           <Link

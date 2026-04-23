@@ -32,14 +32,14 @@ export default function ProjectsPage() {
       <PageHeader
         eyebrow="Projects"
         title="Selected projects"
-        lead="This is the proof library. Start here when you want the strongest output: case studies, shipped builds, public repos, and the work samples that best show how I think and execute."
+        lead="Private 10Pearls Pakistan case studies alongside public GitHub work — outreach automation, SEO monitoring, marketing operations orchestration, academic tooling, and small product-style builds."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHead
           eyebrow="Professional"
           title="Systems built at 10Pearls Pakistan"
-          lead="Private internal systems scoped, designed, built, and documented independently. The public pages stay intentionally high level because the underlying work is confidential."
+          lead="Private internal systems scoped, designed, built, and documented independently. Public pages stay high level because the underlying work is confidential."
         />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2">
           {professionalProjects.map((project, index) => (
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
           <SectionHead
             eyebrow="Public"
             title="Public GitHub projects"
-            lead="Built entirely from scratch across architecture, UI, and shipping. Each card links to a detailed portfolio page first, then out to the repo or live build."
+            lead="Built from scratch across architecture, UI, and deployment. Each card links to the case study first, then out to the repo or live build."
           />
           <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2">
             {publicProjects.map((project, index) => (

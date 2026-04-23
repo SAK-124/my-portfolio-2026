@@ -24,7 +24,7 @@ export default function FaqPage() {
       <PageHeader
         eyebrow="FAQ"
         title="Frequently asked questions"
-        lead="Quick answers to the identity, education, internship, and topic questions people are most likely to search for."
+        lead="Short answers about who Saboor Ali Khan is, where he studies and works, what he focuses on, and how to get in touch — along with a disambiguation note vs. the Pakistani actress of the same name."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

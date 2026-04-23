@@ -21,8 +21,8 @@ export default function ToolsIndexPage() {
         title="Public tools"
         lead={
           <>
-            Browse the public tools from the portfolio and open the ones you want to use. When a tool needs the
-            editor workspace, authentication happens at the point of entry rather than here on the overview page.
+            Public products and utilities built and maintained by Saboor Ali Khan. The resume builder is the
+            main one — ATS-friendly templates with a live PDF preview.
           </>
         }
       />
@@ -30,8 +30,8 @@ export default function ToolsIndexPage() {
       <section id="workspace-actions" className="tools-surface">
         <div className="tools-pane-header">
           <div>
-            <p className="tools-pane-header__eyebrow">Public tools</p>
-            <h2 className="tools-pane-header__title">Available surfaces</h2>
+            <p className="tools-pane-header__eyebrow">Tools</p>
+            <h2 className="tools-pane-header__title">Available tools</h2>
           </div>
         </div>
 

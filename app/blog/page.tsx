@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 import { JsonLd } from '@/components/json-ld'
 import { PageHeader, SectionHead } from '@/components/page-header'
 import { RevealList } from '@/components/reveal-list'
-import { blogPosts, publishedBlogPosts } from '@/data/blog'
+import { publishedBlogPosts, visibleBlogPosts } from '@/data/blog'
 import { buildBlogIndexSchema } from '@/lib/schema'
 import { buildMetadata } from '@/lib/seo'
 
@@ -30,7 +30,7 @@ const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
 export default function BlogIndexPage() {
-  const allPosts = [...blogPosts].sort((a, b) => b.datePublished.localeCompare(a.datePublished))
+  const allPosts = [...visibleBlogPosts].sort((a, b) => b.datePublished.localeCompare(a.datePublished))
 
   return (
     <div className="container py-10 md:py-20">

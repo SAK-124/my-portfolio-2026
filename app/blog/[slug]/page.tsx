@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import { JsonLd } from '@/components/json-ld'
-import { blogPosts, getBlogPost } from '@/data/blog'
+import { LinkifyText } from '@/components/linkify-text'
+import { getBlogPost, visibleBlogPosts } from '@/data/blog'
 import { buildBlogPostingSchema } from '@/lib/schema'
 import { buildMetadata } from '@/lib/seo'
 
@@ -10,15 +11,17 @@ type BlogPostPageProps = {
   params: Promise<{ slug: string }>
 }
 
+export const dynamicParams = false
+
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }))
+  return visibleBlogPosts.map((post) => ({ slug: post.slug }))
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
   const post = getBlogPost(slug)
 
-  if (!post) {
+  if (!post || post.status === 'hidden') {
     return {}
   }
 
@@ -47,7 +50,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
   const post = getBlogPost(slug)
 
-  if (!post) {
+  if (!post || post.status === 'hidden') {
     notFound()
   }
 
@@ -79,7 +82,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.title}
         </h1>
         <p className="mt-5 max-w-[62ch] text-base leading-relaxed text-[var(--muted)] md:mt-6 md:text-[1.05rem]">
-          {post.lead}
+          <LinkifyText text={post.lead} />
         </p>
         <p className="mt-4 text-sm text-[var(--muted)]">
           By{' '}
@@ -104,7 +107,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   key={`${section.heading ?? 'p'}-${pIndex}`}
                   className="text-sm leading-relaxed text-[var(--muted)] md:text-base"
                 >
-                  {paragraph}
+                  <LinkifyText text={paragraph} />
                 </p>
               ))}
               {section.list ? (
@@ -115,7 +118,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       className="flex gap-2.5 text-sm leading-relaxed text-[var(--muted)] md:text-base"
                     >
                       <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--accent)]" />
-                      <span>{item}</span>
+                      <span>
+                        <LinkifyText text={item} />
+                      </span>
                     </li>
                   ))}
                 </ul>

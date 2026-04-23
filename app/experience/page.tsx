@@ -25,8 +25,8 @@ export default function ExperiencePage() {
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Experience', href: '/experience' }]} />
       <PageHeader
         eyebrow="Experience"
-        title="Experience"
-        lead="This is the role-and-context layer of the site. Start here when you want to understand the environments I have worked in, what each one taught me, and how the work moved from communication into systems-heavy execution."
+        title="Roles and work history"
+        lead="Digital Marketing Intern at 10Pearls Pakistan (current) — marketing automation, technical SEO, and internal systems. Before that, Brand Ambassador for P&G at the IBA Career Fair."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

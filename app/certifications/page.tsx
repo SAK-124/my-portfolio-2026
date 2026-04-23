@@ -19,7 +19,7 @@ export default function CertificationsPage() {
       <PageHeader
         eyebrow="Certifications"
         title="Certification details"
-        lead="This page is intentionally narrow. For the broader academic background, use the education page."
+        lead="Professional certifications held by Saboor Ali Khan, with issuer and year."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

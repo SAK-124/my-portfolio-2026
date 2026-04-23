@@ -54,47 +54,24 @@ const FOCUS_ICONS = [Lightning, MagnifyingGlass, ChartLineUp] as const
 const TOOL_ICONS = [Lightning, MagnifyingGlass, Code] as const
 const HOME_VALUE_CARDS = [
   {
-    eyebrow: 'Hybrid lane',
-    title: 'Marketing brain, systems mindset',
-    copy: 'I like the overlap between marketing execution and the systems that make that execution repeatable.',
+    eyebrow: 'Crossover',
+    title: 'Marketing with a systems mindset',
+    copy: 'I sit at the overlap between marketing execution and the systems that make that execution repeatable.',
   },
   {
-    eyebrow: 'Current context',
+    eyebrow: 'Where I work',
     title: '10Pearls Pakistan',
-    copy: 'My strongest current work sits inside digital marketing operations, marketing automation, and technical SEO workflows.',
+    copy: 'My current work is inside digital marketing operations, marketing automation, and technical SEO workflows.',
   },
   {
-    eyebrow: 'Builder energy',
+    eyebrow: 'What I build',
     title: 'Tools, not just ideas',
-    copy: 'I build public products, internal systems, and workflow layers that someone can actually use after the concept stage.',
+    copy: 'Public products, internal systems, and workflow layers that a teammate can actually pick up and run.',
   },
   {
-    eyebrow: 'Foundation',
-    title: 'IBA Karachi',
-    copy: 'The business and marketing base comes from IBA, but the way I work keeps pulling toward operations, structure, and shipping.',
-  },
-] as const
-
-const ENTRY_POINT_CARDS = [
-  {
-    title: 'About and background',
-    copy: 'Use the About page when you want the personal context, working style, and the path behind the projects.',
-    href: '/about',
-  },
-  {
-    title: 'Experience and case pages',
-    copy: 'Open the detail pages when you want the strongest proof around 10Pearls, workflow systems, and shipped work.',
-    href: '/projects',
-  },
-  {
-    title: 'Topic pages',
-    copy: 'The topic pages are the fastest way to explore the themes that keep showing up across my work.',
-    href: '/marketing-automation',
-  },
-  {
-    title: 'Public tools',
-    copy: 'The Tools surface is where the product side of the portfolio lives, including the public resume builder.',
-    href: '/tools',
+    eyebrow: 'Background',
+    title: 'BBA Marketing at IBA Karachi',
+    copy: 'The marketing foundation comes from IBA; the way I work pulls toward operations, structure, and shipping.',
   },
 ] as const
 
@@ -223,9 +200,9 @@ export default function HomePage() {
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
-          eyebrow="Why Me"
-          title="A blend of marketing, operations, and product thinking"
-          lead="The home page should answer the fast version: what kind of work I do, what makes it distinct, and why the overlap matters."
+          eyebrow="Approach"
+          title="Marketing with a systems mindset"
+          lead="I work on the operational side of digital marketing — the workflows, automation, and tooling that turn one-off campaigns into repeatable execution."
         />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2 xl:grid-cols-4">
           {HOME_VALUE_CARDS.map((card, index) => (
@@ -243,7 +220,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
-        <SectionHeader eyebrow="Focus" title="What I focus on" lead={profile.currentFocus} />
+        <SectionHeader eyebrow="Focus" title="Current focus areas" lead={profile.currentFocus} />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-3">
           {profile.focusAreas.map((area, index) => {
             const Icon = FOCUS_ICONS[index] ?? Sparkle
@@ -265,35 +242,6 @@ export default function HomePage() {
             )
           })}
         </RevealList>
-      </section>
-
-      <section className="border-t border-[var(--line)] py-14 md:py-20">
-        <SectionHeader
-          eyebrow="Start Here"
-          title="The clearest ways to explore the work"
-          lead="If someone lands on the homepage first, these are the best next clicks depending on whether they want the person, the proof, the topics, or the tools."
-        />
-        <p className="mt-4 max-w-[54rem] text-sm leading-relaxed text-[var(--muted)] md:text-base">
-          You can jump directly into{' '}
-          <InlineTextLink href="/marketing-automation">marketing automation</InlineTextLink>,{' '}
-          <InlineTextLink href="/technical-seo">technical SEO</InlineTextLink>,{' '}
-          <InlineTextLink href="/marketing-operations">marketing operations</InlineTextLink>,{' '}
-          <InlineTextLink href="/ai-workflows">AI workflows</InlineTextLink>, or the{' '}
-          <InlineTextLink href="/tools/resume-builder">resume builder inside Tools</InlineTextLink> without digging through the rest of the site first.
-        </p>
-        <div className="mt-8 grid gap-3 md:mt-10 md:grid-cols-2">
-          {ENTRY_POINT_CARDS.map((item) => (
-            <Link key={item.title} href={item.href} className="card-soft p-5 transition-all duration-300 hover:-translate-y-[1px]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Best next page</p>
-              <h2 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{item.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{item.copy}</p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">
-                Open page
-                <ArrowRight size={16} weight="bold" />
-              </span>
-            </Link>
-          ))}
-        </div>
       </section>
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
@@ -330,7 +278,7 @@ export default function HomePage() {
                   href={`/experience/${currentRole.slug}`}
                   className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[2px]"
                 >
-                  Read the full 10Pearls case page
+                  Open the 10Pearls case study
                   <ArrowRight size={16} weight="bold" />
                 </Link>
               </article>
@@ -358,16 +306,16 @@ export default function HomePage() {
           href="/experience"
           className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[2px] md:mt-8"
         >
-          Read the full experience timeline
+          View full experience timeline
           <ArrowRight size={16} weight="bold" />
         </Link>
       </section>
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
-          eyebrow="Selected Work"
-          title="Selected work"
-          lead="This is where the sharper proof lives: shipped portfolio pages, workflow systems, academic tooling, and the projects that best show how I work."
+          eyebrow="Work"
+          title="Selected projects"
+          lead="Public GitHub work plus private case studies from 10Pearls Pakistan — outreach automation, SEO monitoring, marketing-ops orchestration, and the portfolio and tools that live on this site."
         />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2">
           {featuredProjects.map((project, index) => {
@@ -589,13 +537,3 @@ function EduCard({
   )
 }
 
-function InlineTextLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="font-medium text-[var(--ink)] underline decoration-[color-mix(in_srgb,var(--accent)_45%,transparent)] decoration-1 underline-offset-4 transition-colors duration-300 hover:text-[var(--accent)]"
-    >
-      {children}
-    </Link>
-  )
-}

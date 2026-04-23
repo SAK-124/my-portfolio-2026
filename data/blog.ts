@@ -17,7 +17,7 @@ export type BlogPost = {
   coverImage?: string
   lead: string
   sections: BlogSection[]
-  status: 'draft' | 'published'
+  status: 'draft' | 'published' | 'hidden'
 }
 
 export const blogPosts: BlogPost[] = [
@@ -38,7 +38,7 @@ export const blogPosts: BlogPost[] = [
       'BBA marketing student automation',
       '10Pearls Pakistan marketing intern',
     ],
-    status: 'draft',
+    status: 'published',
     lead: 'Marketing automation is easy to learn as a label and hard to learn as a practice. Two years into a BBA Marketing at IBA Karachi and a digital marketing internship at 10Pearls Pakistan, the gap between the two has shaped how I actually build.',
     sections: [
       {
@@ -104,7 +104,7 @@ export const blogPosts: BlogPost[] = [
       '10Pearls SEO',
       'SEO reporting system',
     ],
-    status: 'draft',
+    status: 'hidden',
     lead: 'Most technical SEO dashboards go stale within two months. This is the operating model I use to keep the monitoring layer alive instead of slowly rotting into a screenshot that nobody opens.',
     sections: [
       {
@@ -172,7 +172,7 @@ export const blogPosts: BlogPost[] = [
       'Saboor Ali Khan automation',
       'marketing automation Pakistan tools',
     ],
-    status: 'draft',
+    status: 'published',
     lead: 'I have shipped production workflows in all three. Here is the honest trade-off map I wish I had read when I was starting — from a marketing-ops lens, not an engineering lens.',
     sections: [
       {
@@ -242,7 +242,7 @@ export const blogPosts: BlogPost[] = [
       'Saboor Ali Khan AI workflows',
       'AI marketing ops Pakistan',
     ],
-    status: 'draft',
+    status: 'published',
     lead: 'AI in marketing operations is mostly a pile of demos. A small handful of patterns actually survive contact with real work. These are the ones I keep coming back to.',
     sections: [
       {
@@ -306,7 +306,7 @@ export const blogPosts: BlogPost[] = [
       'Saboor Ali Khan resume builder',
       'AI pair programming setup',
     ],
-    status: 'draft',
+    status: 'published',
     lead: 'I shipped the public resume builder at sabooralikhan.com by vibe-coding — two AI coding agents, OpenAI Codex and Anthropic Claude Code, running in parallel, passing intermediate work back and forth. This is the honest version of what that setup actually looks like, why it works, and how you can run it yourself.',
     sections: [
       {
@@ -401,7 +401,7 @@ export const blogPosts: BlogPost[] = [
       'Saboor Ali Khan Wikidata',
       'name SERP entity disambiguation',
     ],
-    status: 'draft',
+    status: 'published',
     lead: 'Every serious SEO guide in 2026 talks about E-E-A-T, schema markup, and AI search. Almost none of them talk about the single most direct lever into Google\u2019s Knowledge Graph: Wikidata. This is the post I wish someone had written for me when I first started competing with a celebrity for my own name.',
     sections: [
       {
@@ -480,3 +480,4 @@ export function getBlogPost(slug: string) {
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === 'published')
 export const draftBlogPosts = blogPosts.filter((post) => post.status === 'draft')
+export const visibleBlogPosts = blogPosts.filter((post) => post.status !== 'hidden')
