@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "fetch:github": "node scripts/fetch-github-projects.mjs"
+    "fetch:github": "node scripts/fetch-github-projects.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

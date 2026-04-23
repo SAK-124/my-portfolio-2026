@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#121015"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#19161f" stroke="#342d42"/>
+  <circle cx="1260" cy="250" r="210" fill="#7a74ff" fill-opacity="0.17"/>
+  <circle cx="1342" cy="605" r="172" fill="#69d7b4" fill-opacity="0.14"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="372" fill="#ffffff" font-family="Arial, sans-serif" font-size="84" font-weight="700">iba-ta-hub</text>
+  <text x="130" y="472" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">A coordination hub for TA process management at IBA Karachi.</text>
+  <rect x="130" y="560" width="286" height="56" rx="28" fill="#221c32" stroke="#50457f"/>
+  <text x="165" y="596" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">PUBLIC PROJECT</text>
+</svg>

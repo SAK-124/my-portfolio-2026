@@ -10,17 +10,23 @@ export function RouteShell({ children }: { children: ReactNode }) {
   const isToolsRoute = pathname === '/tools' || pathname?.startsWith('/tools/')
 
   if (isToolsRoute) {
-    return <main className="min-h-[100dvh]">{children}</main>
+    return (
+      <main id="main-content" className="min-h-[100dvh]">
+        {children}
+      </main>
+    )
   }
 
   return (
     <>
-      <div className="mesh-bg" />
-      <div className="grain" />
+      <div className="mesh-bg" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
 
       <div className="site-shell flex min-h-[100dvh] flex-col">
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <SiteFooter />
       </div>
     </>

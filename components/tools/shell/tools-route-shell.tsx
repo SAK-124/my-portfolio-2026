@@ -3,13 +3,29 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowLeft, FileText, House, SignOut } from '@phosphor-icons/react/dist/ssr'
+import {
+  ArrowLeft,
+  BriefcaseMetal,
+  House,
+  Info,
+  SignOut,
+  SquaresFour,
+  Toolbox,
+} from '@phosphor-icons/react/dist/ssr'
 import { logout } from '@/app/tools/login/actions'
+
+const shellLinks = [
+  { href: '/', label: 'Home', icon: House },
+  { href: '/about', label: 'About', icon: Info },
+  { href: '/experience', label: 'Experience', icon: BriefcaseMetal },
+  { href: '/projects', label: 'Projects', icon: SquaresFour },
+  { href: '/tools', label: 'Tools', icon: Toolbox },
+] as const
 
 export function ToolsRouteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isLogin = pathname?.startsWith('/tools/login')
-  const isResume = pathname?.startsWith('/tools/resume')
+  const isProtectedApp = pathname?.startsWith('/tools/resume-builder/app')
 
   if (isLogin) {
     return (
@@ -47,33 +63,34 @@ export function ToolsRouteShell({ children }: { children: ReactNode }) {
           </div>
 
           <div className="tools-sidebar__section">
-            <p className="tools-sidebar__section-title">Workspace</p>
+            <p className="tools-sidebar__section-title">Portfolio nav</p>
             <nav className="tools-navlist">
-              <SidebarLink
-                href="/tools"
-                active={pathname === '/tools'}
-                icon={House}
-                label="Overview"
-                meta=""
-              />
-              <SidebarLink
-                href="/tools/resume"
-                active={Boolean(isResume)}
-                icon={FileText}
-                label="Resume builder"
-                meta=""
-              />
+              {shellLinks.map((item) => (
+                <SidebarLink
+                  key={item.href}
+                  href={item.href}
+                  active={
+                    item.href === '/'
+                      ? pathname === '/'
+                      : pathname === item.href || pathname?.startsWith(item.href + '/')
+                  }
+                  icon={item.icon}
+                  label={item.label}
+                />
+              ))}
             </nav>
           </div>
 
-          <div className="tools-sidebar__footer">
-            <form action={logout}>
-              <button type="submit" className="tools-cta tools-cta--ghost tools-cta--full">
-                <SignOut size={14} weight="bold" />
-                Sign out
-              </button>
-            </form>
-          </div>
+          {isProtectedApp ? (
+            <div className="tools-sidebar__footer">
+              <form action={logout}>
+                <button type="submit" className="tools-cta tools-cta--ghost tools-cta--full">
+                  <SignOut size={14} weight="bold" />
+                  Sign out
+                </button>
+              </form>
+            </div>
+          ) : null}
         </aside>
 
         <div className="tools-main">
@@ -88,31 +105,31 @@ export function ToolsRouteShell({ children }: { children: ReactNode }) {
               </div>
             </div>
             <nav className="tools-mobilebar__rail">
-              <SidebarLink
-                href="/tools"
-                active={pathname === '/tools'}
-                icon={House}
-                label="Overview"
-                meta="Workspace"
-                mobile
-              />
-              <SidebarLink
-                href="/tools/resume"
-                active={Boolean(isResume)}
-                icon={FileText}
-                label="Resume builder"
-                meta="Editor"
-                mobile
-              />
+              {shellLinks.map((item) => (
+                <SidebarLink
+                  key={item.href}
+                  href={item.href}
+                  active={
+                    item.href === '/'
+                      ? pathname === '/'
+                      : pathname === item.href || pathname?.startsWith(item.href + '/')
+                  }
+                  icon={item.icon}
+                  label={item.label}
+                  mobile
+                />
+              ))}
             </nav>
-            <div className="tools-mobilebar__actions">
-              <form action={logout} className="w-full">
-                <button type="submit" className="tools-cta tools-cta--ghost tools-cta--full">
-                  <SignOut size={14} weight="bold" />
-                  Sign out
-                </button>
-              </form>
-            </div>
+            {isProtectedApp ? (
+              <div className="tools-mobilebar__actions">
+                <form action={logout} className="w-full">
+                  <button type="submit" className="tools-cta tools-cta--ghost tools-cta--full">
+                    <SignOut size={14} weight="bold" />
+                    Sign out
+                  </button>
+                </form>
+              </div>
+            ) : null}
           </div>
 
           <div className="tools-main__inner">{children}</div>
@@ -127,14 +144,12 @@ function SidebarLink({
   active,
   icon: IconComponent,
   label,
-  meta,
   mobile = false,
 }: {
   href: string
   active: boolean
   icon: typeof House
   label: string
-  meta: string
   mobile?: boolean
 }) {
   return (
@@ -147,9 +162,7 @@ function SidebarLink({
       </span>
       <div className="tools-navlist__content">
         <p className="tools-navlist__label">{label}</p>
-        <p className="tools-navlist__meta">{meta}</p>
       </div>
     </Link>
   )
 }
-

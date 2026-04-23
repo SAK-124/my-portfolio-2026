@@ -1,16 +1,104 @@
-import { ArrowRight, BriefcaseMetal, GraduationCap, MapPin, SealCheck, EnvelopeSimple, LinkedinLogo, GithubLogo, Lightning, MagnifyingGlass, ChartLineUp, Code, Sparkle, Browsers } from '@phosphor-icons/react/dist/ssr'
-import type { CSSProperties } from 'react'
+import {
+  ArrowRight,
+  BriefcaseMetal,
+  ChartLineUp,
+  Code,
+  EnvelopeSimple,
+  GithubLogo,
+  GraduationCap,
+  Lightning,
+  LinkedinLogo,
+  MagnifyingGlass,
+  MapPin,
+  SealCheck,
+  Sparkle,
+} from '@phosphor-icons/react/dist/ssr'
+import type { Metadata } from 'next'
+import type { CSSProperties, ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { JsonLd } from '@/components/json-ld'
 import { MagneticButton } from '@/components/magnetic-button'
 import { RevealList } from '@/components/reveal-list'
 import { TypewriterPill } from '@/components/typewriter-pill'
+import { featuredProjects } from '@/data/projects'
 import { profile } from '@/data/profile'
-import { projects } from '@/data/projects'
+import { buildMetadata } from '@/lib/seo'
+import { buildFeaturedWorkSchema, buildWebsiteSchema } from '@/lib/schema'
 import { siteConfig } from '@/lib/site'
 
+export const metadata: Metadata = buildMetadata({
+  title: 'Saboor Ali Khan | Marketing Automation, Technical SEO, and Workflow Tools',
+  description:
+    'Official portfolio of Saboor Ali Khan, a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, marketing operations, AI workflows, and workflow tools.',
+  path: '/',
+  image: profile.profileImage,
+  keywords: [
+    'Saboor Ali Khan',
+    'Saboor marketing',
+    'Saboor 10Pearls',
+    'Saboor automation',
+    'Saboor AI',
+    'Saboor portfolio',
+    'Saboor GitHub',
+    'Saboor tools',
+    'marketing automation',
+    'technical SEO',
+    'marketing operations',
+    'AI workflows',
+  ],
+})
+
+const homeSchemas = [buildWebsiteSchema(), buildFeaturedWorkSchema(featuredProjects.slice(0, 8))]
+const FOCUS_ICONS = [Lightning, MagnifyingGlass, ChartLineUp] as const
+const TOOL_ICONS = [Lightning, MagnifyingGlass, Code] as const
+const HOME_VALUE_CARDS = [
+  {
+    eyebrow: 'Hybrid lane',
+    title: 'Marketing brain, systems mindset',
+    copy: 'I like the overlap between marketing execution and the systems that make that execution repeatable.',
+  },
+  {
+    eyebrow: 'Current context',
+    title: '10Pearls Pakistan',
+    copy: 'My strongest current work sits inside digital marketing operations, marketing automation, and technical SEO workflows.',
+  },
+  {
+    eyebrow: 'Builder energy',
+    title: 'Tools, not just ideas',
+    copy: 'I build public products, internal systems, and workflow layers that someone can actually use after the concept stage.',
+  },
+  {
+    eyebrow: 'Foundation',
+    title: 'IBA Karachi',
+    copy: 'The business and marketing base comes from IBA, but the way I work keeps pulling toward operations, structure, and shipping.',
+  },
+] as const
+
+const ENTRY_POINT_CARDS = [
+  {
+    title: 'About and background',
+    copy: 'Use the About page when you want the personal context, working style, and the path behind the projects.',
+    href: '/about',
+  },
+  {
+    title: 'Experience and case pages',
+    copy: 'Open the detail pages when you want the strongest proof around 10Pearls, workflow systems, and shipped work.',
+    href: '/projects',
+  },
+  {
+    title: 'Topic pages',
+    copy: 'The topic pages are the fastest way to explore the themes that keep showing up across my work.',
+    href: '/marketing-automation',
+  },
+  {
+    title: 'Public tools',
+    copy: 'The Tools surface is where the product side of the portfolio lives, including the public resume builder.',
+    href: '/tools',
+  },
+] as const
+
 export default function HomePage() {
-  const featuredProjects = projects.filter((project) => project.featured).slice(0, 6)
   const currentRole = profile.experience[0]
   const ambassadorRole = profile.experience[1]
   const primaryEducation = profile.education[0]
@@ -19,18 +107,18 @@ export default function HomePage() {
 
   return (
     <div className="container py-10 md:py-20">
-      {/* HERO */}
+      <JsonLd data={homeSchemas} />
+
       <section className="pb-14 md:pb-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.15fr_0.85fr] md:items-center md:gap-14">
           <div>
             <p className="section-eyebrow">Portfolio</p>
 
-            {/* Mobile-first compact header: avatar + name inline */}
             <div className="mt-5 flex items-center gap-4 md:hidden">
               <div className="hero-avatar">
                 <Image
-                  src="/profile-saboor.jpg"
-                  alt={profile.name}
+                  src={profile.profileImage}
+                  alt="Saboor Ali Khan, marketing automation and technical SEO professional in Karachi"
                   width={160}
                   height={160}
                   priority
@@ -45,12 +133,11 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Desktop name block */}
             <h1 className="mt-4 hidden text-[3.25rem] font-semibold leading-[0.96] tracking-[-0.035em] text-[var(--ink)] md:block md:text-[3.75rem] md:leading-[0.94] md:tracking-[-0.04em] lg:text-[4.25rem]">
               {profile.name}
             </h1>
 
-            <p className="mt-5 max-w-[34ch] text-lg font-medium leading-[1.15] tracking-[-0.015em] text-[var(--ink)] md:mt-5 md:max-w-[30ch] md:text-2xl">
+            <p className="mt-5 max-w-[34ch] text-lg font-medium leading-[1.15] tracking-[-0.015em] text-[var(--ink)] md:max-w-[30ch] md:text-2xl">
               {profile.headline}
             </p>
             <p className="mt-4 max-w-[58ch] text-sm leading-relaxed text-[var(--muted)] md:mt-5 md:text-base">
@@ -74,13 +161,12 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Desktop / tablet info card with large image */}
           <aside className="card-bezel hidden self-start md:block">
             <div className="card-bezel-inner grid gap-5">
               <figure className="overflow-hidden rounded-[calc(2.25rem-11px)] border border-[var(--line)]/50">
                 <Image
-                  src="/profile-saboor.jpg"
-                  alt="Saboor Ali Khan — BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan"
+                  src={profile.profileImage}
+                  alt="Saboor Ali Khan, BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan"
                   title="Saboor Ali Khan"
                   width={800}
                   height={822}
@@ -88,16 +174,16 @@ export default function HomePage() {
                   className="h-auto w-full object-cover"
                 />
                 <figcaption className="sr-only">
-                  Saboor Ali Khan, BBA Marketing student at the Institute of Business Administration, Karachi, and Digital Marketing Intern at 10Pearls Pakistan.
+                  Saboor Ali Khan, BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan.
                 </figcaption>
               </figure>
 
               <div className="grid gap-4 border-t border-[var(--line)] pt-4">
                 <ProfileFact icon={<MapPin size={16} weight="bold" />} title="Karachi, Pakistan">
-                  Based in Karachi and currently studying and working in marketing operations.
+                  Based in Karachi and building marketing automation, technical SEO, and workflow tools.
                 </ProfileFact>
                 <ProfileFact icon={<GraduationCap size={16} weight="bold" />} title="Institute of Business Administration">
-                  BBA, Marketing
+                  BBA, Marketing at IBA Karachi
                 </ProfileFact>
                 <ProfileFact icon={<BriefcaseMetal size={16} weight="bold" />} title="10Pearls Pakistan">
                   Digital Marketing Intern
@@ -116,10 +202,9 @@ export default function HomePage() {
           </aside>
         </div>
 
-        {/* Mobile-only info card: slim strip, no giant image below */}
         <div className="mt-8 grid gap-3 md:hidden">
           <ProfileFact icon={<GraduationCap size={16} weight="bold" />} title="Institute of Business Administration">
-            BBA, Marketing
+            BBA, Marketing at IBA Karachi
           </ProfileFact>
           <ProfileFact icon={<BriefcaseMetal size={16} weight="bold" />} title="10Pearls Pakistan">
             Digital Marketing Intern
@@ -136,7 +221,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FOCUS AREAS */}
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHeader
+          eyebrow="Why Me"
+          title="A blend of marketing, operations, and product thinking"
+          lead="The home page should answer the fast version: what kind of work I do, what makes it distinct, and why the overlap matters."
+        />
+        <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2 xl:grid-cols-4">
+          {HOME_VALUE_CARDS.map((card, index) => (
+            <article
+              key={card.title}
+              className="stagger-item card-elevated flex flex-col gap-3 p-5 md:p-6"
+              style={{ '--index': index } as CSSProperties}
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">{card.eyebrow}</p>
+              <h2 className="text-xl tracking-tight text-[var(--ink)]">{card.title}</h2>
+              <p className="text-sm leading-relaxed text-[var(--muted)]">{card.copy}</p>
+            </article>
+          ))}
+        </RevealList>
+      </section>
+
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader eyebrow="Focus" title="What I focus on" lead={profile.currentFocus} />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-3">
@@ -149,10 +254,12 @@ export default function HomePage() {
                 style={{ '--index': index } as CSSProperties}
               >
                 <div className="flex items-center justify-between">
-                  <span className="toolkit-cell-icon"><Icon size={18} weight="bold" /></span>
+                  <span className="toolkit-cell-icon">
+                    <Icon size={18} weight="bold" />
+                  </span>
                   <span className="project-index">0{index + 1}</span>
                 </div>
-                <h3 className="text-xl tracking-tight text-[var(--ink)]">{area.title}</h3>
+                <h2 className="text-xl tracking-tight text-[var(--ink)]">{area.title}</h2>
                 <p className="text-sm leading-relaxed text-[var(--muted)]">{area.copy}</p>
               </article>
             )
@@ -160,17 +267,44 @@ export default function HomePage() {
         </RevealList>
       </section>
 
-      {/* EXPERIENCE — timeline style */}
+      <section className="border-t border-[var(--line)] py-14 md:py-20">
+        <SectionHeader
+          eyebrow="Start Here"
+          title="The clearest ways to explore the work"
+          lead="If someone lands on the homepage first, these are the best next clicks depending on whether they want the person, the proof, the topics, or the tools."
+        />
+        <p className="mt-4 max-w-[54rem] text-sm leading-relaxed text-[var(--muted)] md:text-base">
+          You can jump directly into{' '}
+          <InlineTextLink href="/marketing-automation">marketing automation</InlineTextLink>,{' '}
+          <InlineTextLink href="/technical-seo">technical SEO</InlineTextLink>,{' '}
+          <InlineTextLink href="/marketing-operations">marketing operations</InlineTextLink>,{' '}
+          <InlineTextLink href="/ai-workflows">AI workflows</InlineTextLink>, or the{' '}
+          <InlineTextLink href="/tools/resume-builder">resume builder inside Tools</InlineTextLink> without digging through the rest of the site first.
+        </p>
+        <div className="mt-8 grid gap-3 md:mt-10 md:grid-cols-2">
+          {ENTRY_POINT_CARDS.map((item) => (
+            <Link key={item.title} href={item.href} className="card-soft p-5 transition-all duration-300 hover:-translate-y-[1px]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">Best next page</p>
+              <h2 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{item.title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{item.copy}</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)]">
+                Open page
+                <ArrowRight size={16} weight="bold" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
           eyebrow="Experience"
-          title="Where I'm working"
-          lead="Interning on the digital marketing team at 10Pearls in Karachi, with a short campus engagement earlier this year."
+          title="Where I am working"
+          lead="Interning on the digital marketing team at 10Pearls Pakistan, with earlier campus-facing work at the IBA Career Fair for P&G."
         />
 
         <div className="mt-8 md:mt-10">
           <div className="timeline">
-            {/* Current role */}
             <div className="timeline-item">
               <span className="timeline-dot" />
               <article className="card-elevated p-5 md:p-6">
@@ -179,13 +313,11 @@ export default function HomePage() {
                     {currentRole.organization}
                   </p>
                   <p className="text-xs font-medium tracking-wide text-[var(--muted)]">
-                    {currentRole.startLabel} — {currentRole.endLabel} · {currentRole.location}
+                    {currentRole.startLabel} - {currentRole.endLabel} · {currentRole.location}
                   </p>
                 </div>
-                <h3 className="mt-2 text-2xl tracking-tight text-[var(--ink)] md:text-[1.6rem]">{currentRole.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] md:text-base">
-                  {currentRole.summary}
-                </p>
+                <h2 className="mt-2 text-2xl tracking-tight text-[var(--ink)] md:text-[1.6rem]">{currentRole.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] md:text-base">{currentRole.summary}</p>
                 <ul className="mt-4 grid gap-2.5">
                   {currentRole.bullets.map((bullet) => (
                     <li key={bullet} className="flex gap-2.5 text-sm leading-relaxed text-[var(--muted)]">
@@ -194,10 +326,16 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  href={`/experience/${currentRole.slug}`}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[2px]"
+                >
+                  Read the full 10Pearls case page
+                  <ArrowRight size={16} weight="bold" />
+                </Link>
               </article>
             </div>
 
-            {/* Ambassador role — older, de-emphasized treatment */}
             <div className="timeline-item">
               <span className="timeline-dot timeline-dot--muted" />
               <article className="card-muted p-4 md:p-5">
@@ -209,7 +347,7 @@ export default function HomePage() {
                     {ambassadorRole.startLabel} · {ambassadorRole.location}
                   </p>
                 </div>
-                <h3 className="mt-1.5 text-base tracking-tight">{ambassadorRole.title}</h3>
+                <h2 className="mt-1.5 text-base tracking-tight text-[var(--ink)]">{ambassadorRole.title}</h2>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--muted)]">{ambassadorRole.summary}</p>
               </article>
             </div>
@@ -218,75 +356,87 @@ export default function HomePage() {
 
         <Link
           href="/experience"
-          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:translate-x-[2px] md:mt-8"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[2px] md:mt-8"
         >
           Read the full experience timeline
           <ArrowRight size={16} weight="bold" />
         </Link>
       </section>
 
-      {/* SELECTED WORK */}
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
           eyebrow="Selected Work"
           title="Selected work"
-          lead="Every project here was designed and built by me. Professional systems are shown by summary; personal repositories link directly to source."
+          lead="This is where the sharper proof lives: shipped portfolio pages, workflow systems, academic tooling, and the projects that best show how I work."
         />
         <RevealList className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2">
-          {featuredProjects.map((project, index) => (
-            <article
-              key={project.name}
-              className="stagger-item project-card flex flex-col gap-3"
-              style={{ '--index': index } as CSSProperties}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="project-index">{String(index + 1).padStart(2, '0')}</span>
-                <span className="inline-chip">{project.visibility === 'private' ? 'Confidential' : 'Sole Author'}</span>
-              </div>
-              <h3 className="text-lg tracking-tight text-[var(--ink)] md:text-xl">{project.name}</h3>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">{project.description}</p>
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-                {project.stack.map((item) => (
-                  <span key={`${project.name}-${item}`} className="inline-chip">
-                    {item}
-                  </span>
-                ))}
-              </div>
-              {project.href ? (
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:translate-x-[2px]"
-                >
-                  Open repository
-                  <ArrowRight size={16} weight="bold" />
-                </a>
-              ) : null}
-            </article>
-          ))}
+          {featuredProjects.map((project, index) => {
+            const primaryLink = project.links[0]
+
+            return (
+              <article
+                key={project.slug}
+                className="stagger-item project-card flex flex-col gap-3"
+                style={{ '--index': index } as CSSProperties}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="project-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="inline-chip">{project.visibility === 'private' ? 'Confidential' : 'Public work'}</span>
+                </div>
+                <h2 className="text-lg tracking-tight text-[var(--ink)] md:text-xl">{project.name}</h2>
+                <p className="text-sm leading-relaxed text-[var(--muted)]">{project.description}</p>
+                <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                  {project.stack.map((item) => (
+                    <span key={`${project.slug}-${item}`} className="inline-chip">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition-all duration-300 hover:translate-x-[2px]"
+                  >
+                    Open case study
+                    <ArrowRight size={16} weight="bold" />
+                  </Link>
+                  {primaryLink ? (
+                    <a
+                      href={primaryLink.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
+                    >
+                      {primaryLink.label}
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            )
+          })}
         </RevealList>
       </section>
 
-      {/* TOOLS — warm doppelrand */}
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
           eyebrow="Toolkit"
           title="What I reach for"
-          lead="The tools I keep coming back to when building automation, SEO workflows, and small web tools."
+          lead="The tools I keep coming back to when building automation, SEO workflows, internal systems, and small web products."
         />
         <div className="card-bezel mt-8 md:mt-10">
           <div className="card-bezel-inner">
             <div className="grid gap-3 md:grid-cols-3 md:gap-4">
-              {profile.toolGroups.map((group, i) => {
-                const Icon = TOOL_ICONS[i] ?? Sparkle
+              {profile.toolGroups.map((group, index) => {
+                const Icon = TOOL_ICONS[index] ?? Sparkle
                 return (
                   <div key={group.title} className="toolkit-cell flex flex-col gap-3">
                     <div className="flex items-center gap-3">
-                      <span className="toolkit-cell-icon"><Icon size={18} weight="bold" /></span>
-                      <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+                      <span className="toolkit-cell-icon">
+                        <Icon size={18} weight="bold" />
+                      </span>
+                      <h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
                         {group.title}
-                      </h3>
+                      </h2>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {group.items.map((item) => (
@@ -303,19 +453,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* EDUCATION */}
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader eyebrow="Education & Credentials" title="Education and credentials" />
         <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
           <EduCard
             institution={primaryEducation.institution}
             credential={primaryEducation.credential}
-            range={`${primaryEducation.startLabel} – ${primaryEducation.endLabel}`}
+            range={`${primaryEducation.startLabel} - ${primaryEducation.endLabel}`}
           />
           <EduCard
             institution={secondaryEducation.institution}
             credential={secondaryEducation.credential}
-            range={`${secondaryEducation.startLabel} – ${secondaryEducation.endLabel}`}
+            range={`${secondaryEducation.startLabel} - ${secondaryEducation.endLabel}`}
             muted
           />
           <article className="card-elevated p-5 md:col-span-2 md:p-6">
@@ -325,7 +474,7 @@ export default function HomePage() {
               </p>
               <p className="text-xs font-medium tracking-wide text-[var(--muted)]">Issued {certification.year}</p>
             </div>
-            <h3 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{certification.name}</h3>
+            <h2 className="mt-2 text-xl tracking-tight text-[var(--ink)]">{certification.name}</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">{certification.issuer}</p>
             <Link
               href="/education"
@@ -338,12 +487,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section className="border-t border-[var(--line)] py-14 md:py-20">
         <SectionHeader
           eyebrow="Contact"
-          title="Let's work together"
-          lead="If you are hiring for marketing operations, SEO, workflow automation, or related digital work, reach out on any of these."
+          title="Let us work together"
+          lead="If you are hiring for marketing operations, technical SEO, workflow automation, or adjacent digital work, these are the best places to reach me."
         />
         <div className="mt-8 grid gap-3 md:mt-10 md:max-w-[40rem]">
           <a href={`mailto:${siteConfig.email}`} className="contact-row">
@@ -388,9 +536,6 @@ export default function HomePage() {
   )
 }
 
-const FOCUS_ICONS = [Lightning, MagnifyingGlass, ChartLineUp] as const
-const TOOL_ICONS = [Lightning, MagnifyingGlass, Code] as const
-
 function SectionHeader({ eyebrow, title, lead }: { eyebrow: string; title: string; lead?: string }) {
   return (
     <div className="max-w-[44rem]">
@@ -401,7 +546,15 @@ function SectionHeader({ eyebrow, title, lead }: { eyebrow: string; title: strin
   )
 }
 
-function ProfileFact({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
+function ProfileFact({
+  icon,
+  title,
+  children,
+}: {
+  icon: ReactNode
+  title: string
+  children: ReactNode
+}) {
   return (
     <div className="flex items-start gap-3">
       <span className="profile-icon-chip">{icon}</span>
@@ -413,15 +566,36 @@ function ProfileFact({ icon, title, children }: { icon: React.ReactNode; title: 
   )
 }
 
-function EduCard({ institution, credential, range, muted = false }: { institution: string; credential: string; range: string; muted?: boolean }) {
+function EduCard({
+  institution,
+  credential,
+  range,
+  muted = false,
+}: {
+  institution: string
+  credential: string
+  range: string
+  muted?: boolean
+}) {
   return (
     <article className={muted ? 'card-muted p-4 md:p-5' : 'card-elevated p-5 md:p-6'}>
       <p className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${muted ? 'text-[var(--muted)]' : 'text-[var(--accent)]'}`}>
         Education
       </p>
-      <h3 className={`mt-2 ${muted ? 'text-lg' : 'text-xl'} tracking-tight`}>{institution}</h3>
+      <h2 className={`mt-2 ${muted ? 'text-lg' : 'text-xl'} tracking-tight text-[var(--ink)]`}>{institution}</h2>
       <p className={`mt-2 ${muted ? 'text-[13px]' : 'text-sm'} leading-relaxed text-[var(--muted)]`}>{credential}</p>
       <p className="mt-3 text-xs font-medium tracking-wide text-[var(--muted)]">{range}</p>
     </article>
+  )
+}
+
+function InlineTextLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="font-medium text-[var(--ink)] underline decoration-[color-mix(in_srgb,var(--accent)_45%,transparent)] decoration-1 underline-offset-4 transition-colors duration-300 hover:text-[var(--accent)]"
+    >
+      {children}
+    </Link>
   )
 }

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#0d1011"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#151a1d" stroke="#2d3a3e"/>
+  <circle cx="1260" cy="247" r="205" fill="#79e38c" fill-opacity="0.17"/>
+  <circle cx="1346" cy="608" r="172" fill="#4fa8ff" fill-opacity="0.13"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="350" fill="#ffffff" font-family="Arial, sans-serif" font-size="72" font-weight="700">voxel-parkour</text>
+  <text x="130" y="435" fill="#ffffff" font-family="Arial, sans-serif" font-size="72" font-weight="700">shadow-runs</text>
+  <text x="130" y="535" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">A browser-based parkour prototype built around flow, collapse, and state.</text>
+  <rect x="130" y="626" width="286" height="56" rx="28" fill="#1b2720" stroke="#416a4a"/>
+  <text x="165" y="662" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">PUBLIC PROJECT</text>
+</svg>

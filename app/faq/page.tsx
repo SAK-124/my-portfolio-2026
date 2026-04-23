@@ -1,25 +1,30 @@
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { Breadcrumbs } from '@/components/breadcrumbs'
+import { JsonLd } from '@/components/json-ld'
 import { PageHeader } from '@/components/page-header'
 import { RevealList } from '@/components/reveal-list'
 import { faq } from '@/data/profile'
 import { buildMetadata } from '@/lib/seo'
+import { buildFaqSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata({
   title: 'FAQ',
-  description: 'Common questions about Saboor Ali Khan, his education, internship, and professional focus.',
+  description:
+    'Common questions about Saboor Ali Khan, his education, 10Pearls Pakistan role, marketing automation work, and technical SEO focus.',
   path: '/faq',
+  keywords: ['Saboor FAQ', 'Saboor Ali Khan questions', 'Saboor 10Pearls', 'Saboor IBA Karachi'],
 })
 
 export default function FaqPage() {
   return (
     <div className="container py-10 md:py-20">
+      <JsonLd data={buildFaqSchema()} />
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'FAQ', href: '/faq' }]} />
       <PageHeader
         eyebrow="FAQ"
         title="Frequently asked questions"
-        lead="Quick answers to the basic identity and background questions people often search for."
+        lead="Quick answers to the identity, education, internship, and topic questions people are most likely to search for."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

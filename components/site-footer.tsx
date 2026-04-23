@@ -5,7 +5,6 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto" style={{ background: '#111009' }}>
       <div className="container py-10 md:py-14">
-        {/* Top: name/bio + nav */}
         <div
           className="grid grid-cols-1 gap-8 pb-8 md:grid-cols-[1.2fr_1fr] md:items-start"
           style={{ borderBottom: '1px solid #2a2520' }}
@@ -15,17 +14,14 @@ export function SiteFooter() {
               {siteConfig.name}
             </p>
             <p className="mt-2 max-w-[50ch] text-sm leading-relaxed" style={{ color: '#7a746c' }}>
-              BBA Marketing student at IBA and Digital Marketing Intern at 10Pearls Pakistan.
+              Saboor Ali Khan is a BBA Marketing student at IBA Karachi and a Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, marketing operations, AI workflows, and workflow tools.
             </p>
             <p className="mt-3 text-xs" style={{ color: '#5a554e' }}>
               Based in {siteConfig.location}
             </p>
           </div>
 
-          <nav
-            aria-label="Footer navigation"
-            className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3"
-          >
+          <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -36,24 +32,21 @@ export function SiteFooter() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/certifications"
-              className="text-sm transition-colors duration-200"
-              style={{ color: '#7a746c' }}
-            >
-              Certifications
+            <Link href="/tools/resume-builder" className="text-sm transition-colors duration-200" style={{ color: '#7a746c' }}>
+              Tools / Resume Builder
             </Link>
-            <Link
-              href="/faq"
-              className="text-sm transition-colors duration-200"
-              style={{ color: '#7a746c' }}
-            >
+            <Link href="/marketing-automation" className="text-sm transition-colors duration-200" style={{ color: '#7a746c' }}>
+              Marketing Automation
+            </Link>
+            <Link href="/technical-seo" className="text-sm transition-colors duration-200" style={{ color: '#7a746c' }}>
+              Technical SEO
+            </Link>
+            <Link href="/faq" className="text-sm transition-colors duration-200" style={{ color: '#7a746c' }}>
               FAQ
             </Link>
           </nav>
         </div>
 
-        {/* Bottom: copyright + contact */}
         <div className="flex flex-wrap items-center justify-between gap-4 pt-6">
           <p className="text-xs" style={{ color: '#4e4942' }}>
             © {new Date().getFullYear()} Saboor Ali Khan. All rights reserved.

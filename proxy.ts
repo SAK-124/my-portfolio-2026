@@ -9,6 +9,10 @@ function isToolsLoginPath(pathname: string): boolean {
   return pathname === '/tools/login' || pathname.startsWith('/tools/login/')
 }
 
+function isProtectedToolsPath(pathname: string): boolean {
+  return pathname === '/tools/resume-builder/app' || pathname.startsWith('/tools/resume-builder/app/')
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
@@ -29,16 +33,6 @@ export async function proxy(request: NextRequest) {
 
   const { response, user, configured } = await refreshAuthSession(request)
 
-  if (!configured) {
-    if (isToolsLoginPath(pathname)) {
-      return response
-    }
-    const url = request.nextUrl.clone()
-    url.pathname = '/tools/login'
-    url.searchParams.set('error', 'unconfigured')
-    return NextResponse.redirect(url)
-  }
-
   if (isToolsLoginPath(pathname)) {
     if (user) {
       const from = request.nextUrl.searchParams.get('from')
@@ -47,7 +41,19 @@ export async function proxy(request: NextRequest) {
       url.search = ''
       return NextResponse.redirect(url)
     }
+
     return response
+  }
+
+  if (!isProtectedToolsPath(pathname)) {
+    return response
+  }
+
+  if (!configured) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/tools/login'
+    url.searchParams.set('error', 'unconfigured')
+    return NextResponse.redirect(url)
   }
 
   if (user) {

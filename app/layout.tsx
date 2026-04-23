@@ -1,14 +1,21 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Outfit, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { JsonLd } from '@/components/json-ld'
 import { RouteShell } from '@/components/route-shell'
-import { faq, profile } from '@/data/profile'
-import { projects } from '@/data/projects'
+import {
+  buildOrganizationSchema,
+  buildPersonSchema,
+  buildSiteNavigationSchema,
+} from '@/lib/schema'
 import { siteConfig } from '@/lib/site'
 
 const display = Outfit({ subsets: ['latin'], variable: '--font-display' })
 const body = Space_Grotesk({ subsets: ['latin'], variable: '--font-body' })
+
+export const viewport: Viewport = {
+  themeColor: '#141716',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -27,9 +34,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: siteConfig.url,
-  },
   manifest: '/manifest.webmanifest',
   icons: {
     icon: [
@@ -47,6 +51,9 @@ export const metadata: Metadata = {
     'Saboor Ali Khan 10Pearls',
     'Saboor Ali Khan portfolio',
     'Saboor Ali Khan digital marketing',
+    'Saboor Ali Khan marketing automation',
+    'Saboor Ali Khan technical SEO',
+    'Saboor Ali Khan resume builder',
     'Saboor Ali Khan GitHub',
     'Saboor Khan Karachi',
     'SAK-124',
@@ -80,118 +87,29 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: 'Saboor Ali Khan portfolio overview',
-      },
-    ],
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
   },
 }
 
+const globalSchemas = [
+  buildPersonSchema(),
+  buildOrganizationSchema(),
+  buildSiteNavigationSchema(),
+]
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const personSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: profile.name,
-    jobTitle: 'Digital Marketing Intern & Marketing Automation Developer',
-    description: profile.intro,
-    url: siteConfig.url,
-    sameAs: [siteConfig.github, siteConfig.linkedin, siteConfig.instagram],
-    homeLocation: {
-      '@type': 'Place',
-      name: siteConfig.location,
-    },
-    affiliation: {
-      '@type': 'CollegeOrUniversity',
-      name: 'Institute of Business Administration',
-      sameAs: 'https://www.iba.edu.pk',
-    },
-    worksFor: {
-      '@type': 'Organization',
-      name: '10Pearls Pakistan',
-    },
-    hasCredential: profile.certifications.map((certification) => ({
-      '@type': 'EducationalOccupationalCredential',
-      credentialCategory: 'certificate',
-      recognizedBy: {
-        '@type': 'Organization',
-        name: certification.issuer,
-      },
-      name: certification.name,
-    })),
-    knowsAbout: [
-      'Marketing automation',
-      'Technical SEO',
-      'Reporting workflows',
-      'Execution systems',
-      ...profile.toolGroups.flatMap((group) => group.items),
-    ],
-  }
-
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.name,
-    },
-  }
-
-  const projectSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'Selected Projects by Saboor Ali Khan',
-    itemListElement: projects
-      .filter((project) => project.featured)
-      .map((project, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        item: {
-          '@type': 'CreativeWork',
-          name: project.name,
-          description: project.description,
-          url: project.href || `${siteConfig.url}/projects`,
-          author: {
-            '@type': 'Person',
-            name: profile.name,
-          },
-        },
-      })),
-  }
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((entry) => ({
-      '@type': 'Question',
-      name: entry.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: entry.a,
-      },
-    })),
-  }
-
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} font-[var(--font-body)] antialiased`}>
-        <JsonLd data={personSchema} />
-        <JsonLd data={websiteSchema} />
-        <JsonLd data={projectSchema} />
-        <JsonLd data={faqSchema} />
-
+        <a href="#main-content" className="skip-to-content">
+          Skip to main content
+        </a>
+        <JsonLd data={globalSchemas} />
         <RouteShell>{children}</RouteShell>
       </body>
     </html>

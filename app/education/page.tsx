@@ -18,7 +18,7 @@ export default function EducationPage() {
       <PageHeader
         eyebrow="Education"
         title="Education and credentials"
-        lead="My formal background is in marketing, and most of my practical work has centered on digital operations, SEO, and execution systems."
+        lead="This is the background layer rather than the main proof layer. It explains the formal foundation behind the more systems-heavy work shown across the rest of the portfolio."
       />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">

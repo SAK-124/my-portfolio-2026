@@ -104,7 +104,7 @@ export function seedPortfolioFromProfile(
       name: p.name,
       description: p.description,
       stack: [...p.stack],
-      url: p.href,
+      url: p.links[0]?.href,
       bullets: [],
     })),
     skillGroups,

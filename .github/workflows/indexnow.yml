@@ -1,0 +1,67 @@
+name: Submit to IndexNow after deploy
+
+# Fires automatically when Vercel marks a Production deployment as "success"
+# via its GitHub integration. Also supports manual dispatch for ad-hoc runs.
+#
+# Why this is safe without secrets:
+# - IndexNow itself does not require auth.
+# - The key file is already in /public/ and served from the site.
+# - scripts/indexnow.mjs reads the live sitemap over HTTPS and POSTs.
+#
+# What you need on your side:
+# - Vercel's GitHub integration must be installed on this repo (it already
+#   is if Vercel auto-deploys on every push). No other setup.
+# - If you deploy somewhere other than Vercel, switch the trigger to
+#   `push: { branches: [main] }` and add a `sleep 60` step before the ping.
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Optional space-separated list of specific URLs or paths to submit (defaults to full sitemap)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  submit:
+    # Only run on successful Production deployments — skip Preview, skip failed builds.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'deployment_status' &&
+       github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Give the CDN a moment to propagate
+        # Vercel marks the deployment "success" the instant the build is ready,
+        # but the edge may take a few seconds to serve the new sitemap everywhere.
+        run: sleep 20
+
+      - name: Submit to IndexNow (Bing / Yandex / Seznam / Naver / Yep)
+        env:
+          INDEXNOW_HOST: sabooralikhan.com
+          # INDEXNOW_KEY is baked into the script default; override here only if
+          # you rotate the key and move the public/<key>.txt file.
+        run: |
+          if [ -n "${{ github.event.inputs.urls }}" ]; then
+            echo "Submitting specific URLs: ${{ github.event.inputs.urls }}"
+            node scripts/indexnow.mjs ${{ github.event.inputs.urls }}
+          else
+            echo "Submitting full sitemap"
+            node scripts/indexnow.mjs
+          fi

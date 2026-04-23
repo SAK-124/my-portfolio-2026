@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#0f1114"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#171a20" stroke="#303946"/>
+  <circle cx="1250" cy="260" r="210" fill="#5fd3ff" fill-opacity="0.16"/>
+  <circle cx="1345" cy="595" r="175" fill="#f3c458" fill-opacity="0.15"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="350" fill="#ffffff" font-family="Arial, sans-serif" font-size="74" font-weight="700">10Pearls Kwanzoo</text>
+  <text x="130" y="438" fill="#ffffff" font-family="Arial, sans-serif" font-size="74" font-weight="700">Workflow Integrations</text>
+  <text x="130" y="538" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">Integration design for campaign-adjacent workflow execution.</text>
+  <rect x="130" y="632" width="330" height="56" rx="28" fill="#1c2730" stroke="#356178"/>
+  <text x="165" y="668" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">10PEARLS CASE STUDY</text>
+</svg>

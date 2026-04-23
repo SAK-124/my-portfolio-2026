@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#101114"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#181b21" stroke="#313745"/>
+  <circle cx="1270" cy="245" r="200" fill="#ef8b51" fill-opacity="0.17"/>
+  <circle cx="1335" cy="610" r="180" fill="#8b6bff" fill-opacity="0.12"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="345" fill="#ffffff" font-family="Arial, sans-serif" font-size="72" font-weight="700">10Pearls Marketing</text>
+  <text x="130" y="430" fill="#ffffff" font-family="Arial, sans-serif" font-size="72" font-weight="700">Operations Orchestrator</text>
+  <text x="130" y="530" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">Workflow orchestration for recurring marketing operations across teams.</text>
+  <rect x="130" y="628" width="330" height="56" rx="28" fill="#25212e" stroke="#4a3d60"/>
+  <text x="165" y="664" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">10PEARLS CASE STUDY</text>
+</svg>

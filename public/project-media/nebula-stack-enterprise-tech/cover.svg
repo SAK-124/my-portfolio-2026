@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#0c0f16"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#141925" stroke="#2c3b58"/>
+  <circle cx="1262" cy="245" r="208" fill="#6f8fff" fill-opacity="0.18"/>
+  <circle cx="1348" cy="603" r="175" fill="#67d0ff" fill-opacity="0.14"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="348" fill="#ffffff" font-family="Arial, sans-serif" font-size="74" font-weight="700">nebula-stack</text>
+  <text x="130" y="434" fill="#ffffff" font-family="Arial, sans-serif" font-size="74" font-weight="700">enterprise-tech</text>
+  <text x="130" y="536" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">A cinematic enterprise-tech website demo with multi-page product storytelling.</text>
+  <rect x="130" y="628" width="286" height="56" rx="28" fill="#1a2235" stroke="#40588d"/>
+  <text x="165" y="664" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">PUBLIC PROJECT</text>
+</svg>

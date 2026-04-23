@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#0d1018"/>
+  <rect x="70" y="70" width="1460" height="760" rx="42" fill="#131a25" stroke="#30415f"/>
+  <circle cx="1268" cy="245" r="206" fill="#52a7ff" fill-opacity="0.18"/>
+  <circle cx="1350" cy="602" r="170" fill="#ff4dcc" fill-opacity="0.13"/>
+  <text x="130" y="220" fill="#f5f3ef" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">SABOOR ALI KHAN</text>
+  <text x="130" y="348" fill="#ffffff" font-family="Arial, sans-serif" font-size="70" font-weight="700">ultimate-tictactoe</text>
+  <text x="130" y="432" fill="#ffffff" font-family="Arial, sans-serif" font-size="70" font-weight="700">android</text>
+  <text x="130" y="532" fill="#c4ccd8" font-family="Arial, sans-serif" font-size="34">A live multiplayer Android game built with Jetpack Compose and Firebase.</text>
+  <rect x="130" y="624" width="286" height="56" rx="28" fill="#172133" stroke="#3660a0"/>
+  <text x="165" y="660" fill="#f2f6ff" font-family="Arial, sans-serif" font-size="24">PUBLIC PROJECT</text>
+</svg>
