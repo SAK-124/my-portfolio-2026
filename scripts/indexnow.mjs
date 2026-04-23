@@ -18,7 +18,7 @@
  */
 
 const HOST = process.env.INDEXNOW_HOST || 'sabooralikhan.com'
-const KEY = process.env.INDEXNOW_KEY || 'a8f4c2e6b31d7059af8c4e2b7d3f1096'
+const KEY = process.env.INDEXNOW_KEY || '36016d80af624501bea1ee9355292ea5'
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`
 const DEFAULT_SITEMAP = process.env.INDEXNOW_SITEMAP_URL || `https://${HOST}/sitemap.xml`
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow'

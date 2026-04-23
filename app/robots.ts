@@ -34,8 +34,6 @@ const AI_CRAWLERS = [
 ]
 
 export default function robots(): MetadataRoute.Robots {
-  const host = new URL(siteConfig.url).host
-
   const rules: MetadataRoute.Robots['rules'] = [
     {
       userAgent: '*',
@@ -54,9 +52,11 @@ export default function robots(): MetadataRoute.Robots {
     })),
   ]
 
+  // Note: no `Host:` directive. It is a Yandex-only extension that Bing,
+  // Google, and most validators reject as invalid syntax. Canonical host is
+  // expressed via the sitemap URL and per-page canonical tags instead.
   return {
     rules,
     sitemap: `${siteConfig.url}/sitemap.xml`,
-    host,
   }
 }

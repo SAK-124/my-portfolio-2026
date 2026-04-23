@@ -44,11 +44,11 @@ Nothing else on this list matters until the code is live.
   - Repo → Actions tab → "Submit to IndexNow after deploy" → *Run workflow* button
   - Leave the "urls" input empty → submits the whole live sitemap
   - Expected: per-chunk `HTTP 200` or `HTTP 202` responses in the log
-  - If you see `HTTP 422`: the key file didn't deploy — check `https://sabooralikhan.com/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt` returns the key string as plain text
+  - If you see `HTTP 422`: the key file didn't deploy — check `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` returns the key string as plain text
 
 - [ ] **Verify the IndexNow key file is live**
-  - Open `https://sabooralikhan.com/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt` in a browser
-  - Should show only: `a8f4c2e6b31d7059af8c4e2b7d3f1096`
+  - Open `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` in a browser
+  - Should show only: `36016d80af624501bea1ee9355292ea5`
 
 From here on, every production deploy auto-pings IndexNow — no further action needed.
 
@@ -87,7 +87,7 @@ Google and Bing are the only two that matter for a Pakistan-audience English sit
   - Click "Import from Google Search Console" → one-click imports site + sitemap + verification
 
 - [ ] **Confirm IndexNow is active in Bing dashboard**
-  - Bing WMT → Settings → IndexNow → should show the key file detected at `https://sabooralikhan.com/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt`
+  - Bing WMT → Settings → IndexNow → should show the key file detected at `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt`
   - Recent submissions panel should show the batch you pushed in Phase 2
 
 ### Verify OG image renders everywhere

@@ -54,7 +54,7 @@ No other Vercel config is needed. The workflow reacts to the deploy-status event
 
 - [Bing Webmaster Tools](https://www.bing.com/webmasters) → sign in → "Import from Search Console" (one click if you just did step 4)
 - Add the sitemap the same way
-- Settings → IndexNow → the dashboard auto-detects the public key file at `https://sabooralikhan.com/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt` once a submission comes in
+- Settings → IndexNow → the dashboard auto-detects the public key file at `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` once a submission comes in
 
 ### 6. Trigger the first IndexNow submission manually
 
@@ -78,7 +78,7 @@ npm run indexnow -- /blog/slug /projects/x    # specific paths
 ```
 
 **Verify the IndexNow key is live**:
-Open `https://sabooralikhan.com/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt` in a browser. It should return the raw hex string `a8f4c2e6b31d7059af8c4e2b7d3f1096` with content-type `text/plain`.
+Open `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` in a browser. It should return the raw hex string `36016d80af624501bea1ee9355292ea5` with content-type `text/plain`.
 
 ---
 
@@ -121,7 +121,7 @@ This is strictly more complex than the GitHub Action. Only do it if you leave Gi
 
 - `.github/workflows/indexnow.yml` — the GitHub Action
 - `scripts/indexnow.mjs` — the submission script (works both locally and in CI)
-- `public/a8f4c2e6b31d7059af8c4e2b7d3f1096.txt` — IndexNow host key (must be publicly fetchable)
+- `public/36016d80af624501bea1ee9355292ea5.txt` — IndexNow host key (must be publicly fetchable)
 - `app/sitemap.ts` — the Next.js sitemap route that gets submitted
 
 If you rotate the IndexNow key: generate a new 32-char hex string, rename the public key file to match, and update the default in `scripts/indexnow.mjs`. No other file needs to change.
