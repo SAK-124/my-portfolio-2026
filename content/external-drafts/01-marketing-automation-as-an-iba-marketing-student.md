@@ -2,7 +2,7 @@
 title: "How I Think About Marketing Automation as a BBA Marketing Student at IBA Karachi"
 description: "How a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan actually uses marketing automation in practice."
 published: false
-canonical_url: https://sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student
+canonical_url: https://www.sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student
 tags: marketing, automation, seo, careers
 ---
 
@@ -32,7 +32,7 @@ These are borrowed from conversations with more senior marketers at 10Pearls, st
 
 The 10Pearls Outreach Automation Program and the Marketing Operations Orchestrator both started from the same pattern — a recurring operational task that kept getting rebuilt by hand. In each case, the win was not "we sent more messages." It was "the next team member can pick this up without a two-hour handoff."
 
-The same principle shapes the public work. The resume builder I maintain at [sabooralikhan.com/tools/resume-builder](https://sabooralikhan.com/tools/resume-builder) is essentially an automation for the single most repetitive task every applicant does — rewriting the same content in slightly different formats — packaged as a small product.
+The same principle shapes the public work. The resume builder I maintain at [sabooralikhan.com/tools/resume-builder](https://www.sabooralikhan.com/tools/resume-builder) is essentially an automation for the single most repetitive task every applicant does — rewriting the same content in slightly different formats — packaged as a small product.
 
 ## What I would tell another IBA marketing student
 
@@ -42,10 +42,10 @@ And the biggest one: resist the urge to build a Rube Goldberg machine. The best 
 
 ## Where to go next
 
-If this matches how you think about marketing, the topic pages on [sabooralikhan.com](https://sabooralikhan.com) have the longer version: `/marketing-automation`, `/marketing-operations`, and `/technical-seo`. The project case studies for the 10Pearls work show how the same reasoning plays out in practice.
+If this matches how you think about marketing, the topic pages on [sabooralikhan.com](https://www.sabooralikhan.com) have the longer version: `/marketing-automation`, `/marketing-operations`, and `/technical-seo`. The project case studies for the 10Pearls work show how the same reasoning plays out in practice.
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student](https://sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student).*
+*Originally published at [sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student](https://www.sabooralikhan.com/blog/marketing-automation-as-an-iba-marketing-student).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

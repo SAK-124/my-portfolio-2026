@@ -2,7 +2,7 @@
 title: "Using AI Workflows to Reduce Repeat Marketing Operations Work"
 description: "The AI workflow patterns that actually survive contact with real marketing operations work."
 published: false
-canonical_url: https://sabooralikhan.com/blog/ai-workflows-for-marketing-operations
+canonical_url: https://www.sabooralikhan.com/blog/ai-workflows-for-marketing-operations
 tags: ai, marketing, automation, productivity
 ---
 
@@ -40,10 +40,10 @@ This is the opposite of the "AI transformation" pitch. It is small, honest, and 
 
 ## Further reading
 
-The [/ai-workflows](https://sabooralikhan.com/ai-workflows) topic page is the short version of my position. The [/marketing-automation](https://sabooralikhan.com/marketing-automation) and [/marketing-operations](https://sabooralikhan.com/marketing-operations) pages show where these patterns fit inside the larger operating model I work inside at 10Pearls.
+The [/ai-workflows](https://www.sabooralikhan.com/ai-workflows) topic page is the short version of my position. The [/marketing-automation](https://www.sabooralikhan.com/marketing-automation) and [/marketing-operations](https://www.sabooralikhan.com/marketing-operations) pages show where these patterns fit inside the larger operating model I work inside at 10Pearls.
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/ai-workflows-for-marketing-operations](https://sabooralikhan.com/blog/ai-workflows-for-marketing-operations).*
+*Originally published at [sabooralikhan.com/blog/ai-workflows-for-marketing-operations](https://www.sabooralikhan.com/blog/ai-workflows-for-marketing-operations).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

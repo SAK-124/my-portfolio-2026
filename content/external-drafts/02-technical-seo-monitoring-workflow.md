@@ -2,7 +2,7 @@
 title: "Technical SEO Monitoring: A Practical Operating Model That Does Not Rot"
 description: "A field-tested operating model for technical SEO monitoring and reporting, from the 10Pearls workflow I maintain."
 published: false
-canonical_url: https://sabooralikhan.com/blog/technical-seo-monitoring-workflow
+canonical_url: https://www.sabooralikhan.com/blog/technical-seo-monitoring-workflow
 tags: seo, technicalseo, marketing, monitoring
 ---
 
@@ -43,12 +43,12 @@ I do not automate the triage step. It is the layer where a human reading the num
 
 ## Where this operating model lives in my work
 
-The 10Pearls SEO Monitoring Workflow case study on [sabooralikhan.com/projects/10pearls-seo-monitoring-workflow](https://sabooralikhan.com/projects/10pearls-seo-monitoring-workflow) is the clearest public expression of this. The [/technical-seo](https://sabooralikhan.com/technical-seo) topic page has the short version.
+The 10Pearls SEO Monitoring Workflow case study on [sabooralikhan.com/projects/10pearls-seo-monitoring-workflow](https://www.sabooralikhan.com/projects/10pearls-seo-monitoring-workflow) is the clearest public expression of this. The [/technical-seo](https://www.sabooralikhan.com/technical-seo) topic page has the short version.
 
 If you are setting up technical SEO monitoring at a Pakistani team for the first time, the best advice I can give you is this: pick the smallest possible normalization step, make it the cheapest part of the week, and put the action log in front of the dashboard.
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/technical-seo-monitoring-workflow](https://sabooralikhan.com/blog/technical-seo-monitoring-workflow).*
+*Originally published at [sabooralikhan.com/blog/technical-seo-monitoring-workflow](https://www.sabooralikhan.com/blog/technical-seo-monitoring-workflow).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

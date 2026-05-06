@@ -18,7 +18,7 @@ These markdown files are ready-to-publish exports of posts from `data/blog.ts`, 
 
 ## Canonical link
 
-Every post must keep its canonical URL pointing back to `https://sabooralikhan.com/blog/{slug}` so Google does not penalize the republish as duplicate content. Dev.to handles this automatically via frontmatter; Medium needs the manual step above.
+Every post must keep its canonical URL pointing back to `https://www.sabooralikhan.com/blog/{slug}` so Google does not penalize the republish as duplicate content. Dev.to handles this automatically via frontmatter; Medium needs the manual step above.
 
 ## Tags
 

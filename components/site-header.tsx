@@ -27,20 +27,21 @@ function dropdownLayoutFor(item: NavItem): DropdownLayout {
 
 export function SiteHeader() {
   const pathname = usePathname()
-  const [openMenu, setOpenMenu] = useState<string | null>(null)
+  const [openMenu, setOpenMenu] = useState<{ label: string; pathname: string } | null>(null)
+  const openMenuLabel = openMenu?.pathname === pathname ? openMenu.label : null
   const menuRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
-      if (!openMenu) return
-      const menuEl = menuRefs.current[openMenu]
+      if (!openMenuLabel) return
+      const menuEl = menuRefs.current[openMenuLabel]
       if (menuEl && !menuEl.contains(event.target as Node)) {
         setOpenMenu(null)
       }
     }
     window.addEventListener('pointerdown', handlePointerDown)
     return () => window.removeEventListener('pointerdown', handlePointerDown)
-  }, [openMenu])
+  }, [openMenuLabel])
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -49,11 +50,6 @@ export function SiteHeader() {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
-
-  // Close any open menu whenever the user navigates.
-  useEffect(() => {
-    setOpenMenu(null)
-  }, [pathname])
 
   return (
     <header className="sticky top-0 z-20 px-4 pt-3 md:px-6 md:pt-4">
@@ -129,8 +125,8 @@ export function SiteHeader() {
                   key={item.label}
                   item={item}
                   active={active}
-                  open={openMenu === item.label}
-                  onOpen={() => setOpenMenu(item.label)}
+                  open={openMenuLabel === item.label}
+                  onOpen={() => setOpenMenu({ label: item.label, pathname })}
                   onClose={() => setOpenMenu(null)}
                   setRef={(el) => {
                     menuRefs.current[item.label] = el

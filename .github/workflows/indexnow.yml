@@ -54,7 +54,7 @@ jobs:
 
       - name: Submit to IndexNow (Bing / Yandex / Seznam / Naver / Yep)
         env:
-          INDEXNOW_HOST: sabooralikhan.com
+          INDEXNOW_HOST: www.sabooralikhan.com
           # INDEXNOW_KEY is baked into the script default; override here only if
           # you rotate the key and move the public/<key>.txt file.
         run: |

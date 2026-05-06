@@ -14,6 +14,8 @@ This doc explains everything that runs automatically when you push to `main`, pl
 
 Google does **not** support IndexNow. Google picks up the sitemap on its own crawl schedule after it's submitted once in Search Console.
 
+Canonical host note: this site uses `https://www.sabooralikhan.com` as the canonical host. Keep Search Console, Vercel `NEXT_PUBLIC_SITE_URL`, sitemap submissions, robots, and IndexNow pointed at the `www` version.
+
 ---
 
 ## One-time setup (5 minutes)
@@ -46,9 +48,9 @@ No other Vercel config is needed. The workflow reacts to the deploy-status event
 
 ### 4. Submit the sitemap to Google once (Google doesn't use IndexNow)
 
-- [Google Search Console](https://search.google.com/search-console) → add property `https://sabooralikhan.com`
+- [Google Search Console](https://search.google.com/search-console) → add property `sc-domain:sabooralikhan.com` if possible, or `https://www.sabooralikhan.com/`
 - Verify via DNS TXT record or HTML file (easier on Vercel is the "DNS" method via your domain provider)
-- Sitemaps → add new → `https://sabooralikhan.com/sitemap.xml`
+- Sitemaps → add new → `https://www.sabooralikhan.com/sitemap.xml`
 
 ### 5. Submit the sitemap to Bing (seeds IndexNow's host key for faster propagation)
 
@@ -78,7 +80,7 @@ npm run indexnow -- /blog/slug /projects/x    # specific paths
 ```
 
 **Verify the IndexNow key is live**:
-Open `https://sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` in a browser. It should return the raw hex string `36016d80af624501bea1ee9355292ea5` with content-type `text/plain`.
+Open `https://www.sabooralikhan.com/36016d80af624501bea1ee9355292ea5.txt` in a browser. It should return the raw hex string `36016d80af624501bea1ee9355292ea5` with content-type `text/plain`.
 
 ---
 
@@ -111,7 +113,7 @@ If you ever move off GitHub Actions, you can replace it with a Vercel Deployment
 
 1. Create a Next.js API route, e.g. `app/api/indexnow-hook/route.ts`, that accepts `POST`, verifies a shared secret header, and runs the submission logic from `scripts/indexnow.mjs`.
 2. Generate a secret, add it to Vercel → Project → Settings → Environment Variables as `INDEXNOW_HOOK_SECRET`.
-3. Vercel → Project → Settings → Webhooks → add webhook → event `deployment.succeeded` → URL `https://sabooralikhan.com/api/indexnow-hook?secret=<shared>`.
+3. Vercel → Project → Settings → Webhooks → add webhook → event `deployment.succeeded` → URL `https://www.sabooralikhan.com/api/indexnow-hook?secret=<shared>`.
 
 This is strictly more complex than the GitHub Action. Only do it if you leave GitHub entirely.
 

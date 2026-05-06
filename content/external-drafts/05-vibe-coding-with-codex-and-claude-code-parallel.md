@@ -2,11 +2,11 @@
 title: "Vibe-Coding a Resume Builder with Codex and Claude Code Running in Parallel"
 description: "How I shipped a Next.js + Supabase resume builder by vibe-coding with OpenAI Codex and Anthropic Claude Code running side by side and talking to each other."
 published: false
-canonical_url: https://sabooralikhan.com/blog/building-resume-builder-nextjs-supabase
+canonical_url: https://www.sabooralikhan.com/blog/building-resume-builder-nextjs-supabase
 tags: ai, coding, productivity, webdev
 ---
 
-I shipped the public resume builder at [sabooralikhan.com](https://sabooralikhan.com/tools/resume-builder) by vibe-coding — two AI coding agents, OpenAI Codex and Anthropic Claude Code, running in parallel, passing intermediate work back and forth. This is the honest version of what that setup actually looks like, why it works, and how you can run it yourself.
+I shipped the public resume builder at [sabooralikhan.com](https://www.sabooralikhan.com/tools/resume-builder) by vibe-coding — two AI coding agents, OpenAI Codex and Anthropic Claude Code, running in parallel, passing intermediate work back and forth. This is the honest version of what that setup actually looks like, why it works, and how you can run it yourself.
 
 ## Why a resume builder, and why on a portfolio
 
@@ -67,12 +67,12 @@ Build the public landing page first and the app second. I did it in the other or
 
 ## Where to see it
 
-The tool lives at [sabooralikhan.com/tools/resume-builder](https://sabooralikhan.com/tools/resume-builder). The case-study style write-up is at `/projects/my-portfolio-2026`. The full tools surface is at `/tools`.
+The tool lives at [sabooralikhan.com/tools/resume-builder](https://www.sabooralikhan.com/tools/resume-builder). The case-study style write-up is at `/projects/my-portfolio-2026`. The full tools surface is at `/tools`.
 
 If you are starting your own vibe-coding setup: two panes, two agents, git as the safety net, markdown files as the handoff. That is the whole thing. The tooling is not the hard part. The hard part is learning to stop typing and start directing.
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/building-resume-builder-nextjs-supabase](https://sabooralikhan.com/blog/building-resume-builder-nextjs-supabase).*
+*Originally published at [sabooralikhan.com/blog/building-resume-builder-nextjs-supabase](https://www.sabooralikhan.com/blog/building-resume-builder-nextjs-supabase).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * IndexNow submitter for sabooralikhan.com.
+ * IndexNow submitter for www.sabooralikhan.com.
  *
  * IndexNow is a free protocol supported by Bing, Yandex, Seznam, Naver, and Yep.
  * (Google does not currently support IndexNow — for Google, submit the sitemap
@@ -12,12 +12,12 @@
  *   npm run indexnow -- --sitemap https://host/sm.xml  # use a specific sitemap
  *
  * Env overrides:
- *   INDEXNOW_HOST  (default: sabooralikhan.com)
+ *   INDEXNOW_HOST  (default: www.sabooralikhan.com)
  *   INDEXNOW_KEY   (default: the repo key below)
  *   INDEXNOW_SITEMAP_URL (default: https://{host}/sitemap.xml)
  */
 
-const HOST = process.env.INDEXNOW_HOST || 'sabooralikhan.com'
+const HOST = process.env.INDEXNOW_HOST || 'www.sabooralikhan.com'
 const KEY = process.env.INDEXNOW_KEY || '36016d80af624501bea1ee9355292ea5'
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`
 const DEFAULT_SITEMAP = process.env.INDEXNOW_SITEMAP_URL || `https://${HOST}/sitemap.xml`

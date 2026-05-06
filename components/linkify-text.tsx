@@ -6,8 +6,10 @@ import type { ReactNode } from 'react'
 // (e.g. blog posts) without requiring MDX or hand-written <Link> wrappers.
 //
 // Valid shapes:
+//   https://www.sabooralikhan.com/<path>
 //   https://sabooralikhan.com/<path>
 //   sabooralikhan.com/<path>
+//   www.sabooralikhan.com/<path>
 //   /about
 //   /blog/<slug>
 //   /projects/<slug>
@@ -24,7 +26,9 @@ import type { ReactNode } from 'react'
 const INTERNAL_LINK_PATTERN = new RegExp(
   [
     'https?://sabooralikhan\\.com/[a-z0-9\\-/]*',
+    'https?://www\\.sabooralikhan\\.com/[a-z0-9\\-/]*',
     'sabooralikhan\\.com/[a-z0-9\\-/]*',
+    'www\\.sabooralikhan\\.com/[a-z0-9\\-/]*',
     '/(?:about|blog|projects|tools|experience|education|certifications|contact|faq|marketing-automation|technical-seo|marketing-operations|ai-workflows)(?:/[a-z0-9\\-]+)?',
   ].join('|'),
   'gi',
@@ -34,10 +38,16 @@ const TRAILING_PUNCTUATION = /[.,!?:;)\]]+$/
 
 function normalizeToInternalPath(raw: string): string | null {
   let value = raw.replace(TRAILING_PUNCTUATION, '')
-  if (value.startsWith('https://sabooralikhan.com')) {
+  if (value.startsWith('https://www.sabooralikhan.com')) {
+    value = value.slice('https://www.sabooralikhan.com'.length)
+  } else if (value.startsWith('http://www.sabooralikhan.com')) {
+    value = value.slice('http://www.sabooralikhan.com'.length)
+  } else if (value.startsWith('https://sabooralikhan.com')) {
     value = value.slice('https://sabooralikhan.com'.length)
   } else if (value.startsWith('http://sabooralikhan.com')) {
     value = value.slice('http://sabooralikhan.com'.length)
+  } else if (value.startsWith('www.sabooralikhan.com')) {
+    value = value.slice('www.sabooralikhan.com'.length)
   } else if (value.startsWith('sabooralikhan.com')) {
     value = value.slice('sabooralikhan.com'.length)
   }

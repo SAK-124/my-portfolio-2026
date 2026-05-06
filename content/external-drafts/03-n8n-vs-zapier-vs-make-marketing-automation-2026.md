@@ -2,7 +2,7 @@
 title: "n8n vs Zapier vs Make: Picking a Marketing Automation Tool in 2026"
 description: "A grounded comparison of n8n, Zapier, and Make for marketing automation in 2026 — written from live workflows, not marketing copy."
 published: false
-canonical_url: https://sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026
+canonical_url: https://www.sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026
 tags: automation, marketing, n8n, zapier
 ---
 
@@ -46,7 +46,7 @@ A BBA marketing student learning the craft: start in Make. The visual model teac
 
 At 10Pearls I lean on n8n for the workflows that touch internal systems and HubSpot for the ones that sit on the customer side. Make shows up when I need fast branching with clean visual debugging.
 
-The resume builder I maintain at [sabooralikhan.com/tools/resume-builder](https://sabooralikhan.com/tools/resume-builder) does not use any of these — it is a Next.js + Supabase product. Not every automation problem is a workflow-tool problem.
+The resume builder I maintain at [sabooralikhan.com/tools/resume-builder](https://www.sabooralikhan.com/tools/resume-builder) does not use any of these — it is a Next.js + Supabase product. Not every automation problem is a workflow-tool problem.
 
 ## The deeper point
 
@@ -54,6 +54,6 @@ The tool matters less than the process discipline. A clean workflow in Zapier wi
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026](https://sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026).*
+*Originally published at [sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026](https://www.sabooralikhan.com/blog/n8n-vs-zapier-vs-make-marketing-automation-2026).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

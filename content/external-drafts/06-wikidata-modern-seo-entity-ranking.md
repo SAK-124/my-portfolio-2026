@@ -2,7 +2,7 @@
 title: "The Wikidata Lever: Why Modern SEO Ignores It and How a Single Entity Can Rewrite Your Search Results"
 description: "Why Wikidata is the most underrated SEO move in 2026, how it powers Google's Knowledge Graph, and the step-by-step playbook for claiming your own entity."
 published: false
-canonical_url: https://sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking
+canonical_url: https://www.sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking
 tags: seo, wikidata, technicalseo, marketing
 ---
 
@@ -64,10 +64,10 @@ If you maintain the entry and keep adding referenced statements, the compounding
 
 ## Related reading
 
-The [/technical-seo](https://sabooralikhan.com/technical-seo) topic page has more on the operational side of search. The [/about](https://sabooralikhan.com/about) page is an example of the entity-clarity principle applied to a personal site: one name, one description, consistent across every surface.
+The [/technical-seo](https://www.sabooralikhan.com/technical-seo) topic page has more on the operational side of search. The [/about](https://www.sabooralikhan.com/about) page is an example of the entity-clarity principle applied to a personal site: one name, one description, consistent across every surface.
 
 ---
 
-*Originally published at [sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking](https://sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking).*
+*Originally published at [sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking](https://www.sabooralikhan.com/blog/wikidata-modern-seo-entity-ranking).*
 
-*About the author: [Saboor Ali Khan](https://sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*
+*About the author: [Saboor Ali Khan](https://www.sabooralikhan.com/about) is a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan focused on marketing automation, technical SEO, and workflow tools.*

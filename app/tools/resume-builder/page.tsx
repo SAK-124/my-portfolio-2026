@@ -6,7 +6,7 @@ import { JsonLd } from '@/components/json-ld'
 import { ToolsViewHeader } from '@/components/tools/shell/tools-view-header'
 import { resumeBuilderTool } from '@/data/tools'
 import { buildMetadata } from '@/lib/seo'
-import { buildToolSchema } from '@/lib/schema'
+import { buildBreadcrumbSchema, buildToolSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata({
   title: resumeBuilderTool.seoTitle,
@@ -16,10 +16,19 @@ export const metadata: Metadata = buildMetadata({
   keywords: resumeBuilderTool.keywords,
 })
 
+const resumeBuilderSchemas = [
+  buildToolSchema(resumeBuilderTool),
+  buildBreadcrumbSchema([
+    { label: 'Home', href: '/' },
+    { label: 'Tools', href: '/tools' },
+    { label: resumeBuilderTool.name, href: resumeBuilderTool.path },
+  ]),
+]
+
 export default function ResumeBuilderLandingPage() {
   return (
     <section className="tools-view">
-      <JsonLd data={buildToolSchema(resumeBuilderTool)} />
+      <JsonLd data={resumeBuilderSchemas} />
       <ToolsViewHeader eyebrow={resumeBuilderTool.eyebrow} title={resumeBuilderTool.title} lead={resumeBuilderTool.lead} />
 
       <section className="tools-surface">

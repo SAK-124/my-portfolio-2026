@@ -1,9 +1,11 @@
 import { ArrowUpRight, FileText } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { JsonLd } from '@/components/json-ld'
 import { ToolsViewHeader } from '@/components/tools/shell/tools-view-header'
 import { publicTools } from '@/data/tools'
 import { buildMetadata } from '@/lib/seo'
+import { buildBreadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata({
   title: 'Public Tools | Saboor Ali Khan',
@@ -13,9 +15,15 @@ export const metadata: Metadata = buildMetadata({
   keywords: ['Saboor tools', 'Saboor resume builder', 'resume builder', 'ATS resume builder', 'resume editor'],
 })
 
+const breadcrumbs = buildBreadcrumbSchema([
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools' },
+])
+
 export default function ToolsIndexPage() {
   return (
     <section className="tools-view">
+      <JsonLd data={breadcrumbs} />
       <ToolsViewHeader
         eyebrow="Tools"
         title="Public tools"

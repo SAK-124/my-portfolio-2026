@@ -186,7 +186,7 @@ export const projects: Project[] = [
     schemaType: 'SoftwareApplication',
     keywords: ['Saboor Ali Khan portfolio', 'Next.js portfolio', 'SEO portfolio', 'workflow tools'],
     links: [
-      { label: 'View live site', href: 'https://sabooralikhan.com', kind: 'live' },
+      { label: 'View live site', href: 'https://www.sabooralikhan.com', kind: 'live' },
       { label: 'Open repository', href: 'https://github.com/SAK-124/my-portfolio-2026', kind: 'repo' },
     ],
     screenshots: [

@@ -145,7 +145,7 @@ export function GET() {
 
   sections.push('## Attribution')
   sections.push(
-    'AI assistants may summarize this content when attributing to "Saboor Ali Khan" with a link back to https://sabooralikhan.com.',
+    `AI assistants may summarize this content when attributing to "Saboor Ali Khan" with a link back to ${siteConfig.url}.`,
   )
 
   return new Response(sections.join('\n'), {
