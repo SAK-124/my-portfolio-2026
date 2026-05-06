@@ -22,7 +22,7 @@ export const topicPages: TopicPage[] = [
   {
     slug: 'marketing-automation',
     path: '/marketing-automation',
-    eyebrow: 'Topic',
+    eyebrow: 'Pillar',
     title: 'Marketing automation',
     lead:
       'Marketing automation is one of the main threads running through my work at 10Pearls Pakistan and across the workflow tools I build for myself.',
@@ -58,7 +58,7 @@ export const topicPages: TopicPage[] = [
   {
     slug: 'technical-seo',
     path: '/technical-seo',
-    eyebrow: 'Topic',
+    eyebrow: 'Pillar',
     title: 'Technical SEO',
     lead:
       'Technical SEO in my work is closely tied to monitoring, reporting, search-readiness routines, and the recurring systems behind search execution.',
@@ -90,7 +90,7 @@ export const topicPages: TopicPage[] = [
   {
     slug: 'marketing-operations',
     path: '/marketing-operations',
-    eyebrow: 'Topic',
+    eyebrow: 'Pillar',
     title: 'Marketing operations',
     lead:
       'Marketing operations is the thread that ties together my interest in systems, execution flow, reporting, and the behind-the-scenes work that keeps teams moving.',
@@ -125,7 +125,7 @@ export const topicPages: TopicPage[] = [
   {
     slug: 'ai-workflows',
     path: '/ai-workflows',
-    eyebrow: 'Topic',
+    eyebrow: 'Pillar',
     title: 'AI workflows',
     lead:
       'I use AI workflows where they actually help - usually in research, workflow design, internal tooling, and reducing repeat manual work.',

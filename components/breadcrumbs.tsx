@@ -1,28 +1,12 @@
 import Link from 'next/link'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr'
 import { JsonLd } from '@/components/json-ld'
-import { siteConfig } from '@/lib/site'
+import { buildBreadcrumbSchema, type BreadcrumbItem } from '@/lib/schema'
 
-type Crumb = {
-  label: string
-  href: string
-}
-
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.label,
-      item: `${siteConfig.url}${item.href}`,
-    })),
-  }
-
+export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
     <>
-      <JsonLd data={schema} />
+      <JsonLd data={buildBreadcrumbSchema(items)} />
       <nav aria-label="Breadcrumb" className="mb-6">
         <ol className="flex flex-wrap items-center gap-1 text-sm text-[var(--muted)]">
           {items.map((item, index) => (

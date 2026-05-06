@@ -35,6 +35,11 @@ codex-dev.err.log
 # env files (can opt-in for committing if needed)
 .env*
 
+# local API credentials, tokens, and generated SEO reports
+.secrets/
+.cache/
+/reports/
+
 # vercel
 .vercel
 

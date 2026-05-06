@@ -1,6 +1,8 @@
 import type { BlogPost } from '@/data/blog'
 import type { Project } from '@/data/projects'
 import { faq, profile } from '@/data/profile'
+import type { ExperienceEntry } from '@/data/profile'
+import type { TopicPage } from '@/data/topics'
 import type { PublicTool } from '@/data/tools'
 import { siteConfig } from '@/lib/site'
 
@@ -13,6 +15,29 @@ export function absoluteUrl(path: string) {
 }
 
 const SITE_LAUNCH_DATE = '2025-10-01'
+const SITE_PROFILE_LAST_MODIFIED = '2026-04-24'
+
+function uniqueValues(values: string[]) {
+  return Array.from(new Set(values))
+}
+
+export type BreadcrumbItem = {
+  label: string
+  href: string
+}
+
+export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: absoluteUrl(item.href),
+    })),
+  }
+}
 
 export function buildPersonSchema() {
   return {
@@ -21,8 +46,8 @@ export function buildPersonSchema() {
     '@id': `${siteConfig.url}/#person`,
     name: profile.name,
     givenName: 'Saboor',
-    familyName: 'Ali Khan',
-    additionalName: 'Saboor',
+    additionalName: 'Ali',
+    familyName: 'Khan',
     alternateName: [
       'Saboor Khan',
       'Saboor Ali Khan marketing',
@@ -31,15 +56,34 @@ export function buildPersonSchema() {
       'SAK-124',
     ],
     description: profile.shortBio,
+    disambiguatingDescription:
+      'Pakistani marketing automation specialist; not to be confused with the Pakistani actress Saboor Aly.',
     url: siteConfig.url,
     mainEntityOfPage: siteConfig.url,
     image: absoluteUrl(profile.profileImage),
-    sameAs: [
+    sameAs: uniqueValues([
       siteConfig.github,
       siteConfig.linkedin,
       siteConfig.instagram,
       'https://github.com/SAK-124',
       'https://www.linkedin.com/in/sabooralikhan/',
+    ]),
+    identifier: [
+      {
+        '@type': 'PropertyValue',
+        propertyID: 'GitHub username',
+        value: 'SAK-124',
+      },
+      {
+        '@type': 'PropertyValue',
+        propertyID: 'LinkedIn public profile slug',
+        value: 'sabooralikhan',
+      },
+      {
+        '@type': 'PropertyValue',
+        propertyID: 'Official website',
+        value: siteConfig.url,
+      },
     ],
     gender: 'Male',
     nationality: {
@@ -67,11 +111,27 @@ export function buildPersonSchema() {
       name: '10Pearls Pakistan',
       url: 'https://10pearls.com',
     },
+    affiliation: [
+      {
+        '@type': 'CollegeOrUniversity',
+        name: 'Institute of Business Administration, Karachi',
+        alternateName: 'IBA Karachi',
+        url: 'https://www.iba.edu.pk',
+        sameAs: 'https://www.wikidata.org/wiki/Q6039964',
+      },
+      {
+        '@type': 'Organization',
+        name: '10Pearls Pakistan',
+        url: 'https://10pearls.com',
+        sameAs: 'https://www.linkedin.com/company/10pearls/',
+      },
+    ],
     alumniOf: [
       {
         '@type': 'CollegeOrUniversity',
         name: 'Institute of Business Administration, Karachi',
-        sameAs: 'https://www.iba.edu.pk',
+        url: 'https://www.iba.edu.pk',
+        sameAs: 'https://www.wikidata.org/wiki/Q6039964',
       },
       {
         '@type': 'School',
@@ -116,7 +176,6 @@ export function buildPersonSchema() {
       'n8n',
       'HubSpot',
       'Kwanzoo',
-      'Ahrefs',
       'Google Analytics',
       ...profile.toolGroups.flatMap((group) => group.items),
     ],
@@ -162,6 +221,7 @@ export function buildWebsiteSchema() {
       'Saboor Ali Khan portfolio',
       'Saboor Khan portfolio',
       'sabooralikhan.com',
+      'www.sabooralikhan.com',
     ],
     url: siteConfig.url,
     description: siteConfig.description,
@@ -243,6 +303,50 @@ export function buildProjectListSchema(items: Project[], listName: string, path:
   }
 }
 
+export function buildTopicPageSchema(topic: TopicPage, projects: Project[], experience: ExperienceEntry[]) {
+  const relatedItems = [
+    ...projects.map((project) => ({
+      '@type': project.schemaType,
+      name: project.name,
+      url: absoluteUrl(`/projects/${project.slug}`),
+      description: project.description,
+    })),
+    ...experience.map((entry) => ({
+      '@type': 'Role',
+      roleName: entry.title,
+      url: absoluteUrl(`/experience/${entry.slug}`),
+      description: entry.summary,
+      worksFor: {
+        '@type': 'Organization',
+        name: entry.organization,
+      },
+    })),
+  ]
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: topic.seoTitle,
+    headline: topic.title,
+    description: topic.seoDescription,
+    url: absoluteUrl(topic.path),
+    inLanguage: 'en',
+    author: { '@id': `${siteConfig.url}/#person` },
+    publisher: { '@id': `${siteConfig.url}/#person` },
+    about: topic.keywords,
+    mainEntity: {
+      '@type': 'ItemList',
+      name: `${topic.title} work by Saboor Ali Khan`,
+      numberOfItems: relatedItems.length,
+      itemListElement: relatedItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item,
+      })),
+    },
+  }
+}
+
 export function buildExperienceListSchema() {
   return {
     '@context': 'https://schema.org',
@@ -266,7 +370,7 @@ export function buildProfilePageSchema(options: {
   description: string
   dateModified?: string
 }) {
-  const now = options.dateModified ?? new Date().toISOString()
+  const now = options.dateModified ?? SITE_PROFILE_LAST_MODIFIED
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',

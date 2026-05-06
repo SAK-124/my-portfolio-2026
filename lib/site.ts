@@ -1,8 +1,12 @@
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://sabooralikhan.com'
-const normalizedSiteUrl = rawSiteUrl.replace(/\/+$/, '')
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.sabooralikhan.com'
+const normalizedSiteUrl = rawSiteUrl
+  .replace(/^https?:\/\/sabooralikhan\.com/i, 'https://www.sabooralikhan.com')
+  .replace(/\/+$/, '')
 
 export const siteConfig = {
   name: 'Saboor Ali Khan',
+  domain: 'www.sabooralikhan.com',
+  bareDomain: 'sabooralikhan.com',
   title: 'Saboor Ali Khan | Marketing Automation, Technical SEO, and Workflow Tools',
   description:
     'Official portfolio of Saboor Ali Khan, a BBA Marketing student at IBA Karachi and Digital Marketing Intern at 10Pearls Pakistan. Focused on marketing automation, technical SEO, AI workflows, and workflow tools.',

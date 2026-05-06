@@ -52,6 +52,7 @@ export const metadata: Metadata = buildMetadata({
 const homeSchemas = [buildWebsiteSchema(), buildFeaturedWorkSchema(featuredProjects.slice(0, 8))]
 const FOCUS_ICONS = [Lightning, MagnifyingGlass, ChartLineUp] as const
 const TOOL_ICONS = [Lightning, MagnifyingGlass, Code] as const
+const homeHeading = 'Saboor Ali Khan - Marketing Automation & Technical SEO'
 const HOME_VALUE_CARDS = [
   {
     eyebrow: 'Crossover',
@@ -104,14 +105,14 @@ export default function HomePage() {
               </div>
               <div className="min-w-0">
                 <h1 className="text-[1.9rem] font-semibold leading-[1] tracking-[-0.03em] text-[var(--ink)]">
-                  {profile.name}
+                  {homeHeading}
                 </h1>
                 <p className="mt-1 text-sm text-[var(--muted)]">{profile.location}</p>
               </div>
             </div>
 
             <h1 className="mt-4 hidden text-[3.25rem] font-semibold leading-[0.96] tracking-[-0.035em] text-[var(--ink)] md:block md:text-[3.75rem] md:leading-[0.94] md:tracking-[-0.04em] lg:text-[4.25rem]">
-              {profile.name}
+              {homeHeading}
             </h1>
 
             <p className="mt-5 max-w-[34ch] text-lg font-medium leading-[1.15] tracking-[-0.015em] text-[var(--ink)] md:max-w-[30ch] md:text-2xl">
@@ -536,4 +537,3 @@ function EduCard({
     </article>
   )
 }
-

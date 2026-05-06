@@ -1,10 +1,12 @@
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { Breadcrumbs } from '@/components/breadcrumbs'
+import { JsonLd } from '@/components/json-ld'
 import { PageHeader, SectionHead } from '@/components/page-header'
 import { getProject } from '@/data/projects'
 import { getExperience } from '@/data/profile'
 import type { TopicPage } from '@/data/topics'
+import { buildTopicPageSchema } from '@/lib/schema'
 
 export function TopicPageView({ topic }: { topic: TopicPage }) {
   const relatedProjects = topic.relatedProjectSlugs
@@ -16,11 +18,12 @@ export function TopicPageView({ topic }: { topic: TopicPage }) {
 
   return (
     <div className="container py-10 md:py-20">
+      <JsonLd data={buildTopicPageSchema(topic, relatedProjects, relatedExperience)} />
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: topic.title, href: topic.path }]} />
       <PageHeader eyebrow={topic.eyebrow} title={topic.title} lead={topic.lead} />
 
       <section className="border-t border-[var(--line)] py-14 md:py-20">
-        <SectionHead eyebrow="Overview" title={`How ${topic.title.toLowerCase()} shows up in my work`} lead={topic.description} />
+        <SectionHead eyebrow="Pillar" title={`How ${topic.title.toLowerCase()} shows up in my work`} lead={topic.description} />
         <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
           {topic.sections.map((section, index) => (
             <article key={section.title} className="card-soft p-5 md:p-6">
