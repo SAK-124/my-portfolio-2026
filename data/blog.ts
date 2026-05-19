@@ -472,6 +472,402 @@ export const blogPosts: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: 'vibe-coded-portfolio-postmortem',
+    title:
+      'I Vibe-Coded My Portfolio in a Weekend. Here Is What Claude Code Got Right and Where It Lied.',
+    description:
+      'An honest postmortem of building a Next.js portfolio almost entirely through natural-language prompts with Claude Code, what shipped well and what quietly broke.',
+    datePublished: '2026-05-12',
+    readingTimeMinutes: 7,
+    wordCount: 880,
+    category: 'AI Workflows',
+    keywords: [
+      'vibe coding',
+      'Claude Code portfolio',
+      'AI assisted development',
+      'Next.js vibe coding',
+      'natural language coding',
+      'AI pair programming',
+    ],
+    status: 'published',
+    lead: 'The portfolio you are reading was written mostly by typing English at a terminal. I did almost no manual coding for the first two days. The result was good enough to ship and bad enough in specific places that it is worth writing the honest version down.',
+    sections: [
+      {
+        heading: 'What I actually did',
+        paragraphs: [
+          'I opened a blank Next.js 14 app, opened Claude Code in the same folder, and started describing the site I wanted. Header, hero, blog index, project case studies, contact form. I gave it the typography I liked and the page structure I had sketched on paper. Then I let it write.',
+          'Over a weekend, the site went from empty to roughly forty components and twenty pages. I reviewed diffs, asked for changes in plain English, and rarely opened a file myself unless something was clearly off.',
+        ],
+      },
+      {
+        heading: 'What Claude Code got right',
+        paragraphs: [
+          'The boring parts were great. Layout scaffolding, Tailwind class composition, accessible nav structure, schema.org JSON-LD blocks, MDX-ish data files. Things that have a thousand examples in its training set arrived clean on the first attempt.',
+          'It was also good at being told to be consistent. Once I picked a card component pattern, asking it to apply the same pattern to a new section worked the first time, every time. That alone saved hours.',
+        ],
+      },
+      {
+        heading: 'Where it quietly lied',
+        paragraphs: [
+          'Three categories of lies, in increasing order of how much pain they caused.',
+          'First, it invented props that did not exist on libraries it was using. The code compiled because TypeScript inference filled in any, the runtime worked because the unused prop was simply ignored, and I only noticed weeks later when I tried to actually use the feature.',
+          'Second, it confidently produced breadcrumb arrays with one item on three pages, then told me the component was working. The component was working. The data I had let it generate was not.',
+          'Third, and worst, it duplicated logic. The same date formatter exists in four files. The same color token is defined twice. None of this is broken, but all of it is the kind of rot a senior engineer would catch in code review and a vibe coder will miss until the codebase is too big to refactor cheaply.',
+        ],
+      },
+      {
+        heading: 'The rule that fixed half of it',
+        paragraphs: [
+          'After the weekend, I added a single rule to my workflow. Before asking for new code, ask Claude to read the existing files and tell me where the new logic should live. Roughly half the duplication problem disappeared immediately.',
+          'The other half got better when I started ending prompts with a short verification step. Not "build X" but "build X, then run the type check, then list every other file you touched and why."',
+        ],
+      },
+      {
+        heading: 'What I would do differently next time',
+        paragraphs: [
+          'Start with the data model, not the components. The components are the easy part. The shape of a BlogPost or a Project is the part you will regret if a model invents it for you in a single shot.',
+          'Write a one-page house style before the first prompt. Spacing scale, color tokens, typography ramp, naming conventions. Five minutes of constraints up front saves a refactor pass at the end.',
+          'And keep a running list of every assumption the model makes that you did not verify. Most of them are fine. The ones that are not will be the bugs in production.',
+        ],
+      },
+      {
+        heading: 'Is this a real way to build software',
+        paragraphs: [
+          'For a personal site, yes. For anything anyone else depends on, only with the same review process you would apply to a junior engineer who is fast, confident, and occasionally wrong about things they will never admit to.',
+          'The honest answer is that vibe coding is not a replacement for understanding the stack. It is a force multiplier for people who already understand it and a trap for people who do not.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'spec-driven-vs-vibe-driven-coding',
+    title: 'Spec-Driven vs Vibe-Driven: When to Plan and When to Just Talk to the Model',
+    description:
+      'A practical take on when a written spec beats a freeform conversation with the model, and when the opposite is true, drawn from real projects.',
+    datePublished: '2026-05-08',
+    readingTimeMinutes: 6,
+    wordCount: 820,
+    category: 'AI Workflows',
+    keywords: [
+      'spec driven development',
+      'vibe coding',
+      'AI development workflow',
+      'planning vs prompting',
+      'Claude Code workflow',
+      'AI software process',
+    ],
+    status: 'published',
+    lead: 'There are two camps now. The spec people write a plan, hand it to the model, and review the diff. The vibe people open a chat and start describing what they want until something works. Both are real. Both are right in different situations.',
+    sections: [
+      {
+        heading: 'The two postures',
+        paragraphs: [
+          'Spec-driven work treats the model like a fast junior engineer. You write down the requirement, the constraints, the files that will change, and the verification step. The model produces code that fits inside the box you drew.',
+          'Vibe-driven work treats the model like a sketchpad. You think out loud, the model writes something, you react, it adjusts. The product of the conversation is the spec, written in code instead of prose.',
+        ],
+      },
+      {
+        heading: 'When the spec wins',
+        paragraphs: [
+          'Anything that touches production, anything with a database migration, anything that another person will read in six months. The cost of a wrong assumption compounds, and a spec is the cheapest way to force the assumption into the open before the diff exists.',
+          'Also true for any task where the failure mode is silent. Payments, auth, analytics events, security headers. If the bug will not show up in a screenshot, write the spec first.',
+        ],
+      },
+      {
+        heading: 'When the vibe wins',
+        paragraphs: [
+          'Early exploration. You do not know what you want yet, and writing a spec for something you have not seen is a slow way to discover that the spec was wrong.',
+          'Visual and layout work. A round trip of "make this look more like X" against a live preview is faster than any document.',
+          'One-off scripts. If the code will run twice and then be deleted, planning it is overhead.',
+        ],
+      },
+      {
+        heading: 'The middle path I actually use',
+        paragraphs: [
+          'Most of my real work is vibe at the start and spec at the end. I explore freely until the shape of the thing is clear, then I stop, ask the model to summarize what we have built and what is missing, and turn that summary into a spec for the rest.',
+          'The transition point is the moment I notice myself saying "okay but make sure it also handles" for the third time. That is the signal that the conversation has produced enough surface area to need a written contract.',
+        ],
+      },
+      {
+        heading: 'A failure mode in each camp',
+        paragraphs: [
+          'The spec camp over-specifies. A two-page document for a one-line change is a smell. The model does not need the same context a human reviewer does. Spec for the decisions, not the typing.',
+          'The vibe camp under-reviews. A working preview is not a working feature. The model will happily produce a button that looks right and dispatches no event. Treat every vibe session as draft code until you have read the diff.',
+        ],
+      },
+      {
+        heading: 'The thing both camps agree on',
+        paragraphs: [
+          'You still have to know the stack. The spec writer who does not understand the framework writes specs that the model cannot satisfy. The vibe coder who does not understand the framework ships bugs that look like features. There is no version of this where the human gets to stop reading code.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'geo-is-the-new-seo',
+    title: 'GEO Is the New SEO: Optimizing for ChatGPT, Perplexity, and Claude in 2026',
+    description:
+      'Generative Engine Optimization is the practice of being cited by the answer, not ranked above it. What changes, what stays the same, and what to actually do.',
+    datePublished: '2026-05-03',
+    readingTimeMinutes: 7,
+    wordCount: 900,
+    category: 'Technical SEO',
+    keywords: [
+      'generative engine optimization',
+      'GEO',
+      'AI search optimization',
+      'ChatGPT SEO',
+      'Perplexity SEO',
+      'LLM optimization',
+      'answer engine optimization',
+    ],
+    status: 'published',
+    lead: 'The traffic from ten blue links is still there, but a growing share of the questions never reach a results page. They get answered in a chat window, with two or three sources cited at the bottom. Being one of those sources is a different game.',
+    sections: [
+      {
+        heading: 'What GEO actually is',
+        paragraphs: [
+          'Generative Engine Optimization is the practice of making a page easy for a large language model to cite. The unit of value is no longer the click. It is the citation, and the brand mention that comes with it, even when no click follows.',
+          'This sounds like a small shift. It is not. The optimization target moved from "rank in position one" to "be one of the three pages the model paraphrases when it answers."',
+        ],
+      },
+      {
+        heading: 'What stayed the same',
+        paragraphs: [
+          'Crawlable HTML. Clear page structure. A single canonical URL. Honest titles and descriptions. Internal links that actually go somewhere relevant. If any of this is missing, no model will cite you for the same reason no search engine will rank you.',
+          'Reputation also stayed the same. Models lean on the same signals search engines do when they decide which sources to trust. Mentions across known publications, consistent entity data, a real author with a real history.',
+        ],
+      },
+      {
+        heading: 'What is genuinely new',
+        paragraphs: [
+          'Three things.',
+          'First, answer-shaped content wins. A page that opens with a one-sentence answer to a specific question, then expands, gets cited more than a page that buries the same answer in section four.',
+          'Second, entity clarity matters more than keyword density. Models reason in entities. A page that clearly defines what it is about, who wrote it, and what its claims are, is easier to ground than a page that gestures at a topic.',
+          'Third, brand mentions without links count now. A model that has seen your name in ten unrelated contexts will surface you more often than a model that has only seen one. This is closer to PR than to backlink building.',
+        ],
+      },
+      {
+        heading: 'The structural changes I make to every page now',
+        paragraphs: [
+          'A one-sentence answer in the lead. A clear definition of every named thing on the page. Schema.org markup for the entity at minimum, plus Article or BlogPosting where it fits. A visible author block with a link to a real bio.',
+          'I also write one paragraph per page that I would be happy to see quoted verbatim. If a model is going to paraphrase me anyway, I would rather hand it the sentence than let it invent one.',
+        ],
+      },
+      {
+        heading: 'How I measure it',
+        paragraphs: [
+          'Ahrefs Brand Radar tracks how often a brand or domain shows up across the major AI answer engines. Watching that number alongside Google Search Console traffic is how I tell whether the GEO work is paying off without confusing it for ordinary SEO.',
+          'The metric I care about most is share of voice on the prompts that matter to me. Not how often I am mentioned everywhere. How often I am mentioned in the conversation I want to win.',
+        ],
+      },
+      {
+        heading: 'What I would not bother with',
+        paragraphs: [
+          'Stuffing the page with FAQs that no one asked. Schema markup for every possible type. Trying to game one specific model with prompts hidden in alt text. None of this survives the next model update and most of it makes the page worse to read.',
+          'The honest play is to write pages that a careful human would want to cite. Models are converging on the same definition of careful.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'death-of-the-keyword-entity-search',
+    title: 'The Death of the Keyword: How Entity-Based Search Changes Content Strategy',
+    description:
+      'Why the keyword as a planning unit is breaking down, and how entity-first content strategy works in its place, with concrete examples from a working portfolio.',
+    datePublished: '2026-04-28',
+    readingTimeMinutes: 7,
+    wordCount: 860,
+    category: 'Technical SEO',
+    keywords: [
+      'entity based SEO',
+      'entity search',
+      'content strategy 2026',
+      'Wikidata SEO',
+      'knowledge graph SEO',
+      'topic clusters',
+    ],
+    status: 'published',
+    lead: 'For fifteen years, the keyword was the planning unit of SEO. Pick a phrase, build a page, repeat. That model is breaking down because the engines stopped thinking in phrases and started thinking in things.',
+    sections: [
+      {
+        heading: 'What changed under the hood',
+        paragraphs: [
+          'Modern search engines and AI answer systems represent the world as a graph of entities. A person, a company, a product, a concept. Each entity has properties and relationships, and the engine matches a query to entities before it matches it to documents.',
+          'A page that ranks well is no longer a page that contains the right words. It is a page that is clearly about a specific entity, supports that claim with structured data, and connects to other entities the engine already knows.',
+        ],
+      },
+      {
+        heading: 'The keyword still exists. It just lost its job.',
+        paragraphs: [
+          'Keywords are useful for measuring demand and for picking the language of a page. They are no longer useful as the unit of content planning. Two pages targeting different keywords for the same underlying entity will cannibalize each other, because the engine sees them as duplicates.',
+          'The new planning unit is the entity. One entity, one page, many keyword variations served by the same document.',
+        ],
+      },
+      {
+        heading: 'What an entity-first plan looks like',
+        paragraphs: [
+          'Start with a list of the entities your work is about. For me, that includes a person (myself), an institution (IBA Karachi), an employer (10Pearls Pakistan), a set of methods (marketing automation, technical SEO, AI workflows), and a set of tools (n8n, Claude, Ahrefs).',
+          'Each entity gets one canonical page. Every other page either supports that page or describes a different entity. There is no third option.',
+        ],
+      },
+      {
+        heading: 'Why Wikidata matters even if you never get listed',
+        paragraphs: [
+          'Wikidata is the public scaffolding that search engines and AI systems use to resolve entities. Being on Wikidata is the strongest possible signal that your entity is real and disambiguated, but the bigger lesson is the shape of the data itself.',
+          'A Wikidata entry has a label, a description, aliases, types, and properties. Any page on your own site should be readable as the same kind of object. If it is not, the engine has to guess what your page is about, and guesses are not citations.',
+        ],
+      },
+      {
+        heading: 'The internal linking change',
+        paragraphs: [
+          'In a keyword world, internal links are about passing authority to money pages. In an entity world, they are about declaring relationships. A link from a project case study to the method page that describes how it was built is a sentence in the graph, not a vote.',
+          'Anchor text matters again, but for a different reason. The anchor is the engine learning what your linked page is about. Vague anchors waste a sentence.',
+        ],
+      },
+      {
+        heading: 'What to do on Monday morning',
+        paragraphs: [
+          'List every entity on your site. Note which ones have one canonical page and which ones are scattered across several. Pick the worst offender, consolidate it into one page, and redirect the rest. Do this once a quarter and you will outpace any competitor still building keyword pages.',
+          'The /technical-seo and /about pages on this site are the version of that exercise I keep running on my own work.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'marketers-should-learn-vibe-coding',
+    title: 'Why Every Marketer in 2026 Should Learn Just Enough Vibe Coding to Be Dangerous',
+    description:
+      'A practical case for marketers learning to talk to code through AI, what to learn first, and what not to bother with.',
+    datePublished: '2026-04-22',
+    readingTimeMinutes: 6,
+    wordCount: 780,
+    category: 'Marketing Operations',
+    keywords: [
+      'marketers learn to code',
+      'vibe coding for marketers',
+      'AI for marketing',
+      'no code AI marketing',
+      'marketing automation skills',
+      'marketing technology 2026',
+    ],
+    status: 'published',
+    lead: 'I am a marketing student. I am not a software engineer. I still write code most weeks, because the gap between what I want a tool to do and what it does is now small enough that a thirty-minute conversation with a model can close it. Every marketer should be able to do this.',
+    sections: [
+      {
+        heading: 'The argument in one paragraph',
+        paragraphs: [
+          'Marketing in 2026 runs on twenty-something tools that almost do what you need. The marketer who can write a fifty-line script to bridge two of them, or fix a broken Zapier step, or build a quick internal dashboard, is worth twice as much as the marketer who has to file a ticket. The model does the typing. You have to know what to ask for.',
+        ],
+      },
+      {
+        heading: 'What "just enough" actually means',
+        paragraphs: [
+          'You do not need to learn React. You do not need to memorize syntax. You need to know what a function is, what an API is, what a JSON object looks like, and what it means when a script fails. That is roughly a week of casual study.',
+          'After that, the model handles the rest. You describe the task, read the output, run it, and react to the error message. The error message is where most of the learning happens.',
+        ],
+      },
+      {
+        heading: 'Three real things I have built this year',
+        paragraphs: [
+          'A script that pulls keyword positions from Ahrefs every Monday morning and writes a one-page summary to a shared doc. Forty lines of code, written in a chat window over an afternoon.',
+          'A small dashboard that compares my brand mentions across AI answer engines week over week. Built on top of an existing API, deployed for free, takes ten minutes a week to maintain.',
+          'A throwaway tool that takes a messy CSV of campaign results and turns it into the format my reporting template expects. Used three times, then deleted.',
+        ],
+      },
+      {
+        heading: 'What not to bother with',
+        paragraphs: [
+          'Do not learn a frontend framework. Do not try to ship a real app to real users unless you are working with an engineer. Do not write code that handles customer data without help. The point is not to replace engineering. The point is to stop being blocked by it on tasks no engineer would prioritize.',
+        ],
+      },
+      {
+        heading: 'Where this matters most',
+        paragraphs: [
+          'Marketing operations is the first place this skill pays off. Anything that involves moving data between systems, cleaning a list, scheduling a recurring report, or hacking around a tool limitation, is now solvable in one sitting.',
+          'Content and SEO is the second place. Pulling rank data, scraping a competitor table, generating consistent metadata at scale. None of this requires real software. All of it used to require a developer.',
+        ],
+      },
+      {
+        heading: 'The honest catch',
+        paragraphs: [
+          'You will write bad code. You will run something you do not fully understand. You will, eventually, paste an API key somewhere you should not have. The first time that happens is the moment you actually learn how this works.',
+          'The marketers who refuse to touch any of this in 2026 are making the same bet the marketers who refused to learn analytics made in 2010. It did not go well for them either.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'prompt-engineering-to-context-engineering',
+    title: 'Stop Writing Prompts. Start Writing Systems.',
+    description:
+      'Prompt engineering was a useful idea for one model generation. The work has moved to context engineering, the practice of designing what the model sees before you ask it anything.',
+    datePublished: '2026-04-18',
+    readingTimeMinutes: 7,
+    wordCount: 850,
+    category: 'AI Workflows',
+    keywords: [
+      'context engineering',
+      'prompt engineering',
+      'AI agents',
+      'LLM systems design',
+      'AI workflow design',
+      'context window management',
+    ],
+    status: 'published',
+    lead: 'The thing we used to call prompt engineering was a useful idea for one model generation. The clever phrasing tricks stopped mattering as the models got better. What replaced them is harder and more interesting. It is the work of designing what the model sees before you ask it anything.',
+    sections: [
+      {
+        heading: 'Why prompts stopped being the bottleneck',
+        paragraphs: [
+          'Two years ago, the difference between a working AI feature and a broken one was often a sentence in the prompt. Adding "think step by step" or restructuring the instruction format could change a result from useless to good.',
+          'Modern models do most of that on their own. The marginal value of clever prompting has collapsed. The marginal value of better context has gone up.',
+        ],
+      },
+      {
+        heading: 'What context engineering actually is',
+        paragraphs: [
+          'Context engineering is the practice of deciding what information the model has in its window when it answers. Which documents are loaded, which tools are exposed, which past conversations are summarized, which constraints are enforced before the user even types.',
+          'A good context is small, relevant, and structured. A bad context is everything the team could think of, dumped in. Most production AI systems fail because someone confused "more context" with "better context."',
+        ],
+      },
+      {
+        heading: 'The five pieces of a real context',
+        paragraphs: [
+          'I think about it as five layers, in roughly this order.',
+        ],
+        list: [
+          'Identity. What is this system, what is it allowed to do, what is it not allowed to do.',
+          'Knowledge. The retrieved documents, summaries, or facts the model needs for this specific request.',
+          'Tools. The exact set of functions the model can call, with clear descriptions.',
+          'Memory. The relevant slices of past interaction, summarized down to what actually matters.',
+          'Task. The current user request, framed so the model knows what success looks like.',
+        ],
+      },
+      {
+        heading: 'The cost of getting it wrong',
+        paragraphs: [
+          'Two failure modes. The first is the cluttered context, where the model has access to so much that it cannot tell what is relevant and starts guessing. Symptoms include hallucinated answers that combine details from unrelated documents.',
+          'The second is the missing context, where the model is asked a question it cannot possibly answer correctly because the right document was never retrieved. Symptoms include confident wrong answers about things that are right there in the knowledge base.',
+        ],
+      },
+      {
+        heading: 'How I design a context now',
+        paragraphs: [
+          'I start by writing the worst possible context for the task, then deleting from it. Everything that survives has to justify its presence. Anything I cannot defend gets cut.',
+          'I also write a one-line description of what each piece of context is for. If I cannot describe what a chunk of system prompt is doing, neither can the model. That chunk is noise.',
+        ],
+      },
+      {
+        heading: 'The skill that replaced prompting',
+        paragraphs: [
+          'The new skill is closer to information architecture than to copywriting. You are designing the world the model wakes up inside. What it can see, what it can touch, what it has been told about itself.',
+          'The teams winning with AI right now are not the ones with the cleverest prompts. They are the ones who treat the context window like a product surface, with the same care they would give to an onboarding flow.',
+        ],
+      },
+    ],
+  },
 ]
 
 export function getBlogPost(slug: string) {

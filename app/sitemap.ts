@@ -7,7 +7,7 @@ import { publicTools } from '@/data/tools'
 import { absoluteUrl } from '@/lib/schema'
 
 type SitemapEntry = MetadataRoute.Sitemap[number]
-const SITE_LAST_MODIFIED = new Date('2026-04-24T00:00:00.000Z')
+const SITE_LAST_MODIFIED = new Date('2026-05-19T00:00:00.000Z')
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: SitemapEntry[] = [
