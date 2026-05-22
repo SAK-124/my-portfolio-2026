@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
 import { TOOLS_LOCAL_ADMIN_EMAIL, TOOLS_LOCAL_AUTH_COOKIE, TOOLS_LOCAL_AUTH_VALUE } from './shared'
 
-const LOCAL_ADMIN_PASSWORD = process.env.LOCAL_TOOLS_ADMIN_PASSWORD ?? 'Saboor12124'
+const LOCAL_ADMIN_PASSWORD = 'Saboor12124'
 
 export function isLocalToolsAuthEnabled(): boolean {
   return process.env.NODE_ENV !== 'production' || process.env.ENABLE_LOCAL_TOOLS_AUTH === 'true'
