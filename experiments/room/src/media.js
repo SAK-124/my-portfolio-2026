@@ -24,14 +24,5 @@ export const media={
    texture.addEventListener('dispose',()=>bitmap.close());
    return texture;
   },priority);
- },
- clips:new Map(),
- clip(file){
-  if(this.clips.has(file)){const value=this.clips.get(file);this.clips.delete(file);this.clips.set(file,value);return value;}
-  const promise=fetch(base+file,{cache:'force-cache',priority:'low'}).then(response=>{
-   if(!response.ok)throw Error('The camera journey could not load.');return response.blob();
-  });
-  this.clips.set(file,promise);while(this.clips.size>2)this.clips.delete(this.clips.keys().next().value);
-  promise.catch(()=>this.clips.delete(file));return promise;
  }
 };

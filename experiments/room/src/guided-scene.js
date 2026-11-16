@@ -62,8 +62,6 @@ export class GuidedRoom {
  prepare(view,mode){
   if(!this.manifest.views[view]?.available.includes(mode)||this.disposed)return;
   this.asset(view,mode).catch(()=>{});
-  const previous=this.active(),from=previous?.def.parent||previous?.view,to=this.manifest.views[view].parent||view;
-  if(this.motion&&from&&from!==to){const route=this.manifest.routes?.[from+'-'+to];if(route?.available.includes(mode))media.clip(route.videos[mode]).catch(()=>{});}
  }
  async asset(view,mode){
   const key=view+':'+mode;
@@ -108,7 +106,7 @@ export class GuidedRoom {
   return tile.promise;
  }
  pruneTiles(asset){
-  for(const [id,tile]of asset.tiles){if(asset.tiles.size<=6)break;if(asset.visibleTiles.has(id))continue;asset.tiles.delete(id);tile.dispose();}
+  for(const [id,tile]of asset.tiles){if(asset.tiles.size<=6)break;if(asset.visibleTiles.has(id)||asset.pathTiles?.has(id))continue;asset.tiles.delete(id);tile.dispose();}
  }
  updateTiles(asset){
   if(!asset.tileFiles||asset.disposed)return [];
@@ -132,9 +130,11 @@ export class GuidedRoom {
   return this.pointLook(asset,{yaw:Math.atan2(ray.x,-ray.z),pitch:Math.asin(clamp(ray.y,-1,1))});
  }
  async pose(asset,look,zoom,duration=650){
+  if(this.disposed)return;
   if(!this.motion){asset.look.copy(look);asset.goal.copy(look);asset.zoom=zoom;this.configure(asset);return;}
   const from=asset.look.clone(),initial=asset.zoom,start=performance.now();
   await new Promise(resolve=>{this.tween={asset,from,to:look.clone(),initial,zoom,start,duration,resolve};});
+  if(this.disposed)return;
   this.configure(asset);if(asset.tileFiles)await Promise.all(this.updateTiles(asset));
  }
  async leaveCloseup(asset,mode){
@@ -143,33 +143,50 @@ export class GuidedRoom {
   const look=this.worldLook(parent,world);parent.look.copy(look);parent.goal.copy(look);parent.zoom=52/THREE.MathUtils.radToDeg(this.fov(asset));this.configure(parent);
   await Promise.all(this.updateTiles(parent));this.current=parent;this.incoming=null;return parent;
  }
- async journey(previous,next,route,mode){
-  const blob=await media.clip(route.videos[mode]),clipURL=URL.createObjectURL(blob);
-  const video=document.createElement('video');video.muted=true;video.playsInline=true;video.preload='auto';video.src=clipURL;
+ async warmPath(asset,look,zoom){
+  if(!asset.tileFiles)return;
+  // Work out the visible columns along the turn without moving the live camera.
+  // Pin them until arrival so no low-resolution preview flashes during the zoom.
+  const camera=asset.camera.clone(),probe={...asset,camera},ids=new Set(this.neededTiles(asset));
+  for(let step=0;step<=8;step++){
+   const t=step/8,pose=asset.look.clone().lerp(look,t);
+   probe.zoom=THREE.MathUtils.lerp(asset.zoom,zoom,t);this.bound(probe,pose);
+   camera.fov=THREE.MathUtils.radToDeg(this.fov(probe));camera.quaternion.copy(orientation(probe,pose));
+   for(const id of this.neededTiles(probe))ids.add(id);
+  }
+  asset.pathTiles=ids;
+  const tiles=await Promise.all([...ids].map(id=>this.tile(asset,id)));
+  if(this.disposed||asset.disposed)return;
+  if(tiles.some(tile=>!tile?.texture))throw Error('The sharp room view could not load. Please try again.');
+  for(const tile of tiles)this.renderer.initTexture(tile.texture);
+ }
+ async zoomJourney(previous,next,route){
+  const departure=this.pointLook(previous,route.start),arrival=this.pointLook(next,route.end||{yaw:0,pitch:0});
+  const departingZoom=next.view==='room'?clamp(previous.zoom*.9,.84,1):clamp(previous.zoom*1.22,1.18,1.6);
+  const arrivalZoom=1.14;
+  // Prepare both sharp endpoints before moving. The view changes at the peak of
+  // the zoom; the same native photographic surfaces remain in use throughout.
+  next.look.copy(arrival);next.goal.copy(arrival);next.zoom=1;this.configure(next);
   try{
-   await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('The camera journey could not load.')),20000);video.onloadeddata=()=>{clearTimeout(timer);resolve();};video.onerror=()=>{clearTimeout(timer);reject(Error('The camera journey could not load.'));};video.load();});
-   const settings=route.clipSettings?.[mode]||route,tanV=Math.tan(radians(settings.captureFov)/2),tanH=tanV*settings.aspect;
-   const fov=Math.min(radians(route.displayFov),2*Math.atan(tanH/(this.width/this.height)*.98));
-   const zoom=52/THREE.MathUtils.radToDeg(fov);
-   await this.pose(previous,this.pointLook(previous,route.start),zoom,480);
-   const texture=new THREE.VideoTexture(video);texture.colorSpace=THREE.SRGBColorSpace;
-   const geometry=new THREE.PlaneGeometry(60*tanH,60*tanV),material=new THREE.MeshBasicMaterial({map:texture,toneMapped:false}),surface=new THREE.Mesh(geometry,material);surface.position.z=-30;
-   const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(THREE.MathUtils.radToDeg(fov),this.width/this.height,.1,60);scene.add(surface);
-   this.video={video,scene,camera,texture,geometry,material,tanH,displayFov:route.displayFov};this.dirty=true;
-   await new Promise((resolve,reject)=>{video.onended=resolve;video.onerror=()=>reject(Error('The camera journey was interrupted.'));video.play().catch(reject);});
-   const end=route.end||{yaw:0,pitch:0};next.look.copy(this.pointLook(next,end));next.goal.copy(next.look);next.zoom=52/this.video.camera.fov;this.configure(next);await Promise.all(this.updateTiles(next));
-   this.current=next;this.incoming=null;
+   await Promise.all([this.warmPath(previous,departure,departingZoom),this.warmPath(next,arrival,arrivalZoom)]);
+   if(this.disposed)return;
+   await this.pose(previous,departure,departingZoom,650);
+   if(this.disposed)return;
+   next.look.copy(arrival);next.goal.copy(arrival);next.zoom=arrivalZoom;this.configure(next);
+   previous.air?.release();this.current=next;this.incoming=null;this.dirty=true;
+   await this.pose(next,arrival,1,380);
   }finally{
-   video.pause();video.removeAttribute('src');video.load();URL.revokeObjectURL(clipURL);if(this.video){this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();this.video=null;}
+   previous.pathTiles=null;next.pathTiles=null;this.pruneTiles(previous);this.pruneTiles(next);
   }
  }
+
  async select(view,mode,instant=false){
   const next=await this.asset(view,mode);let previous=this.incoming||this.current;
   if(this.pin&&this.pin!==view+':'+mode)return next;
   if(instant||!previous||!this.motion){next.look.set(0,0);next.goal.set(0,0);next.zoom=1;this.current=next;this.incoming=null;this.trim();this.dirty=true;return next;}
   if(previous.view===view){next.look.copy(previous.look);next.goal.copy(previous.goal);next.zoom=previous.zoom;this.configure(next);await Promise.all(this.updateTiles(next));this.current=previous;this.incoming=next;this.transition=performance.now();this.dirty=true;return next;}
   const from=previous.def.parent||previous.view,to=next.def.parent||view;
-  if(from!==to&&!this.manifest.routes?.[from+'-'+to]?.available.includes(mode))throw Error('This camera move is still rendering.');
+  if(from!==to&&!this.manifest.routes?.[from+'-'+to]?.available.includes(mode))throw Error('This room connection is unavailable.');
   this.busy=true;
   try{
    this.current=previous;this.incoming=null;
@@ -177,8 +194,8 @@ export class GuidedRoom {
    const station=next.def.parent||view;
    if(previous.view!==station){
     const destination=next.pano?next:await this.asset(station,mode),route=this.manifest.routes?.[previous.view+'-'+station];
-    if(route?.available.includes(mode))await this.journey(previous,destination,route,mode);
-    else throw Error('This camera move is still rendering.');
+    if(route?.available.includes(mode))await this.zoomJourney(previous,destination,route);
+    else throw Error('This room connection is unavailable.');
     previous=this.current;
    }
    if(next.def.parent){
@@ -245,7 +262,7 @@ export class GuidedRoom {
  render(now){
   this.request=requestAnimationFrame(this.render);if(document.hidden)return;
   const turning=this.current&&this.current.look.distanceToSquared(this.current.goal)>1e-8;
-  const interactive=turning||this.tween||this.incoming||this.video;
+  const interactive=turning||this.tween||this.incoming;
   const interval=interactive?0:1000/30;
   if(!this.dirty&&now-this.lastDraw<interval)return;
   const dt=Math.min((now-this.last)/1000,.1);this.last=now;this.lastDraw=interval?now-(now-this.lastDraw)%interval:now;this.time+=dt;let moving=false;
@@ -263,7 +280,7 @@ export class GuidedRoom {
  }
  draw(now=performance.now()){
   if(!this.current)return;
-  if(this.video){const clip=this.video;clip.camera.aspect=this.width/this.height;clip.camera.fov=Math.min(clip.displayFov,THREE.MathUtils.radToDeg(2*Math.atan(clip.tanH/clip.camera.aspect*.98)));clip.camera.updateProjectionMatrix();this.renderer.setRenderTarget(null);this.renderer.render(clip.scene,clip.camera);return;}
+
   if(!this.incoming){this.drawAsset(this.current,null);return;}
   // Floating point full-scene buffers exist only during a lighting crossfade.
   if(!this.a){this.a=new THREE.WebGLRenderTarget(this.pixelWidth,this.pixelHeight,{type:THREE.HalfFloatType,depthBuffer:false});this.b=this.a.clone();}
@@ -288,5 +305,5 @@ export class GuidedRoom {
   return chosen;
  }
  capture(){this.draw();return new Promise(resolve=>this.renderer.domElement.toBlob(resolve));}
- dispose(){this.disposed=true;cancelAnimationFrame(this.request);this.tween?.resolve();if(this.video){this.video.video.pause();this.video.video.removeAttribute('src');this.video.video.load();this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();}this.observer.disconnect();this.renderer.dispose();this.a?.dispose();this.b?.dispose();this.airTarget.dispose();for(const asset of this.retired)asset.dispose();for(const promise of this.cache.values())promise.then(asset=>asset.dispose());}
+ dispose(){this.disposed=true;cancelAnimationFrame(this.request);this.tween?.resolve();this.observer.disconnect();this.renderer.dispose();this.a?.dispose();this.b?.dispose();this.airTarget.dispose();for(const asset of this.retired)asset.dispose();for(const promise of this.cache.values())promise.then(asset=>asset.dispose());}
 }

@@ -8,7 +8,10 @@ export function roomAssets(directory) {
   load(id){
    if(id!=='\0room-manifest')return;
    const hashes=new Map();
-   const manifest=JSON.parse(readFileSync(resolve(directory,'manifest.json'),'utf8'),(_key,value)=>{
+   const source=JSON.parse(readFileSync(resolve(directory,'manifest.json'),'utf8'));
+   source.routes=Object.fromEntries(Object.entries(source.routes||{}).map(([key,route])=>[key,{from:route.from,to:route.to,start:route.start,end:route.end,available:route.available}]));
+   source.mode='native-cycles-still-zoom-navigation';
+   const manifest=JSON.parse(JSON.stringify(source),(_key,value)=>{
     if(typeof value!=='string'||!/^[-\w]+\.(webp|mp4)$/.test(value))return value;
     if(!hashes.has(value))hashes.set(value,createHash('sha256').update(readFileSync(resolve(directory,value))).digest('hex').slice(0,12));
     return value+'?v='+hashes.get(value);
