@@ -51,3 +51,6 @@ next-env.d.ts
 .agents/
 /.cl*/
 skills-lock.json
+
+# Standalone room source dependencies
+/experiments/room/node_modules/

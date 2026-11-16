@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10110f"><title>My room · Work & making</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23d9dfc6' d='M4 5h24v22H4zm3 3v16h18V8z'/%3E%3C/svg%3E"></head>
+<body>
+<header class="header"><a href="#room" id="identity" aria-label="Return to the room"><span class="brand-mark" aria-hidden="true">⌑</span><span>MY ROOM<small>A PERSONAL SPACE</small></span></a><nav aria-label="Explore my room"><button data-section="room" class="selected">The room</button><button data-section="hobbies">Hobbies</button><button data-section="work">Work</button></nav><button class="round-button" id="fullscreen" aria-label="Enter fullscreen">↗</button></header>
+<main><div class="scene-stage" id="stage" tabindex="0" aria-label="Interactive room. Drag or two-finger scroll to look around. Click objects to explore."><div id="canvas"></div><div id="hotspots"></div><div class="scene-loading" id="scene-loading" role="status"><span class="loading-line"></span><span id="loading-text">Opening the room</span></div></div>
+<section class="caption" aria-live="polite"><button id="back" hidden>← Back to maker table</button><p class="eyebrow" id="eyebrow">01 / AROUND THE ROOM</p><h1 id="title">The room.</h1><p class="description" id="description">A place for work and making.</p><div class="details" id="details" aria-label="Choose a closer view"></div></section>
+<aside class="controls" aria-label="Scene atmosphere"><div class="lighting" role="group" aria-label="Lighting"><span class="control-label">LIGHT</span><button data-light="daylight" class="selected" aria-pressed="true">Daylight</button><button data-light="golden" aria-pressed="false">Afternoon</button><button data-light="evening" aria-pressed="false">After hours</button></div><div class="utility"><button id="motion" aria-pressed="true">Motion <span aria-hidden="true">●</span></button><button id="capture" aria-label="Save this view as an image">Save view ↗</button><a id="asset-credits" href="#credits" target="_blank" rel="noopener noreferrer">Credits ↗</a></div></aside>
+<div class="view-tools" role="group" aria-label="View controls"><button id="zoom-out" aria-label="Zoom out">−</button><button id="reset-view" aria-label="Center the view">↺</button><button id="zoom-in" aria-label="Zoom in">+</button></div>
+
+<p class="look-hint" id="look-hint">Drag or two-finger scroll to look around <span>·</span> Click an object to explore</p>
+<div id="toast" role="status"></div>
+</main><script type="module" src="/src/main.js"></script>
+</body></html>

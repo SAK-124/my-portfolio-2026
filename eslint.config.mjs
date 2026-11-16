@@ -2,7 +2,7 @@ import nextVitals from 'eslint-config-next/core-web-vitals'
 
 const config = [
   {
-    ignores: ['.cache/**', '.secrets/**', 'reports/**'],
+    ignores: ['.cache/**', '.secrets/**', 'reports/**', 'public/new/**', 'experiments/room/**'],
   },
   ...nextVitals,
   {

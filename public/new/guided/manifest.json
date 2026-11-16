@@ -1,0 +1,1594 @@
+{
+  "version": 4,
+  "mode": "native-cycles-panorama-closeups-and-camera-journeys",
+  "width": 2048,
+  "height": 1408,
+  "overscan": 1.15,
+  "presets": {
+    "daylight": {
+      "label": "Daylight",
+      "sky": 0.6,
+      "background": 0.85,
+      "area": 2200,
+      "sun": 1.2,
+      "tube": 1.2,
+      "cove": 1.5,
+      "fill": 2,
+      "sun_color": [
+        1,
+        0.87,
+        0.73
+      ],
+      "area_color": [
+        0.88,
+        0.94,
+        1
+      ],
+      "exposure": 0.35
+    },
+    "golden": {
+      "label": "Late afternoon",
+      "sky": 0.23,
+      "background": 0.48,
+      "area": 1200,
+      "sun": 1.8,
+      "tube": 0.8,
+      "cove": 1,
+      "fill": 1,
+      "sun_color": [
+        1,
+        0.64,
+        0.36
+      ],
+      "area_color": [
+        1,
+        0.81,
+        0.63
+      ],
+      "exposure": 0.5
+    },
+    "evening": {
+      "label": "After hours",
+      "sky": 0.025,
+      "background": 0.075,
+      "area": 40,
+      "sun": 0,
+      "tube": 18,
+      "cove": 4,
+      "fill": 0.8,
+      "sun_color": [
+        1,
+        0.84,
+        0.67
+      ],
+      "area_color": [
+        0.65,
+        0.77,
+        1
+      ],
+      "exposure": 0.65
+    }
+  },
+  "views": {
+    "room": {
+      "label": "The room",
+      "section": "room",
+      "lens": 22.60869598388672,
+      "sensor": 36.0,
+      "hotspots": [
+        {
+          "yaw": 0.2781344108543339,
+          "pitch": -0.03389383433992193,
+          "target": "hobbies",
+          "label": "Explore the maker table"
+        },
+        {
+          "yaw": -0.036751572417451715,
+          "pitch": -0.027657253661163006,
+          "target": "work",
+          "label": "Explore the desk"
+        }
+      ],
+      "images": {
+        "daylight": "room-daylight-surround.webp",
+        "golden": "room-golden-surround.webp",
+        "evening": "room-evening-surround.webp"
+      },
+      "matrix": [
+        0.6117476224899292,
+        0.7910529971122742,
+        -9.458936744977109e-08,
+        0.0,
+        -0.07640153914690018,
+        0.0590839684009552,
+        0.9953250288963318,
+        0.0,
+        0.7873548269271851,
+        -0.6088876724243164,
+        0.09658214449882507,
+        0.0,
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126,
+        1.0
+      ],
+      "available": [
+        "daylight",
+        "golden",
+        "evening"
+      ],
+      "panorama": {
+        "tiles": {
+          "daylight": [
+            "room-daylight-tile-0.webp",
+            "room-daylight-tile-1.webp",
+            "room-daylight-tile-2.webp",
+            "room-daylight-tile-3.webp",
+            "room-daylight-tile-4.webp",
+            "room-daylight-tile-5.webp",
+            "room-daylight-tile-6.webp",
+            "room-daylight-tile-7.webp"
+          ],
+          "golden": [
+            "room-golden-tile-0.webp",
+            "room-golden-tile-1.webp",
+            "room-golden-tile-2.webp",
+            "room-golden-tile-3.webp",
+            "room-golden-tile-4.webp",
+            "room-golden-tile-5.webp",
+            "room-golden-tile-6.webp",
+            "room-golden-tile-7.webp"
+          ],
+          "evening": [
+            "room-evening-tile-0.webp",
+            "room-evening-tile-1.webp",
+            "room-evening-tile-2.webp",
+            "room-evening-tile-3.webp",
+            "room-evening-tile-4.webp",
+            "room-evening-tile-5.webp",
+            "room-evening-tile-6.webp",
+            "room-evening-tile-7.webp"
+          ]
+        },
+        "previews": {
+          "daylight": "room-daylight-surround.webp",
+          "golden": "room-golden-surround.webp",
+          "evening": "room-evening-surround.webp"
+        },
+        "tileColumns": 8,
+        "tilePadding": 8,
+        "baseTilt": -0.09673293034103914,
+        "horizontal": 360,
+        "vertical": 120,
+        "width": 8192,
+        "height": 2732,
+        "images": {
+          "daylight": "room-daylight-surround.webp",
+          "golden": "room-golden-surround.webp",
+          "evening": "room-evening-surround.webp"
+        },
+        "hotspots": [
+          {
+            "yaw": 0.2781344108543339,
+            "pitch": -0.03389383433992193,
+            "target": "hobbies",
+            "label": "Explore the maker table"
+          },
+          {
+            "yaw": -0.036751572417451715,
+            "pitch": -0.027657253661163006,
+            "target": "work",
+            "label": "Explore the desk"
+          }
+        ],
+        "available": [
+          "daylight",
+          "golden",
+          "evening"
+        ],
+        "bytes": {
+          "daylight": 4385864,
+          "golden": 3785596,
+          "evening": 5412072
+        }
+      },
+      "position": [
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126
+      ],
+      "depth": "room-depth-v2.webp",
+      "depthFar": 16,
+      "depthProjection": "radial"
+    },
+    "hobbies": {
+      "label": "Maker table",
+      "section": "hobbies",
+      "lens": 38.260868072509766,
+      "sensor": 36.0,
+      "hotspots": [
+        {
+          "yaw": -0.269974468876509,
+          "pitch": 0.11667067657520754,
+          "target": "printer",
+          "label": "Ender 3 \u00b7 Sprite Pro"
+        },
+        {
+          "yaw": 0.32149690130563285,
+          "pitch": -0.22833542945042143,
+          "target": "project",
+          "label": "Electronics project"
+        },
+        {
+          "yaw": 0.0,
+          "pitch": 0.48689911807624936,
+          "target": "tools",
+          "label": "Hex tool wall"
+        },
+        {
+          "yaw": 0.41008858465443815,
+          "pitch": 0.252530500169881,
+          "target": "drill",
+          "label": "Cordless drill"
+        },
+        {
+          "yaw": 0.3032549900442532,
+          "pitch": 0.24858203460431555,
+          "target": "rotary",
+          "label": "Dremel"
+        },
+        {
+          "yaw": -1.4951686900947225,
+          "pitch": -0.14562841558716264,
+          "target": "work",
+          "label": "Go to the desk",
+          "kind": "destination"
+        }
+      ],
+      "images": {
+        "daylight": "hobbies-daylight-surround.webp",
+        "golden": "hobbies-golden-surround.webp",
+        "evening": "hobbies-evening-surround.webp"
+      },
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19611608982086182,
+        0.9805806875228882,
+        0.0,
+        0.0,
+        -0.9805806875228882,
+        0.19611608982086182,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "available": [
+        "daylight",
+        "golden",
+        "evening"
+      ],
+      "panorama": {
+        "tiles": {
+          "daylight": [
+            "hobbies-daylight-tile-0.webp",
+            "hobbies-daylight-tile-1.webp",
+            "hobbies-daylight-tile-2.webp",
+            "hobbies-daylight-tile-3.webp",
+            "hobbies-daylight-tile-4.webp",
+            "hobbies-daylight-tile-5.webp",
+            "hobbies-daylight-tile-6.webp",
+            "hobbies-daylight-tile-7.webp"
+          ],
+          "golden": [
+            "hobbies-golden-tile-0.webp",
+            "hobbies-golden-tile-1.webp",
+            "hobbies-golden-tile-2.webp",
+            "hobbies-golden-tile-3.webp",
+            "hobbies-golden-tile-4.webp",
+            "hobbies-golden-tile-5.webp",
+            "hobbies-golden-tile-6.webp",
+            "hobbies-golden-tile-7.webp"
+          ],
+          "evening": [
+            "hobbies-evening-tile-0.webp",
+            "hobbies-evening-tile-1.webp",
+            "hobbies-evening-tile-2.webp",
+            "hobbies-evening-tile-3.webp",
+            "hobbies-evening-tile-4.webp",
+            "hobbies-evening-tile-5.webp",
+            "hobbies-evening-tile-6.webp",
+            "hobbies-evening-tile-7.webp"
+          ]
+        },
+        "previews": {
+          "daylight": "hobbies-daylight-surround.webp",
+          "golden": "hobbies-golden-surround.webp",
+          "evening": "hobbies-evening-surround.webp"
+        },
+        "tileColumns": 8,
+        "tilePadding": 8,
+        "baseTilt": -0.19739555984988075,
+        "horizontal": 360,
+        "vertical": 120,
+        "width": 8192,
+        "height": 2732,
+        "images": {
+          "daylight": "hobbies-daylight-surround.webp",
+          "golden": "hobbies-golden-surround.webp",
+          "evening": "hobbies-evening-surround.webp"
+        },
+        "hotspots": [
+          {
+            "yaw": -0.269974468876509,
+            "pitch": 0.11667067657520754,
+            "target": "printer",
+            "label": "Ender 3 \u00b7 Sprite Pro"
+          },
+          {
+            "yaw": 0.32149690130563285,
+            "pitch": -0.22833542945042143,
+            "target": "project",
+            "label": "Electronics project"
+          },
+          {
+            "yaw": 0.0,
+            "pitch": 0.48689911807624936,
+            "target": "tools",
+            "label": "Hex tool wall"
+          },
+          {
+            "yaw": 0.41008858465443815,
+            "pitch": 0.252530500169881,
+            "target": "drill",
+            "label": "Cordless drill"
+          },
+          {
+            "yaw": 0.3032549900442532,
+            "pitch": 0.24858203460431555,
+            "target": "rotary",
+            "label": "Dremel"
+          },
+          {
+            "yaw": -1.4951686900947225,
+            "pitch": -0.14562841558716264,
+            "target": "work",
+            "label": "Go to the desk",
+            "kind": "destination"
+          }
+        ],
+        "available": [
+          "daylight",
+          "golden",
+          "evening"
+        ],
+        "bytes": {
+          "daylight": 10987612,
+          "golden": 9813128,
+          "evening": 11015252
+        }
+      },
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "depth": "hobbies-depth-v2.webp",
+      "depthFar": 16,
+      "depthProjection": "radial"
+    },
+    "work": {
+      "label": "The desk",
+      "section": "work",
+      "lens": 30.434782028198242,
+      "sensor": 36.0,
+      "hotspots": [
+        {
+          "yaw": 0.0350434660537671,
+          "pitch": 0.0005038093049375307,
+          "target": "detail",
+          "label": "MacBook Pro"
+        },
+        {
+          "yaw": -0.35860572404889396,
+          "pitch": 0.0006182995092273438,
+          "target": "reading",
+          "label": "Books & notes"
+        },
+        {
+          "yaw": -0.4239002893571093,
+          "pitch": -0.10931494025862254,
+          "target": "coffee",
+          "label": "Coffee"
+        },
+        {
+          "yaw": 2.425342048189685,
+          "pitch": -0.327816471697025,
+          "target": "hobbies",
+          "label": "Go to maker table",
+          "kind": "destination"
+        }
+      ],
+      "images": {
+        "daylight": "work-daylight-surround.webp",
+        "golden": "work-golden-surround.webp",
+        "evening": "work-evening-surround.webp"
+      },
+      "matrix": [
+        -4.371138828673793e-08,
+        1.0,
+        1.1790364595753999e-07,
+        0.0,
+        -0.291962593793869,
+        -1.2552864347981085e-07,
+        0.9564297199249268,
+        0.0,
+        0.9564297199249268,
+        7.383419209361364e-09,
+        0.291962593793869,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "available": [
+        "daylight",
+        "golden",
+        "evening"
+      ],
+      "panorama": {
+        "tiles": {
+          "daylight": [
+            "work-daylight-tile-0.webp",
+            "work-daylight-tile-1.webp",
+            "work-daylight-tile-2.webp",
+            "work-daylight-tile-3.webp",
+            "work-daylight-tile-4.webp",
+            "work-daylight-tile-5.webp",
+            "work-daylight-tile-6.webp",
+            "work-daylight-tile-7.webp"
+          ],
+          "golden": [
+            "work-golden-tile-0.webp",
+            "work-golden-tile-1.webp",
+            "work-golden-tile-2.webp",
+            "work-golden-tile-3.webp",
+            "work-golden-tile-4.webp",
+            "work-golden-tile-5.webp",
+            "work-golden-tile-6.webp",
+            "work-golden-tile-7.webp"
+          ],
+          "evening": [
+            "work-evening-tile-0.webp",
+            "work-evening-tile-1.webp",
+            "work-evening-tile-2.webp",
+            "work-evening-tile-3.webp",
+            "work-evening-tile-4.webp",
+            "work-evening-tile-5.webp",
+            "work-evening-tile-6.webp",
+            "work-evening-tile-7.webp"
+          ]
+        },
+        "previews": {
+          "daylight": "work-daylight-surround.webp",
+          "golden": "work-golden-surround.webp",
+          "evening": "work-evening-surround.webp"
+        },
+        "tileColumns": 8,
+        "tilePadding": 8,
+        "baseTilt": -0.2962783578859196,
+        "horizontal": 360,
+        "vertical": 120,
+        "width": 8192,
+        "height": 2732,
+        "images": {
+          "daylight": "work-daylight-surround.webp",
+          "golden": "work-golden-surround.webp",
+          "evening": "work-evening-surround.webp"
+        },
+        "hotspots": [
+          {
+            "yaw": 0.0350434660537671,
+            "pitch": 0.0005038093049375307,
+            "target": "detail",
+            "label": "MacBook Pro"
+          },
+          {
+            "yaw": -0.35860572404889396,
+            "pitch": 0.0006182995092273438,
+            "target": "reading",
+            "label": "Books & notes"
+          },
+          {
+            "yaw": -0.4239002893571093,
+            "pitch": -0.10931494025862254,
+            "target": "coffee",
+            "label": "Coffee"
+          },
+          {
+            "yaw": 2.425342048189685,
+            "pitch": -0.327816471697025,
+            "target": "hobbies",
+            "label": "Go to maker table",
+            "kind": "destination"
+          }
+        ],
+        "available": [
+          "daylight",
+          "golden",
+          "evening"
+        ],
+        "bytes": {
+          "daylight": 12256392,
+          "golden": 11036366,
+          "evening": 10447950
+        }
+      },
+      "position": [
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399
+      ],
+      "depth": "work-depth-v2.webp",
+      "depthFar": 16,
+      "depthProjection": "radial"
+    },
+    "printer": {
+      "parent": "hobbies",
+      "section": "hobbies",
+      "label": "Ender 3 \u00b7 Sprite Pro",
+      "matrix": [
+        0.9640795588493347,
+        0.26561373472213745,
+        2.052409442399039e-08,
+        0.0,
+        -0.01954430527985096,
+        0.07093852013349533,
+        0.9972891807556152,
+        0.0,
+        0.26489371061325073,
+        -0.9614661335945129,
+        0.07358161360025406,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "entry": {
+        "yaw": -0.269974468876509,
+        "pitch": 0.11667067657520754
+      },
+      "lens": 23.799823760986328,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 43,
+      "images": {
+        "golden": "printer-golden-close.webp",
+        "daylight": "printer-daylight-close.webp",
+        "evening": "printer-evening-close.webp"
+      },
+      "depth": "printer-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "project": {
+      "parent": "hobbies",
+      "section": "hobbies",
+      "label": "Electronics project",
+      "matrix": [
+        0.941741943359375,
+        -0.3363363444805145,
+        -4.842318901410181e-08,
+        0.0,
+        0.13561053574085236,
+        0.379709392786026,
+        0.915112316608429,
+        0.0,
+        -0.3077855110168457,
+        -0.8617996573448181,
+        0.4031990170478821,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "entry": {
+        "yaw": 0.32149690130563285,
+        "pitch": -0.22833542945042143
+      },
+      "lens": 46.07959747314453,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 23,
+      "images": {
+        "golden": "project-golden-close.webp",
+        "daylight": "project-daylight-close.webp",
+        "evening": "project-evening-close.webp"
+      },
+      "depth": "project-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "tools": {
+      "parent": "hobbies",
+      "section": "hobbies",
+      "label": "Hex tool wall",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.28547653555870056,
+        0.958385705947876,
+        0.0,
+        0.0,
+        -0.958385705947876,
+        -0.28547653555870056,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "entry": {
+        "yaw": 0.0,
+        "pitch": 0.48689911807624936
+      },
+      "lens": 23.20393943786621,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 44,
+      "images": {
+        "golden": "tools-golden-close.webp",
+        "daylight": "tools-daylight-close.webp",
+        "evening": "tools-evening-close.webp"
+      },
+      "depth": "tools-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "drill": {
+      "parent": "hobbies",
+      "section": "hobbies",
+      "label": "Cordless drill",
+      "matrix": [
+        0.9220721125602722,
+        -0.3870180547237396,
+        1.2948195404760554e-08,
+        0.0,
+        -0.027421122416853905,
+        -0.06533090025186539,
+        0.9974868297576904,
+        0.0,
+        -0.3860453963279724,
+        -0.9197548031806946,
+        -0.07085227221250534,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "entry": {
+        "yaw": 0.41008858465443815,
+        "pitch": 0.252530500169881
+      },
+      "lens": 83.58000946044922,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 12.8,
+      "images": {
+        "golden": "drill-golden-close.webp",
+        "daylight": "drill-daylight-close.webp",
+        "evening": "drill-evening-close.webp"
+      },
+      "depth": "drill-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "rotary": {
+      "parent": "hobbies",
+      "section": "hobbies",
+      "label": "Dremel",
+      "matrix": [
+        0.9570361375808716,
+        -0.28996872901916504,
+        1.6269821045966637e-08,
+        0.0,
+        -0.01735122688114643,
+        -0.05726732686161995,
+        0.9982081055641174,
+        0.0,
+        -0.28944912552833557,
+        -0.955321192741394,
+        -0.05983821675181389,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "position": [
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295
+      ],
+      "entry": {
+        "yaw": 0.3032549900442532,
+        "pitch": 0.24858203460431555
+      },
+      "lens": 66.70658874511719,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 16,
+      "images": {
+        "golden": "rotary-golden-close.webp",
+        "daylight": "rotary-daylight-close.webp",
+        "evening": "rotary-evening-close.webp"
+      },
+      "depth": "rotary-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "detail": {
+      "parent": "work",
+      "section": "work",
+      "label": "MacBook Pro",
+      "matrix": [
+        0.03662453964352608,
+        0.9993290901184082,
+        -3.773831380726733e-08,
+        0.0,
+        -0.2911060154438019,
+        0.010668817907571793,
+        0.9566313028335571,
+        0.0,
+        0.9559894800186157,
+        -0.03503616899251938,
+        0.2913014590740204,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "position": [
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399
+      ],
+      "entry": {
+        "yaw": 0.0350434660537671,
+        "pitch": 0.0005038093049375307
+      },
+      "lens": 44.10590744018555,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 24,
+      "images": {
+        "golden": "detail-golden-close.webp",
+        "daylight": "detail-daylight-close.webp",
+        "evening": "detail-evening-close.webp"
+      },
+      "depth": "detail-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "reading": {
+      "parent": "work",
+      "section": "work",
+      "label": "Books & notes",
+      "matrix": [
+        -0.36480578780174255,
+        0.931083619594574,
+        5.471559205716403e-08,
+        0.0,
+        -0.2539982795715332,
+        -0.0995185524225235,
+        0.9620711803436279,
+        0.0,
+        0.8957687020301819,
+        0.350969135761261,
+        0.2727985680103302,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "position": [
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399
+      ],
+      "entry": {
+        "yaw": -0.35860572404889396,
+        "pitch": 0.0006182995092273438
+      },
+      "lens": 59.19142150878906,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 18,
+      "images": {
+        "golden": "reading-golden-close.webp",
+        "daylight": "reading-daylight-close.webp",
+        "evening": "reading-evening-close.webp"
+      },
+      "depth": "reading-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    },
+    "coffee": {
+      "parent": "work",
+      "section": "work",
+      "label": "Coffee",
+      "matrix": [
+        -0.43988510966300964,
+        0.8980540633201599,
+        8.055304334675384e-08,
+        0.0,
+        -0.3312714695930481,
+        -0.16226357221603394,
+        0.9294782280921936,
+        0.0,
+        0.8347216844558716,
+        0.4088635742664337,
+        0.36887702345848083,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "position": [
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399
+      ],
+      "entry": {
+        "yaw": -0.4239002893571093,
+        "pitch": -0.10931494025862254
+      },
+      "lens": 76.3532485961914,
+      "sensor": 36,
+      "width": 2304,
+      "height": 1584,
+      "displayFov": 14,
+      "images": {
+        "golden": "coffee-golden-close.webp",
+        "daylight": "coffee-daylight-close.webp",
+        "evening": "coffee-evening-close.webp"
+      },
+      "depth": "coffee-depth-v2.webp",
+      "hotspots": [],
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "depthFar": 16,
+      "depthProjection": "camera-z"
+    }
+  },
+  "outside": "Cloudy sky image only. No outdoor geometry.",
+  "complete": true,
+  "atmosphere": {
+    "golden": {
+      "direction": [
+        0.872547447681427,
+        0.36590689420700073,
+        -0.3236868977546692
+      ],
+      "color": [
+        1,
+        0.64,
+        0.36
+      ],
+      "strength": 0.85
+    },
+    "daylight": {
+      "direction": [
+        0.8062835931777954,
+        0.3251141309738159,
+        -0.49417364597320557
+      ],
+      "color": [
+        1,
+        0.87,
+        0.73
+      ],
+      "strength": 0.45
+    },
+    "evening": {
+      "direction": [
+        0.8062835931777954,
+        0.3251141309738159,
+        -0.49417364597320557
+      ],
+      "color": [
+        1,
+        0.84,
+        0.67
+      ],
+      "strength": 0.025
+    }
+  },
+  "routes": {
+    "hobbies-work": {
+      "from": "hobbies",
+      "to": "work",
+      "start": {
+        "yaw": -1.4951686900947225,
+        "pitch": -0.14562841558716264
+      },
+      "startMatrix": [
+        0.04540760815143585,
+        0.9989685416221619,
+        -2.1652915904724068e-08,
+        0.0,
+        -0.1567949801683426,
+        0.007127057760953903,
+        0.9876054525375366,
+        0.0,
+        0.9865868091583252,
+        -0.04484479874372482,
+        0.15695688128471375,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "endMatrix": [
+        -4.371138828673793e-08,
+        1.0,
+        1.1790364595753999e-07,
+        0.0,
+        -0.291962593793869,
+        -1.2552864347981085e-07,
+        0.9564297199249268,
+        0.0,
+        0.9564297199249268,
+        7.383419209361364e-09,
+        0.291962593793869,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "hobbies-work-golden-hd.mp4",
+        "daylight": "hobbies-work-daylight-hd.mp4",
+        "evening": "hobbies-work-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      }
+    },
+    "work-hobbies": {
+      "from": "work",
+      "to": "hobbies",
+      "start": {
+        "yaw": 2.425342048189685,
+        "pitch": -0.327816471697025
+      },
+      "startMatrix": [
+        0.62469482421875,
+        -0.7808689475059509,
+        -3.374906754061158e-08,
+        0.0,
+        0.07766172289848328,
+        0.06212930381298065,
+        0.9950420260429382,
+        0.0,
+        -0.776997447013855,
+        -0.6215976476669312,
+        0.09945548325777054,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "endMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19611608982086182,
+        0.9805806875228882,
+        0.0,
+        0.0,
+        -0.9805806875228882,
+        0.19611608982086182,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "work-hobbies-golden-hd.mp4",
+        "daylight": "work-hobbies-daylight-hd.mp4",
+        "evening": "work-hobbies-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      }
+    },
+    "room-hobbies": {
+      "from": "room",
+      "to": "hobbies",
+      "start": {
+        "yaw": 0.37569880345353607,
+        "pitch": -0.04233524188477342
+      },
+      "startMatrix": [
+        0.8609265089035034,
+        0.5087293386459351,
+        -3.6352137300355025e-08,
+        0.0,
+        -0.06709617376327515,
+        0.1135474368929863,
+        0.9912644028663635,
+        0.0,
+        0.5042852759361267,
+        -0.853405773639679,
+        0.13188979029655457,
+        0.0,
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126,
+        1.0
+      ],
+      "endMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19611608982086182,
+        0.9805806875228882,
+        0.0,
+        0.0,
+        -0.9805806875228882,
+        0.19611608982086182,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "room-hobbies-golden-hd.mp4",
+        "daylight": "room-hobbies-daylight-hd.mp4",
+        "evening": "room-hobbies-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      }
+    },
+    "hobbies-room": {
+      "from": "hobbies",
+      "to": "room",
+      "start": {
+        "yaw": 0,
+        "pitch": 0
+      },
+      "startMatrix": [
+        0.8609265089035034,
+        0.5087293386459351,
+        -3.6352137300355025e-08,
+        0.0,
+        -0.06709617376327515,
+        0.1135474368929863,
+        0.9912644028663635,
+        0.0,
+        0.5042852759361267,
+        -0.853405773639679,
+        0.13188979029655457,
+        0.0,
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126,
+        1.0
+      ],
+      "endMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19611608982086182,
+        0.9805806875228882,
+        0.0,
+        0.0,
+        -0.9805806875228882,
+        0.19611608982086182,
+        0.0,
+        0.3499999940395355,
+        -1.4500000476837158,
+        1.2200000286102295,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "reverse-room-hobbies-golden-hd.mp4",
+        "daylight": "reverse-room-hobbies-daylight-hd.mp4",
+        "evening": "reverse-room-hobbies-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      },
+      "end": {
+        "yaw": 0.37569880345353607,
+        "pitch": -0.04233524188477342
+      }
+    },
+    "room-work": {
+      "from": "room",
+      "to": "work",
+      "start": {
+        "yaw": -0.04161199652597565,
+        "pitch": -0.04019487514166328
+      },
+      "startMatrix": [
+        0.5780174732208252,
+        0.8160244226455688,
+        -4.218390259325133e-08,
+        0.0,
+        -0.11131943762302399,
+        0.07885134220123291,
+        0.990651547908783,
+        0.0,
+        0.8083958029747009,
+        -0.5726138949394226,
+        0.13641682267189026,
+        0.0,
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126,
+        1.0
+      ],
+      "endMatrix": [
+        -4.371138828673793e-08,
+        1.0,
+        1.1790364595753999e-07,
+        0.0,
+        -0.291962593793869,
+        -1.2552864347981085e-07,
+        0.9564297199249268,
+        0.0,
+        0.9564297199249268,
+        7.383419209361364e-09,
+        0.291962593793869,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "room-work-golden-hd.mp4",
+        "daylight": "room-work-daylight-hd.mp4",
+        "evening": "room-work-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      }
+    },
+    "work-room": {
+      "from": "work",
+      "to": "room",
+      "start": {
+        "yaw": 0,
+        "pitch": 0
+      },
+      "startMatrix": [
+        0.5780174732208252,
+        0.8160244226455688,
+        -4.218390259325133e-08,
+        0.0,
+        -0.11131943762302399,
+        0.07885134220123291,
+        0.990651547908783,
+        0.0,
+        0.8083958029747009,
+        -0.5726138949394226,
+        0.13641682267189026,
+        0.0,
+        2.950000047683716,
+        -4.75,
+        1.6799999475479126,
+        1.0
+      ],
+      "endMatrix": [
+        -4.371138828673793e-08,
+        1.0,
+        1.1790364595753999e-07,
+        0.0,
+        -0.291962593793869,
+        -1.2552864347981085e-07,
+        0.9564297199249268,
+        0.0,
+        0.9564297199249268,
+        7.383419209361364e-09,
+        0.291962593793869,
+        0.0,
+        -0.8999999761581421,
+        -1.350000023841858,
+        1.159999966621399,
+        1.0
+      ],
+      "captureFov": 56,
+      "displayFov": 52,
+      "aspect": 1.7777777777777777,
+      "frames": 16,
+      "fps": 24,
+      "videos": {
+        "golden": "reverse-room-work-golden-hd.mp4",
+        "daylight": "reverse-room-work-daylight-hd.mp4",
+        "evening": "reverse-room-work-evening-hd.mp4"
+      },
+      "available": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "hdAvailable": [
+        "golden",
+        "daylight",
+        "evening"
+      ],
+      "clipSettings": {
+        "golden": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "daylight": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        },
+        "evening": {
+          "captureFov": 56,
+          "aspect": 1.7777777777777777
+        }
+      },
+      "end": {
+        "yaw": -0.04161199652597565,
+        "pitch": -0.04019487514166328
+      }
+    }
+  },
+  "objectBounds": {
+    "hobbies": [
+      [
+        -0.4,
+        -0.82,
+        0.76
+      ],
+      [
+        1.1,
+        -0.12,
+        1.15
+      ]
+    ],
+    "work": [
+      [
+        -2.16,
+        -1.97,
+        0.73
+      ],
+      [
+        -1.62,
+        -0.73,
+        1.05
+      ]
+    ],
+    "printer": [
+      [
+        -0.15135557007789613,
+        -0.6885488386154175,
+        0.7880000119209289
+      ],
+      [
+        0.31200102519989015,
+        -0.25454884219169616,
+        1.5024000759124756
+      ]
+    ],
+    "project": [
+      [
+        0.49,
+        -0.73,
+        0.81
+      ],
+      [
+        0.81,
+        -0.48,
+        0.86
+      ]
+    ],
+    "tools": [
+      [
+        -0.41,
+        -0.15,
+        1.12
+      ],
+      [
+        1.1,
+        0.01,
+        2.15
+      ]
+    ],
+    "drill": [
+      [
+        0.8119343166351318,
+        -0.0981939862370491,
+        1.2299767379760742
+      ],
+      [
+        1.0548131818771362,
+        -0.023999998450279236,
+        1.4247190113067627
+      ]
+    ],
+    "rotary": [
+      [
+        0.721940064907074,
+        -0.1125467027425766,
+        1.1621294860839844
+      ],
+      [
+        0.8106963987350464,
+        -0.04145331877470017,
+        1.4501558895111084
+      ]
+    ],
+    "detail": [
+      [
+        -1.985433256149292,
+        -1.4867904539108276,
+        0.7433255558013916
+      ],
+      [
+        -1.7245667819976807,
+        -1.1432095413208008,
+        0.9945046062469483
+      ]
+    ],
+    "reading": [
+      [
+        -2.130624210357666,
+        -1.930107271194458,
+        0.7494291310310364
+      ],
+      [
+        -1.91538676071167,
+        -1.6508926992416382,
+        0.8760636205673218
+      ]
+    ],
+    "coffee": [
+      [
+        -1.8339860792160034,
+        -1.8594167585372925,
+        0.7432255988121033
+      ],
+      [
+        -1.636013949394226,
+        -1.6605834608078003,
+        0.8378551359176636
+      ]
+    ]
+  }
+}
