@@ -41,25 +41,63 @@ export async function atmosphere(asset,manifest,loader){
   float lit=beam(p)*shaftStrength;
   visibility=clear*(.018+.045*fract(seed))*(.025+lit*1.4)*strength;
  }`,fragmentShader:`varying float visibility;uniform vec3 airColor;void main(){float r=length(gl_PointCoord-.5)*2.;gl_FragColor=vec4(airColor,exp(-r*r*3.)*(1.-smoothstep(.15,1.,r))*visibility);}`});
- const points=new THREE.Points(geometry,material);points.frustumCulled=false;points.renderOrder=3;asset.scene.add(points);
- const rayMaterial=new THREE.ShaderMaterial({uniforms,transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`varying vec2 vUv;uniform mat4 cameraRotation;uniform vec2 screenTan;${shared}
+ const airScene=new THREE.Scene();
+ const points=new THREE.Points(geometry,material);points.frustumCulled=false;points.renderOrder=3;airScene.add(points);
+ // Cache the full-resolution, depth-occluded shaft integral while the camera is
+ // still. Three coefficients animate the soft density without marching 12 rays
+ // for every display pixel on every frame. Native images and depth stay intact.
+ const fieldUniforms={...uniforms};
+ const fieldMaterial=new THREE.ShaderMaterial({uniforms:fieldUniforms,depthTest:false,depthWrite:false,toneMapped:false,vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`varying vec2 vUv;uniform mat4 cameraRotation;uniform vec2 screenTan;${shared}
+ bool slab(inout vec2 span,float origin,float direction,float low,float high){
+  if(abs(direction)<.00001)return origin>=low&&origin<=high;
+  vec2 t=vec2(low-origin,high-origin)/direction;span=vec2(max(span.x,min(t.x,t.y)),min(span.y,max(t.x,t.y)));return span.y>span.x;
+ }
  void main(){
   vec3 ray=normalize(mat3(cameraRotation)*vec3((vUv*2.-1.)*screenTan,-1.));
   float end=min(surfaceDistance(ray),8.);vec3 worldRay=mat3(captureWorld)*ray;vec3 origin=captureWorld[3].xyz;
-  float haze=0.;
+  vec2 span=vec2(0.,end);float sy=sunDirection.y/sunDirection.x,sz=sunDirection.z/sunDirection.x;
+  bool hit=slab(span,origin.x,worldRay.x,-2.22,3.2);
+  hit=slab(span,origin.y-sy*(origin.x+2.22),worldRay.y-sy*worldRay.x,-2.18,-.53)&&hit;
+  hit=slab(span,origin.z-sz*(origin.x+2.22),worldRay.z-sz*worldRay.x,.96,2.53)&&hit;
+  hit=slab(span,origin.y,worldRay.y,-6.8,0.)&&hit;hit=slab(span,origin.z,worldRay.z,0.,3.05)&&hit;
+  if(!hit){gl_FragColor=vec4(0.);return;}
+  vec3 density=vec3(0.);
   for(int i=0;i<12;i++){
-   float d=end*(float(i)+.5)/12.;vec3 p=origin+worldRay*d;
-   float flow=.84+.16*sin(p.y*5.+p.z*3.+sin(p.x*4.+time*.13)+time*.16);
-   haze+=beam(p)*flow*end/12.;
+   float d=end*(float(i)+.5)/12.;vec3 p=origin+worldRay*d;float weight=beam(p)*end/12.;
+   float phase=p.y*5.+p.z*3.+sin(p.x*4.);
+   density+=vec3(1.,sin(phase),cos(phase))*weight;
   }
   float phase=.28+.72*pow(max(0.,dot(-worldRay,sunDirection)),5.);
-  gl_FragColor=vec4(airColor,haze*.028*phase*shaftStrength);
+  gl_FragColor=vec4(density*.028*phase,1.);
  }`});
- const rays=new THREE.Mesh(new THREE.PlaneGeometry(2,2),rayMaterial);rays.frustumCulled=false;rays.renderOrder=2;asset.scene.add(rays);
+ const quadGeometry=new THREE.PlaneGeometry(2,2),fieldScene=new THREE.Scene(),fieldCamera=new THREE.Camera();
+ fieldScene.add(new THREE.Mesh(quadGeometry,fieldMaterial));
+ uniforms.shaftField={value:null};
+ const rayMaterial=new THREE.ShaderMaterial({uniforms,transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:`varying vec2 vUv;uniform sampler2D shaftField;uniform float time,shaftStrength;uniform vec3 airColor;
+ void main(){vec3 field=texture2D(shaftField,vUv).rgb;float haze=.84*field.x+.16*(field.y*cos(time*.16)+field.z*sin(time*.16));gl_FragColor=vec4(airColor,max(0.,haze)*shaftStrength);}`});
+ const rays=new THREE.Mesh(quadGeometry,rayMaterial);rays.frustumCulled=false;rays.renderOrder=2;airScene.add(rays);
+ let fieldTarget=null,fieldSignature='',depthVersion=0;
+ const clearColor=new THREE.Color();
  let depth=null,disposed=false;
- if(asset.def.depth)loader.loadAsync(import.meta.env.BASE_URL+'guided/'+asset.def.depth).then(texture=>{
-  if(disposed){texture.dispose();return;}depth=texture;texture.colorSpace=THREE.NoColorSpace;texture.minFilter=THREE.LinearFilter;texture.magFilter=THREE.LinearFilter;texture.generateMipmaps=false;texture.wrapS=asset.pano?THREE.RepeatWrapping:THREE.ClampToEdgeWrapping;uniforms.roomDepth.value=texture;uniforms.hasDepth.value=1;
+ if(asset.def.depth)loader.loadAsync(asset.def.depth,1).then(texture=>{
+  if(disposed){texture.dispose();return;}depth=texture;texture.colorSpace=THREE.NoColorSpace;texture.minFilter=THREE.LinearFilter;texture.magFilter=THREE.LinearFilter;texture.generateMipmaps=false;texture.wrapS=asset.pano?THREE.RepeatWrapping:THREE.ClampToEdgeWrapping;uniforms.roomDepth.value=texture;uniforms.hasDepth.value=1;depthVersion++;
  }).catch(()=>{});
  rays.visible=preset.strength>.05;
- return {update(time,height,moving){uniforms.time.value=time;uniforms.height.value=height;uniforms.strength.value=moving?(asset.mode==='evening'?.4:.85):0;uniforms.shaftStrength.value=moving?preset.strength:0;uniforms.cameraRotation.value.copy(asset.camera.matrixWorld);const v=Math.tan(THREE.MathUtils.degToRad(asset.camera.fov)/2);uniforms.screenTan.value.set(v*asset.camera.aspect,v);},dispose(){disposed=true;depth?.dispose();empty.dispose();geometry.dispose();material.dispose();rays.geometry.dispose();rayMaterial.dispose();}};
+ return {
+  update(time,height,moving){uniforms.time.value=time;uniforms.height.value=height;uniforms.strength.value=moving?(asset.mode==='evening'?.4:.85):0;uniforms.shaftStrength.value=moving?preset.strength:0;uniforms.cameraRotation.value.copy(asset.camera.matrixWorld);const v=Math.tan(THREE.MathUtils.degToRad(asset.camera.fov)/2);uniforms.screenTan.value.set(v*asset.camera.aspect,v);},
+  render(renderer,target,width,height){
+   renderer.getClearColor(clearColor);const alpha=renderer.getClearAlpha();renderer.setClearColor(0,0);
+   if(rays.visible){
+    const signature=[width,height,depthVersion,asset.camera.fov,asset.camera.aspect,...asset.camera.quaternion.toArray()].join(':');
+    if(!fieldTarget||fieldSignature!==signature){
+     if(!fieldTarget)fieldTarget=new THREE.WebGLRenderTarget(width,height,{type:THREE.HalfFloatType,depthBuffer:false});
+     else fieldTarget.setSize(width,height);
+     fieldSignature=signature;renderer.setRenderTarget(fieldTarget);renderer.render(fieldScene,fieldCamera);uniforms.shaftField.value=fieldTarget.texture;
+    }
+   }
+   renderer.setRenderTarget(target);renderer.render(airScene,asset.camera);renderer.setClearColor(clearColor,alpha);
+  },
+  release(){fieldTarget?.dispose();fieldTarget=null;fieldSignature='';},
+  dispose(){disposed=true;depth?.dispose();empty.dispose();geometry.dispose();material.dispose();quadGeometry.dispose();rayMaterial.dispose();fieldMaterial.dispose();fieldTarget?.dispose();}
+ };
 }

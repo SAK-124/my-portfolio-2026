@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {atmosphere} from './atmosphere.js';
+import {media} from './media.js';
 
-const loader = new THREE.TextureLoader();
-const guidedBase=import.meta.env.BASE_URL+'guided/';
+const loader=media;
 const radians = THREE.MathUtils.degToRad;
 const clamp = THREE.MathUtils.clamp;
 const vertexShader = 'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}';
@@ -44,28 +44,41 @@ export class GuidedRoom {
  constructor(element,manifest,onFrame){
   this.element=element;this.manifest=manifest;this.onFrame=onFrame;this.cache=new Map();this.retired=new Set();this.motion=!matchMedia('(prefers-reduced-motion:reduce)').matches;
   this.current=null;this.incoming=null;this.transition=0;
-  this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'low-power'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;this.renderer.setClearColor(0x10110f);element.appendChild(this.renderer.domElement);
-  this.a=new THREE.WebGLRenderTarget(1,1,{type:THREE.HalfFloatType});this.b=this.a.clone();
-  this.composite=new THREE.Scene();this.outputCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);this.uniforms={first:{value:this.a.texture},second:{value:this.b.texture},blend:{value:0}};
+  this.renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;this.renderer.setClearColor(0x10110f);element.appendChild(this.renderer.domElement);
+  this.a=null;this.b=null;this.airTarget=new THREE.WebGLRenderTarget(1,1,{type:THREE.HalfFloatType,depthBuffer:false});
+  this.photoUniforms={roomAir:{value:this.airTarget.texture},airEnabled:{value:0},viewport:{value:new THREE.Vector2(1,1)}};
+  this.composite=new THREE.Scene();this.outputCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);this.uniforms={first:{value:null},second:{value:null},blend:{value:0}};
   this.composite.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader,fragmentShader,depthTest:false,depthWrite:false,toneMapped:false})));
-  this.resize=()=>{const box=element.getBoundingClientRect();this.width=Math.max(1,box.width);this.height=Math.max(1,box.height);this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.setSize(this.width,this.height);this.a.setSize(Math.round(this.width*this.renderer.getPixelRatio()),Math.round(this.height*this.renderer.getPixelRatio()));this.b.setSize(this.a.width,this.a.height);this.dirty=true;};
+  this.resize=()=>{const box=element.getBoundingClientRect();this.width=Math.max(1,box.width);this.height=Math.max(1,box.height);this.renderer.setPixelRatio(Math.min(devicePixelRatio,2.5));this.renderer.setSize(this.width,this.height);const size=this.renderer.getDrawingBufferSize(new THREE.Vector2());this.pixelWidth=size.x;this.pixelHeight=size.y;this.airTarget.setSize(size.x,size.y);this.a?.setSize(size.x,size.y);this.b?.setSize(size.x,size.y);this.photoUniforms.viewport.value.copy(size);this.dirty=true;};
   this.observer=new ResizeObserver(this.resize);this.observer.observe(element);this.resize();
   this.last=performance.now();this.lastDraw=0;this.time=0;this.render=this.render.bind(this);this.request=requestAnimationFrame(this.render);
+ }
+ photoMaterial(photo){
+  const material=new THREE.MeshBasicMaterial({map:photo,toneMapped:false,side:THREE.DoubleSide});
+  // Add light in linear space before Three's single display color conversion.
+  material.onBeforeCompile=shader=>{Object.assign(shader.uniforms,this.photoUniforms);shader.fragmentShader='uniform sampler2D roomAir;uniform vec2 viewport;uniform float airEnabled;\n'+shader.fragmentShader.replace('#include <colorspace_fragment>','if(airEnabled>.5)gl_FragColor.rgb+=texture2D(roomAir,gl_FragCoord.xy/viewport).rgb;\n#include <colorspace_fragment>');};
+  material.customProgramCacheKey=()=> 'photograph-with-linear-air-v1';return material;
+ }
+ prepare(view,mode){
+  if(!this.manifest.views[view]?.available.includes(mode)||this.disposed)return;
+  this.asset(view,mode).catch(()=>{});
+  const previous=this.active(),from=previous?.def.parent||previous?.view,to=this.manifest.views[view].parent||view;
+  if(this.motion&&from&&from!==to){const route=this.manifest.routes?.[from+'-'+to];if(route?.available.includes(mode))media.clip(route.videos[mode]).catch(()=>{});}
  }
  async asset(view,mode){
   const key=view+':'+mode;
   if(this.cache.has(key)){const value=this.cache.get(key),asset=await value;this.cache.delete(key);if(this.manifest.views[view].panorama?.available?.includes(mode)&&(!asset.pano||this.manifest.views[view].panorama?.tiles?.[mode]&&!asset.tileFiles)){this.retired.add(asset);return this.asset(view,mode);}this.cache.set(key,value);return asset;}
   const promise=(async()=>{
    const def=this.manifest.views[view],pano=def.panorama?.available?.includes(mode),file=pano?(def.panorama.previews?.[mode]||def.panorama.images[mode]):def.images[mode];
-   const photo=await loader.loadAsync(guidedBase+file);photo.colorSpace=THREE.SRGBColorSpace;if(pano)photo.wrapS=THREE.RepeatWrapping;photo.minFilter=THREE.LinearMipmapLinearFilter;photo.magFilter=THREE.LinearFilter;photo.anisotropy=Math.min(4,this.renderer.capabilities.getMaxAnisotropy());
+   const photo=await loader.loadAsync(file);photo.colorSpace=THREE.SRGBColorSpace;if(pano)photo.wrapS=THREE.RepeatWrapping;photo.minFilter=THREE.LinearMipmapLinearFilter;photo.magFilter=THREE.LinearFilter;photo.anisotropy=Math.min(4,this.renderer.capabilities.getMaxAnisotropy());
    const tanH=def.sensor/(2*def.lens),tanV=tanH/((def.width||this.manifest.width)/(def.height||this.manifest.height)),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(50,1,.04,60);
    const geometry=pano?panoramaGeometry(radians(def.panorama.horizontal),radians(def.panorama.vertical)):new THREE.PlaneGeometry(60*tanH,60*tanV);
-   const material=new THREE.MeshBasicMaterial({map:photo,toneMapped:false,side:THREE.DoubleSide});const surface=new THREE.Mesh(geometry,material);if(!pano)surface.position.z=-30;scene.add(surface);
+   const material=this.photoMaterial(photo);const surface=new THREE.Mesh(geometry,material);if(!pano)surface.position.z=-30;scene.add(surface);
    const active=this.active(),same=active?.view===view;
    const baseTilt=pano?(def.panorama.baseTilt||0):Math.asin(clamp(new THREE.Vector3(0,0,-1).transformDirection(new THREE.Matrix4().fromArray(def.matrix)).z,-1,1));
    const asset={view,mode,def,pano,baseTilt,photo,tanH,tanV,scene,camera,geometry,material,air:null,look:same?active.look.clone():new THREE.Vector2(),goal:same?active.goal.clone():new THREE.Vector2(),zoom:same?active.zoom:1,tileFiles:pano&&def.panorama.tiles?.[mode],tiles:new Map(),visibleTiles:new Set(),disposed:false,
     dispose(){this.disposed=true;for(const tile of this.tiles.values())tile.dispose();this.tiles.clear();photo.dispose();geometry.dispose();material.dispose();this.air?.dispose();}};
-   asset.air=await atmosphere(asset,this.manifest,loader);this.configure(asset);if(asset.tileFiles)await Promise.all(this.updateTiles(asset));return asset;
+   asset.air=await atmosphere(asset,this.manifest,loader);this.configure(asset);return asset;
   })();this.cache.set(key,promise);promise.then(()=>this.trim(),()=>this.cache.delete(key));return promise;
  }
  neededTiles(asset){
@@ -81,26 +94,33 @@ export class GuidedRoom {
   for(let k=Math.floor((center+low-.04+Math.PI)/step);k<=Math.floor((center+high+.04+Math.PI)/step);k++)ids.push(((k%n)+n)%n);
   return [...new Set(ids)];
  }
- tile(asset,index){
-  if(asset.tiles.has(index))return asset.tiles.get(index).promise;
+ tile(asset,index,priority=0){
+  if(asset.tiles.has(index)){const tile=asset.tiles.get(index);asset.tiles.delete(index);asset.tiles.set(index,tile);return tile.promise;}
   const tile={mesh:null,texture:null,retired:false,dispose(){this.retired=true;if(this.mesh){asset.scene.remove(this.mesh);this.mesh.geometry.dispose();this.mesh.material.dispose();}this.texture?.dispose();}};
   asset.tiles.set(index,tile);
-  tile.promise=loader.loadAsync(guidedBase+asset.tileFiles[index]).then(texture=>{
+  tile.promise=loader.loadAsync(asset.tileFiles[index],priority).then(texture=>{
    if(asset.disposed||tile.retired){texture.dispose();return null;}
    texture.colorSpace=THREE.SRGBColorSpace;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter;texture.anisotropy=Math.min(4,this.renderer.capabilities.getMaxAnisotropy());
    const p=asset.def.panorama,n=p.tileColumns,step=2*Math.PI/n,pad=p.tilePadding,tileWidth=p.width/n;
    const geometry=panoramaGeometry(2*Math.PI,radians(p.vertical),{start:-Math.PI+index*step,end:-Math.PI+(index+1)*step,radius:29.97,inset:pad/(tileWidth+2*pad),nx:24});
-   tile.texture=texture;tile.mesh=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({map:texture,toneMapped:false,side:THREE.DoubleSide}));asset.scene.add(tile.mesh);this.pruneTiles(asset);this.dirty=true;return tile;
+   tile.texture=texture;tile.mesh=new THREE.Mesh(geometry,this.photoMaterial(texture));asset.scene.add(tile.mesh);this.pruneTiles(asset);this.dirty=true;return tile;
   }).catch(()=>{if(asset.tiles.get(index)===tile)asset.tiles.delete(index);return null;});
   return tile.promise;
  }
  pruneTiles(asset){
-  for(const [id,tile]of asset.tiles){if(asset.tiles.size<=4)break;if(asset.visibleTiles.has(id))continue;asset.tiles.delete(id);tile.dispose();}
+  for(const [id,tile]of asset.tiles){if(asset.tiles.size<=6)break;if(asset.visibleTiles.has(id))continue;asset.tiles.delete(id);tile.dispose();}
  }
  updateTiles(asset){
   if(!asset.tileFiles||asset.disposed)return [];
   const ids=this.neededTiles(asset);asset.visibleTiles=new Set(ids);
-  const jobs=ids.map(index=>this.tile(asset,index));this.pruneTiles(asset);return jobs;
+  const jobs=ids.map(index=>this.tile(asset,index));this.pruneTiles(asset);
+  const signature=ids.join(',');
+  if(signature!==asset.tileSignature){asset.tileSignature=signature;Promise.all(jobs).then(()=>{
+   if(asset.disposed||asset.tileSignature!==signature||navigator.connection?.saveData)return;
+   const n=asset.def.panorama.tileColumns;
+   for(const index of [(ids[0]-1+n)%n,(ids.at(-1)+1)%n])if(!asset.visibleTiles.has(index))this.tile(asset,index,1);
+  });}
+  return jobs;
  }
  pointLook(asset,point){
   const p=new THREE.Vector3(Math.sin(point.yaw)*Math.cos(point.pitch),Math.sin(point.pitch),-Math.cos(point.yaw)*Math.cos(point.pitch)).applyAxisAngle(new THREE.Vector3(1,0,0),asset.def.panorama?.baseTilt||0);
@@ -124,7 +144,8 @@ export class GuidedRoom {
   await Promise.all(this.updateTiles(parent));this.current=parent;this.incoming=null;return parent;
  }
  async journey(previous,next,route,mode){
-  const video=document.createElement('video');video.muted=true;video.playsInline=true;video.preload='auto';video.src=guidedBase+route.videos[mode];
+  const blob=await media.clip(route.videos[mode]),clipURL=URL.createObjectURL(blob);
+  const video=document.createElement('video');video.muted=true;video.playsInline=true;video.preload='auto';video.src=clipURL;
   try{
    await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('The camera journey could not load.')),20000);video.onloadeddata=()=>{clearTimeout(timer);resolve();};video.onerror=()=>{clearTimeout(timer);reject(Error('The camera journey could not load.'));};video.load();});
    const settings=route.clipSettings?.[mode]||route,tanV=Math.tan(radians(settings.captureFov)/2),tanH=tanV*settings.aspect;
@@ -139,7 +160,7 @@ export class GuidedRoom {
    const end=route.end||{yaw:0,pitch:0};next.look.copy(this.pointLook(next,end));next.goal.copy(next.look);next.zoom=52/this.video.camera.fov;this.configure(next);await Promise.all(this.updateTiles(next));
    this.current=next;this.incoming=null;
   }finally{
-   video.pause();video.removeAttribute('src');video.load();if(this.video){this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();this.video=null;}
+   video.pause();video.removeAttribute('src');video.load();URL.revokeObjectURL(clipURL);if(this.video){this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();this.video=null;}
   }
  }
  async select(view,mode,instant=false){
@@ -171,6 +192,7 @@ export class GuidedRoom {
  }
  trim(){
   if(this.busy)return;
+  for(const promise of this.cache.values())promise.then(asset=>{if(asset!==this.current&&asset!==this.incoming)asset.air?.release();},()=>{});
   for(const asset of this.retired)if(asset!==this.current&&asset!==this.incoming){asset.dispose();this.retired.delete(asset);}
   let excess=this.cache.size-2;const protectedKeys=new Set([this.pin,this.current&&this.current.view+':'+this.current.mode,this.incoming&&this.incoming.view+':'+this.incoming.mode]);
   for(const [key,promise]of this.cache){if(excess<=0)break;if(protectedKeys.has(key))continue;this.cache.delete(key);excess--;promise.then(asset=>asset.dispose(),()=>{});}
@@ -213,26 +235,44 @@ export class GuidedRoom {
   }
  }
  configure(asset){
-  this.bound(asset,asset.goal);this.bound(asset,asset.look);asset.camera.aspect=this.width/this.height;asset.camera.fov=THREE.MathUtils.radToDeg(this.fov(asset));asset.camera.updateProjectionMatrix();
-  asset.camera.position.set(0,0,0);asset.camera.quaternion.copy(orientation(asset,asset.look));asset.camera.updateMatrixWorld();
-  this.updateTiles(asset);asset.air?.update(this.time,this.a.height,this.motion);
+  const signature=[asset.look.x,asset.look.y,asset.goal.x,asset.goal.y,asset.zoom,this.width,this.height].join(':');
+  if(asset.poseSignature!==signature){
+   asset.poseSignature=signature;this.bound(asset,asset.goal);this.bound(asset,asset.look);asset.camera.aspect=this.width/this.height;asset.camera.fov=THREE.MathUtils.radToDeg(this.fov(asset));asset.camera.updateProjectionMatrix();
+   asset.camera.position.set(0,0,0);asset.camera.quaternion.copy(orientation(asset,asset.look));asset.camera.updateMatrixWorld();this.updateTiles(asset);this.cameraRevision=(this.cameraRevision||0)+1;
+  }
+  asset.air?.update(this.time,this.pixelHeight,this.motion);
  }
  render(now){
-  this.request=requestAnimationFrame(this.render);if(document.hidden||now-this.lastDraw<1000/30)return;
-  const dt=Math.min((now-this.last)/1000,.1);this.last=now;this.lastDraw=now;this.time+=dt;let moving=false;
+  this.request=requestAnimationFrame(this.render);if(document.hidden)return;
+  const turning=this.current&&this.current.look.distanceToSquared(this.current.goal)>1e-8;
+  const interactive=turning||this.tween||this.incoming||this.video;
+  const interval=interactive?0:1000/30;
+  if(!this.dirty&&now-this.lastDraw<interval)return;
+  const dt=Math.min((now-this.last)/1000,.1);this.last=now;this.lastDraw=interval?now-(now-this.lastDraw)%interval:now;this.time+=dt;let moving=false;
   if(this.tween){const t=this.tween,progress=clamp((now-t.start)/t.duration,0,1),eased=progress*progress*(3-2*progress);t.asset.look.lerpVectors(t.from,t.to,eased);t.asset.goal.copy(t.asset.look);t.asset.zoom=THREE.MathUtils.lerp(t.initial,t.zoom,eased);moving=true;if(progress===1){this.tween=null;t.resolve();}}
-  for(const asset of [this.current,this.incoming])if(asset&&asset!==this.tween?.asset){asset.look.lerp(asset.goal,this.motion?1-Math.exp(-dt*14):1);moving ||= asset.look.distanceToSquared(asset.goal)>1e-8;}
+  for(const asset of [this.current,this.incoming])if(asset&&asset!==this.tween?.asset){asset.look.lerp(asset.goal,this.motion?1-Math.exp(-dt*14):1);if(asset.look.distanceToSquared(asset.goal)<1e-8)asset.look.copy(asset.goal);moving ||= asset.look.distanceToSquared(asset.goal)>1e-8;}
   if(!this.current||(!this.dirty&&!moving&&!this.incoming&&!this.motion))return;
-  this.draw(now);this.dirty=false;this.onFrame?.(this);
+  this.draw(now);this.dirty=false;
+  const overlayKey=[this.current.view,this.current.mode,this.cameraRevision,Boolean(this.incoming),Boolean(this.busy)].join(':');
+  if(this.overlayKey!==overlayKey){this.overlayKey=overlayKey;this.onFrame?.(this);}
+ }
+ drawAsset(asset,target){
+  this.configure(asset);this.photoUniforms.airEnabled.value=this.motion?1:0;
+  if(this.motion)asset.air?.render(this.renderer,this.airTarget,this.pixelWidth,this.pixelHeight);
+  this.renderer.setRenderTarget(target);this.renderer.render(asset.scene,asset.camera);
  }
  draw(now=performance.now()){
   if(!this.current)return;
-  if(this.video){const clip=this.video;clip.camera.aspect=this.width/this.height;clip.camera.fov=Math.min(clip.displayFov,THREE.MathUtils.radToDeg(2*Math.atan(clip.tanH/clip.camera.aspect*.98)));clip.camera.updateProjectionMatrix();this.renderer.setRenderTarget(this.a);this.renderer.render(clip.scene,clip.camera);this.uniforms.first.value=this.a.texture;this.uniforms.second.value=this.a.texture;this.uniforms.blend.value=0;this.renderer.setRenderTarget(null);this.renderer.render(this.composite,this.outputCamera);return;}
-  this.configure(this.current);this.renderer.setRenderTarget(this.a);this.renderer.render(this.current.scene,this.current.camera);this.uniforms.first.value=this.a.texture;
-  if(this.incoming){this.configure(this.incoming);this.renderer.setRenderTarget(this.b);this.renderer.render(this.incoming.scene,this.incoming.camera);this.uniforms.second.value=this.b.texture;const t=clamp((now-this.transition)/850,0,1);this.uniforms.blend.value=t;if(t===1){this.current=this.incoming;this.incoming=null;this.trim();}}
-  else{this.uniforms.second.value=this.a.texture;this.uniforms.blend.value=0;}
+  if(this.video){const clip=this.video;clip.camera.aspect=this.width/this.height;clip.camera.fov=Math.min(clip.displayFov,THREE.MathUtils.radToDeg(2*Math.atan(clip.tanH/clip.camera.aspect*.98)));clip.camera.updateProjectionMatrix();this.renderer.setRenderTarget(null);this.renderer.render(clip.scene,clip.camera);return;}
+  if(!this.incoming){this.drawAsset(this.current,null);return;}
+  // Floating point full-scene buffers exist only during a lighting crossfade.
+  if(!this.a){this.a=new THREE.WebGLRenderTarget(this.pixelWidth,this.pixelHeight,{type:THREE.HalfFloatType,depthBuffer:false});this.b=this.a.clone();}
+  this.drawAsset(this.current,this.a);this.drawAsset(this.incoming,this.b);
+  this.uniforms.first.value=this.a.texture;this.uniforms.second.value=this.b.texture;const t=clamp((now-this.transition)/850,0,1);this.uniforms.blend.value=t;
   this.renderer.setRenderTarget(null);this.renderer.render(this.composite,this.outputCamera);
+  if(t===1){this.current.air?.release();this.current=this.incoming;this.incoming=null;this.a.dispose();this.b.dispose();this.a=null;this.b=null;this.trim();}
  }
+
  hotspot(point){
   const asset=this.active();if(!asset)return null;let p;
   if(asset.pano){const yaw=point.yaw,pitch=point.pitch;p=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),-Math.cos(yaw)*Math.cos(pitch));}
@@ -248,5 +288,5 @@ export class GuidedRoom {
   return chosen;
  }
  capture(){this.draw();return new Promise(resolve=>this.renderer.domElement.toBlob(resolve));}
- dispose(){cancelAnimationFrame(this.request);this.tween?.resolve();if(this.video){this.video.video.pause();this.video.video.removeAttribute('src');this.video.video.load();this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();}this.observer.disconnect();this.renderer.dispose();this.a.dispose();this.b.dispose();for(const asset of this.retired)asset.dispose();for(const promise of this.cache.values())promise.then(asset=>asset.dispose());}
+ dispose(){this.disposed=true;cancelAnimationFrame(this.request);this.tween?.resolve();if(this.video){this.video.video.pause();this.video.video.removeAttribute('src');this.video.video.load();this.video.texture.dispose();this.video.geometry.dispose();this.video.material.dispose();}this.observer.disconnect();this.renderer.dispose();this.a?.dispose();this.b?.dispose();this.airTarget.dispose();for(const asset of this.retired)asset.dispose();for(const promise of this.cache.values())promise.then(asset=>asset.dispose());}
 }
